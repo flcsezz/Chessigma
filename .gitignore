@@ -27,8 +27,7 @@ node_modules/
 
 # Assets (Binaries not in VCS)
 google-services.json
-# *.so (Stockfish binaries allowed via !libstockfish.so or manual add)
-!**/jniLibs/**/*.so
+*.so
 *.apk
 *.aab
 *.ap_
