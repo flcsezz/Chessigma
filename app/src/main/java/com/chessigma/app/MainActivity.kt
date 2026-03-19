@@ -8,6 +8,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -15,10 +17,12 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.chessigma.app.ui.play.PlayRoute
 import com.chessigma.app.ui.puzzles.PuzzleScreen
 import com.chessigma.app.ui.review.ReviewRoute
+import com.chessigma.app.ui.stats.StatsScreen
+import com.chessigma.app.ui.settings.SettingsScreen
 import com.chessigma.app.ui.theme.ChessigmaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-private enum class Tab { PLAY, REVIEW, PUZZLE }
+private enum class Tab { PLAY, REVIEW, PUZZLE, STATS, SETTINGS }
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -60,6 +64,18 @@ private fun MainNavigation() {
                     icon = { Icon(Icons.Default.List, contentDescription = "Puzzles") },
                     label = { Text("Puzzles") }
                 )
+                NavigationBarItem(
+                    selected = selectedTab == Tab.STATS,
+                    onClick = { selectedTab = Tab.STATS },
+                    icon = { Icon(Icons.Default.DateRange, contentDescription = "Stats") },
+                    label = { Text("Stats") }
+                )
+                NavigationBarItem(
+                    selected = selectedTab == Tab.SETTINGS,
+                    onClick = { selectedTab = Tab.SETTINGS },
+                    icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") },
+                    label = { Text("Settings") }
+                )
             }
         }
     ) { innerPadding ->
@@ -78,6 +94,12 @@ private fun MainNavigation() {
                 modifier = Modifier.padding(innerPadding)
             )
             Tab.PUZZLE -> PuzzleScreen(
+                modifier = Modifier.padding(innerPadding)
+            )
+            Tab.STATS -> StatsScreen(
+                modifier = Modifier.padding(innerPadding)
+            )
+            Tab.SETTINGS -> SettingsScreen(
                 modifier = Modifier.padding(innerPadding)
             )
         }

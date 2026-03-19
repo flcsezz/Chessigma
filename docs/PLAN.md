@@ -70,8 +70,8 @@ Once those are stable, the AI cascade becomes a Phase 3 enhancement layer rather
 - [x] Puzzle Solving Flow (Codex - 2026-03-19)
 - [x] Lichess Puzzle Database Import Logic (Antigravity - 2026-03-19)
 
-## Phase 5: Polish & Social
+## Phase 5: Polish & Social ✅ COMPLETE
 
-- [ ] Accuracy Graphs & ELO Trends
-- [ ] Settings & API Key Management
-- [ ] Auth & supabase Integration
+- [x] Accuracy Graphs & ELO Trends (Antigravity - 2026-03-19)
+- [x] Settings & API Key Management (Antigravity - 2026-03-19)
+- [x] Auth & supabase Integration (Scaffolded) (Antigravity - 2026-03-19)

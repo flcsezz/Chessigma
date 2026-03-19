@@ -1,9 +1,19 @@
 # Current Active Task
 
 **Current Agent**: Antigravity
-**Task**: Phase 4: Bot Play & Puzzles (Complete)
+**Task**: Phase 5: Polish & Social (Complete)
 
 ## Completed in This Session
+- [x] Implement ELO tracking with `EloHistoryEntity` and DAO
+- [x] Create `StatsRepository` and `GetEloHistoryUseCase`
+- [x] Scaffold `StatsScreen` with Vico ELO trend chart
+- [x] Implement User Settings with DataStore-backed repository
+- [x] Create `SettingsScreen` for API key management (Gemini, Groq, NVIDIA)
+- [x] Scaffold Supabase Auth integration (`AuthRepository`)
+- [x] Add Supabase BOM and dependencies to `libs.versions.toml`
+- [x] Update `MainActivity` with Stats and Settings tabs
+- [x] Resolve build failures (dependency names, missing imports, Hilt package, Vico overloads)
+- [x] BUILD SUCCESSFUL
 - [x] Implement Bot Play with Stockfish Skill Levels
 - [x] Create `GetBotMoveUseCase` for engine move generation
 - [x] Update `PlayViewModel` to handle autonomous CPU moves with delay
