@@ -12,6 +12,9 @@ import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withTimeoutOrNull
 
 @Singleton
 class StockfishEngine @Inject constructor(
@@ -20,6 +23,8 @@ class StockfishEngine @Inject constructor(
     private var process: Process? = null
     private var writer: BufferedWriter? = null
     private var reader: BufferedReader? = null
+
+    private val mutex = Mutex()
 
     var isReady = false
         private set
@@ -33,72 +38,90 @@ class StockfishEngine @Inject constructor(
             return@withContext false
         }
 
-        try {
-            process = Runtime.getRuntime().exec(binaryPath)
-            writer = BufferedWriter(OutputStreamWriter(process?.outputStream))
-            reader = BufferedReader(InputStreamReader(process?.inputStream))
+        mutex.withLock {
+            try {
+                process = Runtime.getRuntime().exec(binaryPath)
+                writer = BufferedWriter(OutputStreamWriter(process?.outputStream))
+                reader = BufferedReader(InputStreamReader(process?.inputStream))
 
-            sendCommand("uci")
-            var line: String?
-            while (reader?.readLine().also { line = it } != null) {
-                if (line == "uciok") {
-                    isReady = true
-                    Timber.i("StockfishEngine: Initialized successfully")
-                    return@withContext true
+                sendCommand("uci")
+                val result = withTimeoutOrNull(5000) {
+                    var line: String?
+                    while (reader?.readLine().also { line = it } != null) {
+                        if (line == "uciok") {
+                            isReady = true
+                            Timber.i("StockfishEngine: Initialized successfully")
+                            return@withTimeoutOrNull true
+                        }
+                    }
+                    false
                 }
+                if (result == true) return@withContext true
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to initialize Stockfish engine")
             }
-        } catch (e: Exception) {
-            Timber.e(e, "Failed to initialize Stockfish engine")
         }
         false
     }
 
     suspend fun setOption(name: String, value: String) = withContext(Dispatchers.IO) {
-        sendCommand("setoption name $name value $value")
+        mutex.withLock {
+            sendCommand("setoption name $name value $value")
+        }
     }
 
     suspend fun setPosition(fen: String) = withContext(Dispatchers.IO) {
-        sendCommand("position fen $fen")
+        mutex.withLock {
+            sendCommand("position fen $fen")
+        }
     }
 
     suspend fun getBestMove(depth: Int): String = withContext(Dispatchers.IO) {
-        sendCommand("go depth $depth")
-        var bestMove = ""
-        var line: String?
-        while (reader?.readLine().also { line = it } != null) {
-            if (line?.startsWith("bestmove") == true) {
-                bestMove = line?.split(" ")?.getOrNull(1) ?: ""
-                break
+        mutex.withLock {
+            sendCommand("go depth $depth")
+            var bestMove = ""
+            withTimeoutOrNull(10000) {
+                var line: String?
+                while (reader?.readLine().also { line = it } != null) {
+                    if (line?.startsWith("bestmove") == true) {
+                        bestMove = line?.split(" ")?.getOrNull(1) ?: ""
+                        break
+                    }
+                }
             }
+            bestMove
         }
-        bestMove
     }
 
     suspend fun evaluate(fen: String, depth: Int): Int = withContext(Dispatchers.IO) {
-        setPosition(fen)
-        sendCommand("go depth $depth")
-        var cp = 0
-        var infoLine = ""
-        var line: String?
-        while (reader?.readLine().also { line = it } != null) {
-            if (line?.startsWith("info depth $depth ") == true) {
-                infoLine = line ?: ""
+        mutex.withLock {
+            sendCommand("position fen $fen")
+            sendCommand("go depth $depth")
+            var cp = 0
+            var infoLine = ""
+            withTimeoutOrNull(10000) {
+                var line: String?
+                while (reader?.readLine().also { line = it } != null) {
+                    if (line?.startsWith("info depth $depth ") == true) {
+                        infoLine = line ?: ""
+                    }
+                    if (line?.startsWith("bestmove") == true) {
+                        break
+                    }
+                }
             }
-            if (line?.startsWith("bestmove") == true) {
-                break
+            
+            // Parse the info line for score cp
+            val parts = infoLine.split(" ")
+            val cpIndex = parts.indexOf("cp")
+            if (cpIndex != -1 && cpIndex + 1 < parts.size) {
+                cp = parts[cpIndex + 1].toIntOrNull() ?: 0
             }
+            
+            // Stockfish evaluation is relative to the side to move
+            val isBlackTurn = fen.split(" ").getOrNull(1) == "b"
+            if (isBlackTurn) -cp else cp
         }
-        
-        // Parse the info line for score cp
-        val parts = infoLine.split(" ")
-        val cpIndex = parts.indexOf("cp")
-        if (cpIndex != -1 && cpIndex + 1 < parts.size) {
-            cp = parts[cpIndex + 1].toIntOrNull() ?: 0
-        }
-        
-        // Stockfish evaluation is relative to the side to move
-        val isBlackTurn = fen.split(" ").getOrNull(1) == "b"
-        if (isBlackTurn) -cp else cp
     }
 
     fun shutdown() {

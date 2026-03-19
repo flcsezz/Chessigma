@@ -16,4 +16,23 @@ interface MoveDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMoves(moves: List<MoveEntity>)
+
+    @Query(
+        """UPDATE moves SET
+            evalCpBefore = :evalBefore,
+            evalCpAfter  = :evalAfter,
+            classification = :classification,
+            bestUci      = :bestUci,
+            bestSan      = :bestSan
+         WHERE gameId = :gameId AND ply = :ply"""
+    )
+    suspend fun updateMoveReview(
+        gameId: String,
+        ply: Int,
+        evalBefore: Int,
+        evalAfter: Int,
+        classification: String,
+        bestUci: String?,
+        bestSan: String?
+    )
 }

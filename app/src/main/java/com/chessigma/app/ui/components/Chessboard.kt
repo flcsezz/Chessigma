@@ -92,7 +92,7 @@ class ChessboardState(
 fun rememberChessboardState(
     board: ChessBoard = ChessBoard.empty(),
     isFlipped: Boolean = false
-) = remember {
+) = remember(board, isFlipped) {
     ChessboardState(board, isFlipped)
 }
 

@@ -70,12 +70,20 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideChessComApi(): ChessComApiService {
-        return Retrofit.Builder().baseUrl("https://api.chess.com/").build().create(ChessComApiService::class.java)
+        return Retrofit.Builder()
+            .baseUrl("https://api.chess.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ChessComApiService::class.java)
     }
 
     @Provides
     @Singleton
     fun provideLichessApi(): LichessApiService {
-        return Retrofit.Builder().baseUrl("https://lichess.org/api/").build().create(LichessApiService::class.java)
+        return Retrofit.Builder()
+            .baseUrl("https://lichess.org/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(LichessApiService::class.java)
     }
 }

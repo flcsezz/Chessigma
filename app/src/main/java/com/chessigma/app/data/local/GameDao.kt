@@ -16,4 +16,13 @@ interface GameDao {
 
     @Delete
     suspend fun deleteGame(game: GameEntity)
+
+    @Query("UPDATE games SET result = :result WHERE id = :gameId")
+    suspend fun updateResult(gameId: String, result: String)
+
+    @Query("UPDATE games SET isAnalysed = 1 WHERE id = :gameId")
+    suspend fun markAnalysed(gameId: String)
+
+    @Query("UPDATE games SET accuracyWhite = :whiteAccuracy, accuracyBlack = :blackAccuracy WHERE id = :gameId")
+    suspend fun updateAccuracy(gameId: String, whiteAccuracy: Float, blackAccuracy: Float)
 }

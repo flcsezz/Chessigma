@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chessigma.app.data.repository.AiRepository
 import com.chessigma.app.domain.model.*
+import com.chessigma.app.domain.repository.LocalGameRepository
 import com.chessigma.app.domain.usecase.ApplyMoveUseCase
 import com.chessigma.app.domain.usecase.GetLegalMovesUseCase
 import com.chessigma.app.domain.usecase.ParseFenUseCase
@@ -11,12 +12,14 @@ import com.chessigma.app.engine.StockfishEngine
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 private const val STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 data class PlayUiState(
     val gameState: GameState,
+    val gameId: String,
     val selectedSquare: String? = null,
     val legalMoves: List<String> = emptyList(),
     val isPromotionRequired: Boolean = false,
@@ -37,8 +40,12 @@ class PlayViewModel @Inject constructor(
     private val getLegalMovesUseCase: GetLegalMovesUseCase,
     private val applyMoveUseCase: ApplyMoveUseCase,
     private val aiRepository: AiRepository,
-    private val stockfishEngine: StockfishEngine
+    private val stockfishEngine: StockfishEngine,
+    private val localGameRepository: LocalGameRepository
 ) : ViewModel() {
+
+    /** Stable ID for the current play session — created once per ViewModel lifetime. */
+    private val gameId: String = UUID.randomUUID().toString()
 
     private val initialGameState = GameState(board = parseFenUseCase(STARTING_FEN))
     private val gameState = MutableStateFlow(initialGameState)
@@ -66,6 +73,7 @@ class PlayViewModel @Inject constructor(
         
         PlayUiState(
             gameState = currentGameState,
+            gameId = gameId,
             selectedSquare = args[1] as String?,
             legalMoves = args[2] as List<String>,
             isPromotionRequired = args[3] as Boolean,
@@ -82,20 +90,37 @@ class PlayViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = PlayUiState(gameState = initialGameState)
+        initialValue = PlayUiState(gameState = initialGameState, gameId = gameId)
     )
 
     init {
         viewModelScope.launch {
-            if (!stockfishEngine.isReady) {
-                stockfishEngine.initialise()
+            try {
+                localGameRepository.createGame(
+                    gameId = gameId,
+                    startedAt = System.currentTimeMillis()
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            updateEvaluation()
+        }
+        viewModelScope.launch {
+            try {
+                if (!stockfishEngine.isReady) {
+                    stockfishEngine.initialise()
+                }
+                updateEvaluation()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
+    private var evalJob: kotlinx.coroutines.Job? = null
+
     private fun updateEvaluation() {
-        viewModelScope.launch {
+        evalJob?.cancel()
+        evalJob = viewModelScope.launch {
             if (stockfishEngine.isReady) {
                 val score = stockfishEngine.evaluate(gameState.value.board.fen, depth = 10)
                 evaluation.value = score / 100.0f
@@ -160,21 +185,21 @@ class PlayViewModel @Inject constructor(
 
         val piece = gameState.value.board.getPiece(square)
         if (piece != null && piece.color == gameState.value.board.sideToMove) {
-            selectedSquare.value = square
-            legalMoves.value = getLegalMovesUseCase(gameState.value.board.fen, square)
-            statusMessage.value = null
+            if (selectedSquare.value == square) {
+                selectedSquare.value = null
+                legalMoves.value = emptyList()
+            } else {
+                selectedSquare.value = square
+                legalMoves.value = getLegalMovesUseCase(gameState.value.board.fen, square)
+                statusMessage.value = null
+            }
             return
         }
 
         val fromSquare = selectedSquare.value
         if (fromSquare != null && legalMoves.value.contains(square)) {
             val move = ChessMove(fromSquare = fromSquare, toSquare = square)
-            if (checkPromotionRequired(move)) {
-                promotionMove.value = move
-                isPromotionRequired.value = true
-            } else {
-                onMove(move)
-            }
+            onMove(move)
             return
         }
 
@@ -206,6 +231,13 @@ class PlayViewModel @Inject constructor(
     }
 
     fun onMove(move: ChessMove) {
+        if (checkPromotionRequired(move) && move.promotionPiece == null) {
+            promotionMove.value = move
+            isPromotionRequired.value = true
+            return
+        }
+
+        val fenBefore = gameState.value.board.fen
         val nextState = applyMoveUseCase(gameState.value, move)
         if (nextState == null) {
             statusMessage.value = "Illegal move."
@@ -220,11 +252,33 @@ class PlayViewModel @Inject constructor(
         historyIndex.value = -1 // Return to live
         val lastMove = nextState.moveHistory.lastOrNull()
         statusMessage.value = "Move played: ${lastMove?.san ?: (move.fromSquare + "-" + move.toSquare)}"
-        
+
+        // Persist move (fire-and-forget — does not block UI)
+        val ply = nextState.moveHistory.size - 1
+        viewModelScope.launch {
+            localGameRepository.saveMove(
+                gameId = gameId,
+                ply = ply,
+                move = lastMove ?: move,
+                fenBefore = fenBefore
+            )
+        }
+
         updateEvaluation()
 
         if (nextState.status != GameStatus.ONGOING) {
+            val resultString = when (nextState.status) {
+                GameStatus.CHECKMATE   -> if (nextState.board.sideToMove == PieceColor.WHITE) "0-1" else "1-0"
+                GameStatus.RESIGNATION -> if (nextState.board.sideToMove == PieceColor.WHITE) "0-1" else "1-0"
+                GameStatus.TIMEOUT     -> if (nextState.board.sideToMove == PieceColor.WHITE) "0-1" else "1-0"
+                GameStatus.STALEMATE   -> "1/2-1/2"
+                GameStatus.DRAW        -> "1/2-1/2"
+                else                   -> "*"
+            }
             statusMessage.value = "Game Over: ${nextState.status}"
+            viewModelScope.launch {
+                localGameRepository.finalizeGame(gameId, resultString)
+            }
         }
 
         viewModelScope.launch {

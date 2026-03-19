@@ -28,7 +28,9 @@ import com.chessigma.app.ui.play.components.PlayerCard
 
 @Composable
 fun PlayRoute(
-    viewModel: PlayViewModel = hiltViewModel()
+    viewModel: PlayViewModel = hiltViewModel(),
+    onReviewGame: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -39,7 +41,9 @@ fun PlayRoute(
         onUndo = viewModel::undo,
         onPromotionSelected = viewModel::onPromotionSelected,
         onPromotionCancelled = viewModel::onPromotionCancelled,
-        onMoveHistoryClicked = viewModel::onMoveHistoryClicked
+        onMoveHistoryClicked = viewModel::onMoveHistoryClicked,
+        onReviewGame = onReviewGame,
+        modifier = modifier
     )
 }
 
@@ -52,6 +56,7 @@ fun PlayScreen(
     onPromotionSelected: (PieceType) -> Unit,
     onPromotionCancelled: () -> Unit,
     onMoveHistoryClicked: (Int) -> Unit,
+    onReviewGame: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val boardState = rememberChessboardState()
@@ -148,7 +153,10 @@ fun PlayScreen(
                 enter = fadeIn() + expandVertically(),
                 exit = fadeOut() + shrinkVertically()
             ) {
-                GameStatusBanner(status = uiState.gameState.status)
+                GameStatusBanner(
+                    status = uiState.gameState.status,
+                    onReviewGame = { onReviewGame(uiState.gameId) }
+                )
             }
 
             Card(
@@ -179,7 +187,10 @@ fun PlayScreen(
 }
 
 @Composable
-private fun GameStatusBanner(status: GameStatus) {
+private fun GameStatusBanner(
+    status: GameStatus,
+    onReviewGame: () -> Unit
+) {
     if (status == GameStatus.ONGOING) return
     
     Card(
@@ -188,12 +199,24 @@ private fun GameStatusBanner(status: GameStatus) {
         ),
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text(
-            text = "GAME OVER: $status",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(8.dp),
-            color = MaterialTheme.colorScheme.onPrimaryContainer
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = "GAME OVER: $status",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+            Button(
+                onClick = onReviewGame,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Review Game")
+            }
+        }
     }
 }
 

@@ -13,4 +13,18 @@ sealed class MoveClassification(
     object Mistake : MoveClassification("Mistake", "#E6A817", 100)
     object Blunder : MoveClassification("Blunder", "#D9534F", 300)
     object Miss : MoveClassification("Miss", "#D9534F", 200)
+
+    companion object {
+        fun fromStorage(value: String): MoveClassification? = when (value.uppercase()) {
+            "BRILLIANT" -> Brilliant
+            "BEST" -> Best
+            "EXCELLENT" -> Excellent
+            "GOOD" -> Good
+            "INACCURACY" -> Inaccuracy
+            "MISTAKE" -> Mistake
+            "BLUNDER" -> Blunder
+            "MISS" -> Miss
+            else -> null
+        }
+    }
 }

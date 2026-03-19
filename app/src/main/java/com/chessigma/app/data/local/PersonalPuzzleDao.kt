@@ -17,4 +17,13 @@ interface PersonalPuzzleDao {
 
     @Update
     suspend fun updatePersonalPuzzle(puzzle: PersonalPuzzleEntity)
+
+    @Query("UPDATE personal_puzzles SET solved = 1, solvedAt = :solvedAt WHERE id = :puzzleId")
+    suspend fun markSolved(puzzleId: Long, solvedAt: Long = System.currentTimeMillis())
+
+    @Query("UPDATE personal_puzzles SET attemptCount = attemptCount + 1 WHERE id = :puzzleId")
+    suspend fun incrementAttempts(puzzleId: Long)
+
+    @Query("SELECT * FROM personal_puzzles WHERE id = :puzzleId")
+    suspend fun getPuzzleById(puzzleId: Long): PersonalPuzzleEntity?
 }

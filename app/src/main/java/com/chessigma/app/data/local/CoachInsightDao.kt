@@ -9,5 +9,5 @@ interface CoachInsightDao {
     fun getLatestInsight(): Flow<CoachInsightEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertInsight(insight: CoachInsightEntity)
+    suspend fun insertInsight(insight: CoachInsightEntity): Long
 }

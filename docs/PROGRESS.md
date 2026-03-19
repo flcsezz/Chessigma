@@ -1,85 +1,38 @@
 # Project Progress Tracker
 
-## Last Updated: 2026-03-19
+## Last Updated: 2026-03-19 (Phase 3 Complete)
 
-### Completed Milestones
-- **2026-03-15**: Initial Project Scaffold completed.
-  - Hilt, Room, DataStore, Retrofit, Navigation, WorkManager, Firebase, Coil, Vico, Timber, Serialization, Splash Screen API.
-  - Folder structure for Clean Architecture (MVVM).
-  - Stockfish Engine wrapper and EngineService.
-  - AI Cascade repository logic.
-  - Premium Dark Theme (ChessigmaTheme).
-- **2026-03-19**: Core Chess Logic & Domain Models (Antigravity)
-  - Integrated `chesslib` and created domain abstractions.
-  - Implemented FEN/PGN Parsing and Move Validation use cases.
-- **2026-03-19**: Professional Workspace Organization (Gemini CLI)
-  - Cleaned up project root from build artifacts and redundant Gradle files.
-  - Organized documentation into `docs/` folder.
-  - Created `GEMINI.md` as the primary context hub for agents.
-  - Updated `README.md` and `CURRENT_TASK.md` for session continuity.
-- **2026-03-19**: Java 17 Environment Setup (OpenCode)
-  - Installed Java 17 (OpenJDK 17.0.10 Temurin) via manual download (Adoptium).
-  - Created `.java-version` file for project-specific Java configuration.
-  - Verified Java 17 installation and compiler are working correctly.
-- **2026-03-19**: First Successful Build (OpenCode)
-  - Configured Android SDK path in `local.properties`.
-  - Added JitPack repository for chesslib dependency.
-  - Fixed chesslib dependency group (`bhlangon` → `bhlangonijr`).
-  - Fixed chesslib API usage (`piece.side` → `piece.pieceSide`).
-  - Created missing Android resources (strings, themes, icons, XML configs).
-  - Added Google Fonts dependency.
-  - Fixed malformed `AndroidManifest.xml`.
-  - Build completed successfully with `./gradlew build`.
-- **2026-03-19**: GitHub Actions CI & Issue Templates (Antigravity)
-  - Configured GitHub Actions CI workflow (`.github/workflows/ci.yml`) for automated linting, testing, and debugging.
-  - Created GitHub Issue templates for bug reports and feature requests.
-  - Initialized git repository and performed initial commit on `main` branch.
-- **2026-03-19**: Stockfish Engine Integration (Antigravity)
-  - Successfully integrated native Stockfish 16 binaries into `jniLibs`.
-  - Refined `StockfishEngine` wrapper with robust error handling and state management.
-  - Implemented `EngineRepository` and `AnalyzePositionUseCase` for domain layer integration.
-  - Set up Hilt dependency injection for the engine components.
-- **2026-03-19**: Build Stabilization & Java Enforcement (Antigravity)
-  - Forced Java 17 usage via `gradle.properties` to overcome Java 25 mismatch.
-  - Fixed `PlayViewModel` compilation error (broken `combine` lambda for 6+ flows).
-  - Verified successful project build (`./gradlew assembleDebug`).
-- **2026-03-19**: Play Flow & AI Cascade Wiring (Codex)
-  - Added `ApplyMoveUseCase` to advance a FEN after a validated move, including auto-queen fallback for pawn promotion.
-  - Added `ApplyMoveUseCaseTest` coverage for legal moves, illegal moves, and promotion handling.
-  - Created `PlayViewModel` and `PlayScreen` to drive the `Chessboard` from app state and surface cascade status.
-  - Wired `MainActivity` to launch the playable board flow and trigger `AiRepository.generateCoachInsight()` after successful moves.
-  - Verified with `:app:testDebugUnitTest --tests "com.chessigma.app.domain.usecase.ApplyMoveUseCaseTest"` using Java 17.
-- **2026-03-19**: Game State Management & Promotion Logic (Antigravity)
-  - Implemented `GameState` and `GameStatus` domain models for rich game tracking.
-  - Created `GetGameStatusUseCase` for automated end-of-game detection (Checkmate, Stalemate, Draw).
-  - Refactored `ApplyMoveUseCase` to handle explicit pawn promotion and incremental history tracking.
-  - Built `PromotionDialog` Compose component and integrated it into the play flow.
-  - Added Undo support to `PlayViewModel`.
-  - Verified logic with `GetGameStatusUseCaseTest` and updated `ApplyMoveUseCaseTest`.
-- **2026-03-19**: Review-First Coaching Direction Locked (Codex)
-  - Aligned the product direction around explicit post-game review instead of aggressive per-move API calls during live play.
-  - Defined the intended pipeline as `Review button -> Stockfish analysis -> move classifications/best lines -> AI coaching summary`.
-  - Positioned the AI cascade as a natural-language explanation layer on top of engine output, not the primary evaluator.
-- **2026-03-19**: PlayScreen UI/UX Improvements (Gemini CLI)
-  - Implemented Professional Move List with scrollable turn-based rows and SAN notation.
-  - Added Player Identification Cards with avatars, names, and live capture counts.
-  - Integrated Standard Algebraic Notation (SAN) generation using `chesslib`'s `MoveList`.
-  - Added vertical Eval Bar driven by real-time Stockfish 16 evaluation.
-  - Improved screen layout with Material 3 components and animated transitions.
-  - Verified SAN logic with `UciParserTest`.
-- **2026-03-19**: Premium Visual Polish & Navigation (Antigravity)
-  - Replaced Unicode chess pieces with 12 high-quality Vector Drawables.
-  - Implemented non-linear (sigmoidal) scaling for the `EvalBar` to improve sensitivity.
-  - Added live Material Advantage calculation and display (e.g., +3) in `PlayerCard`.
-  - Implemented Board History Navigation: users can tap past moves to view previous positions.
-  - Fixed `EvalBar` compilation issues and verified build stability.
+## Completed Milestones
 
-### Blockers / Hurdles
-- **Piece Assets**: Currently using Unicode characters; need high-quality vector assets for premium feel.
+| Date | Agent | Milestone | Key Details |
+|------|-------|-----------|-------------|
+| 2026-03-15 | — | Initial Scaffold | Hilt, Room, DataStore, Retrofit, Nav, WorkManager, Firebase, Coil, Vico, Timber, Serialization, Splash; Clean Architecture folders; Stockfish wrapper; AI Cascade stub; Premium Dark Theme |
+| 2026-03-19 | Antigravity | Core Chess Logic & Domain Models | Integrated `chesslib`; FEN/PGN parsing; Move Validation use cases |
+| 2026-03-19 | Gemini CLI | Workspace Organization | Cleaned root; `docs/` folder; `GEMINI.md`; updated `README.md` & `CURRENT_TASK.md` |
+| 2026-03-19 | OpenCode | Java 17 Environment | Temurin 17 installed manually; `.java-version` pinned |
+| 2026-03-19 | OpenCode | First Successful Build | `local.properties` SDK path; JitPack + chesslib fix; Android resources; `assembleDebug` ✅ |
+| 2026-03-19 | Antigravity | GitHub Actions CI | CI workflow; issue templates; initial `main` commit |
+| 2026-03-19 | Antigravity | Stockfish Engine Integration | Native Stockfish 16 in `jniLibs`; `StockfishEngine` wrapper; `EngineRepository`; Hilt DI |
+| 2026-03-19 | Antigravity | Build Stabilization | Java 17 forced via `gradle.properties`; fixed `PlayViewModel` combine lambda; `assembleDebug` ✅ |
+| 2026-03-19 | Codex | Play Flow & AI Cascade Wiring | `ApplyMoveUseCase` + tests; `PlayViewModel`; `PlayScreen`; `AiRepository` trigger after moves |
+| 2026-03-19 | Antigravity | Game State Management | `GameState`/`GameStatus`; `GetGameStatusUseCase`; pawn promotion; undo; `PromotionDialog` |
+| 2026-03-19 | Codex | Review-First Coaching Direction | Product direction locked: Review → Stockfish → classifications → AI coaching summary |
+| 2026-03-19 | Gemini CLI | PlayScreen UI/UX | SAN move list; Player Cards; captures; Eval Bar (real-time Stockfish); Material 3 layout |
+| 2026-03-19 | Antigravity | Premium Visual Polish | 12 Vector piece assets; sigmoidal EvalBar; material advantage (+X); board history navigation |
+| 2026-03-19 | Antigravity | Room Persistence Layer | `LocalGameRepository` + impl; `GameDao.updateResult`; auto-save on every move; `assembleDebug` ✅ |
+| 2026-03-19 | Antigravity | Phase 3 Review Pipeline | `ReviewGameUseCase` (Stockfish depth-12, Flow per ply); `ReviewMoveResult` model; `ReviewViewModel`; `ReviewScreen` (sparkline graph, color-coded move chips, nav arrows); Play/Review bottom tabs; `ReviewGameUseCaseTest` 8/8 ✅; `assembleDebug` ✅ |
+| 2026-03-19 | Codex | Review Coaching Summary | Deterministic `GenerateReviewCoachInsightUseCase`; review-derived coach summary persisted through `AiRepository`; Review tab now shows summary, weaknesses/strengths, and practice-next suggestions; `GenerateReviewCoachInsightUseCaseTest` ✅; `assembleDebug` ✅ |
+| 2026-03-19 | Codex | Explicit Review Action | Completed-game `Review Game` button in play flow now switches to Review and starts Stockfish analysis for that specific saved game; `assembleDebug` ✅ |
+| 2026-03-19 | Antigravity | Bug Fixes | Fixed immediate crashes (Stockfish timeout/mutex, Room destructive migration, Networking GsonConverter, ViewModel init try/catch) and short-term correctness issues (promotion check ordering, eval race conditions, UI remember keys, flipped board piece deselection). |
+| 2026-03-19 | Codex | Phase 3 Accuracy Formula | Created `CalculateGameAccuracyUseCase` with Lichess-style accuracy calculation; updated `GameDao` and `LocalGameRepository` to persist per-game accuracy; accuracy automatically computed after each review. |
+| 2026-03-19 | Codex | Personal Puzzle Generation | `PuzzleGenerator` now extracts puzzles from MISTAKE and BLUNDER positions after review; `PersonalPuzzleEntity` stores FEN, correct move, original classification; puzzles auto-generated on review completion. |
+| 2026-03-19 | Codex | Puzzle Solving UI | Added Puzzles tab to navigation; created `PuzzlePlayViewModel` with move validation; `PuzzleScreen` now features interactive board, move solving, progress tracking; BUILD SUCCESSFUL. |
 
-### Next Immediate Goals
-- Implement Pawn Promotion Dialog.
-- Build a `ReviewGameUseCase` that analyzes a completed game with Stockfish.
-- Persist per-move review outputs: eval before/after, best move, principal variation, and classification.
-- Create a dedicated game-review screen with board, move list, eval bar, and coach commentary.
-- Replace static AI payload generation with review-derived summaries and practice recommendations.
+## Blockers / Hurdles
+- **Java 25 Incompatibility**: Build failed due to host system's Java 25. **Fix**: Prepend `JAVA_HOME=/home/flcsezz/.gradle/jdks/eclipse_adoptium-17-amd64-linux.2` to all Gradle commands.
+- **Missing Extended Icons**: `ChevronLeft/Right` caused compilation errors. **Fix**: Switched to `KeyboardArrowLeft/Right` from the core Material icons set to avoid additional dependencies.
+
+## Next Immediate Goals
+- Display accuracy in Review tab for analyzed games
+- Show accuracy on game history list
+- Optional: Add daily puzzles from bundled puzzles
