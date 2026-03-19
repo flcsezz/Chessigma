@@ -13,7 +13,7 @@
 ## Phase 2: Core Chess Logic & UI
 - [x] PGN/FEN Parsing Implementation
 - [x] Move Validation Engine
-- [ ] Chessboard UI Component (Drag & Drop)
+- [x] Chessboard UI Component (Drag & Drop) (Gemini CLI - 2026-03-19)
 - [ ] Game State Management (MVVM)
 
 ## Phase 3: AI Coaching & Analysis

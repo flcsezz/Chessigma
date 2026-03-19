@@ -6,7 +6,7 @@ This file tracks the active agents and their specific areas of focus.
 | :--- | :--- | :--- | :--- |
 | **Antigravity** | Technical Architect | Project structure, CI/CD, Core Engine | Active |
 | **OpenCode** | CLI Assistant | Environment setup, Build verification, Java 17 installation | Active |
-| **UI Specialist** (Placeholder) | UI/UX Developer | Jetpack Compose, Design System, Animations | Idle |
+| **Gemini CLI** | Software Engineer | UI Components, Domain Logic, Task Orchestration | Active |
 | **Backend/AI Specialist** (Placeholder) | API Integration | AI Cascade, Retrofit, Gemini/Groq | Idle |
 | **Chess Logic Expert** (Placeholder) | Chess Rules & Engine | PGN/FEN parsing, Move validation | Idle |
 

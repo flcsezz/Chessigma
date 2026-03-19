@@ -29,3 +29,10 @@
 - **Context**: Build failed with `com.github.bhlangon:chesslib:1.3.3` not found in Maven repositories.
 - **Decision**: Add JitPack repository and correct dependency group to `com.github.bhlangonijr:chesslib`.
 - **Consequence**: Chesslib resolves correctly from JitPack. Code updated to use `getPieceSide()` instead of private `side` field.
+
+## ADR 6: Custom Chessboard UI State Management
+- **Status**: Accepted
+- **Context**: Need a responsive, interactive chessboard with drag-and-drop and legal move highlighting.
+- **Decision**: Implement a `@Stable` `ChessboardState` class to encapsulate board data, orientation, and selection state. Use Jetpack Compose `pointerInput` with `detectDragGestures` for interaction.
+- **Consequence**: Centralized state makes it easy to control the board from ViewModels and supports complex animations/interactions without polluting the main Composable function.
+
