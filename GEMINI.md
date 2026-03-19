@@ -17,7 +17,8 @@ To provide a "Grandmaster in your pocket" experience through on-device analysis 
 1. **Clean Architecture**: Strictly adhere to the `UI -> Domain -> Data` layer separation. No Android dependencies in `domain`.
 2. **Java 17 Toolchain**: Always use Java 17 for Gradle builds to avoid compatibility issues with Kotlin.
 3. **Context Preservation**: Update `docs/PROGRESS.md` and `docs/CURRENT_TASK.md` at the end of every task or session.
-4. **Testing First**: Domain logic changes must be accompanied by unit tests.
+4. **Documentation Hook (CRITICAL)**: You MUST update the `docs/` files regardless of whether a task succeeds or fails. If a task fails, document the reason, attempted steps, and current blocker in `docs/CURRENT_TASK.md` to guide the next agent.
+5. **Testing First**: Domain logic changes must be accompanied by unit tests.
 
 ## Tech Stack Highlights
 - **Android**: Jetpack Compose, Material 3 (Dark Mode).
