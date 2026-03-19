@@ -5,8 +5,8 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.plugin.serialization)
-    alias(libs.plugins.google.services)
-    alias(libs.plugins.firebase.crashlytics)
+    // alias(libs.plugins.google.services)
+    // alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
