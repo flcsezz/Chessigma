@@ -56,7 +56,14 @@ fun PuzzleScreen(
                 onPreviousPuzzle = viewModel::previousPuzzle,
                 onDismissResult = viewModel::dismissResult
             )
-            1 -> DailyPuzzlesTabContent()
+            1 -> DailyPuzzlesTabContent(
+                uiState = uiState,
+                onImportDailyPuzzle = viewModel::importDailyPuzzle,
+                onSquareClick = viewModel::onSquareClick,
+                onNextPuzzle = viewModel::nextPuzzle,
+                onPreviousPuzzle = viewModel::previousPuzzle,
+                onDismissResult = viewModel::dismissResult
+            )
         }
     }
 }
@@ -127,18 +134,25 @@ fun MyMistakesTabContent(
 
         uiState.currentPuzzle?.let { puzzle ->
             val classification = puzzle.originalClassification
+            val isLichess = classification?.contains("LICHESS") == true
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = when (classification) {
-                        "BLUNDER" -> MaterialTheme.colorScheme.errorContainer
-                        "MISTAKE" -> MaterialTheme.colorScheme.tertiaryContainer
+                    containerColor = when {
+                        classification == "BLUNDER" -> MaterialTheme.colorScheme.errorContainer
+                        classification == "MISTAKE" -> MaterialTheme.colorScheme.tertiaryContainer
+                        isLichess -> MaterialTheme.colorScheme.primaryContainer
                         else -> MaterialTheme.colorScheme.secondaryContainer
                     }
                 )
             ) {
+                val text = if (isLichess) {
+                    "Lichess Daily Puzzle: Find the best move"
+                } else {
+                    "You played ${puzzle.blunderSan}, find the best move"
+                }
                 Text(
-                    text = "You played ${puzzle.blunderSan}, find the best move",
+                    text = text,
                     modifier = Modifier.padding(12.dp),
                     style = MaterialTheme.typography.bodyMedium
                 )
@@ -229,8 +243,54 @@ fun MyMistakesTabContent(
 }
 
 @Composable
-fun DailyPuzzlesTabContent() {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text("Daily Puzzles based on ELO +/- 200")
+fun DailyPuzzlesTabContent(
+    uiState: PuzzleUiState,
+    onImportDailyPuzzle: () -> Unit,
+    onSquareClick: (String) -> Unit,
+    onNextPuzzle: () -> Unit,
+    onPreviousPuzzle: () -> Unit,
+    onDismissResult: () -> Unit
+) {
+    val dailyPuzzles = uiState.puzzles.filter { it.originalClassification == "LICHESS_DAILY" }
+    
+    if (dailyPuzzles.isEmpty()) {
+        Box(
+            modifier = Modifier.fillMaxSize().padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                if (uiState.isLoading) {
+                    CircularProgressIndicator()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("Fetching from Lichess...")
+                } else {
+                    Text(
+                        text = "No daily puzzles imported",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    uiState.errorMessage?.let { error ->
+                        Text(
+                            text = error,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(onClick = onImportDailyPuzzle) {
+                        Text("Import Today's Puzzle")
+                    }
+                }
+            }
+        }
+    } else {
+        // Reuse MyMistakesTabContent style but for daily puzzles
+        // For simplicity, we could merge them or just show the same board UI
+        MyMistakesTabContent(
+            uiState = uiState.copy(puzzles = dailyPuzzles),
+            onSquareClick = onSquareClick,
+            onNextPuzzle = onNextPuzzle,
+            onPreviousPuzzle = onPreviousPuzzle,
+            onDismissResult = onDismissResult
+        )
     }
 }

@@ -14,8 +14,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -111,7 +111,8 @@ fun ReviewScreen(
             // ── Header ────────────────────────────────────────────────────────
             ReviewHeader(
                 reviewState = reviewState,
-                moves = moves
+                moves = moves,
+                currentGame = uiState.currentGame
             )
 
             // ── Board + Eval bar ──────────────────────────────────────────────
@@ -156,7 +157,7 @@ fun ReviewScreen(
                         onClick = { onSelectPly((uiState.selectedPly - 1).coerceAtLeast(0)) },
                         enabled = uiState.selectedPly > 0
                     ) {
-                        Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Previous move")
+                        Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Previous move")
                     }
                     Text(
                         text = "Move ${uiState.selectedPly + 1} / ${moves.size}",
@@ -167,7 +168,7 @@ fun ReviewScreen(
                         onClick = { onSelectPly((uiState.selectedPly + 1).coerceAtMost(moves.size - 1)) },
                         enabled = uiState.selectedPly < moves.size - 1
                     ) {
-                        Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Next move")
+                        Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "Next move")
                     }
                 }
             }
@@ -208,10 +209,10 @@ fun ReviewScreen(
                     )
                 }
                 is ReviewState.Idle -> {
-                    Text(
-                        "No game loaded. Play a game first.",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    GameHistoryList(
+                        games = uiState.recentGames,
+                        onGameClick = onStartReview,
+                        modifier = Modifier.weight(1f)
                     )
                 }
                 else -> Unit
@@ -227,7 +228,8 @@ fun ReviewScreen(
 @Composable
 private fun ReviewHeader(
     reviewState: ReviewState,
-    moves: List<ReviewMoveResult>
+    moves: List<ReviewMoveResult>,
+    currentGame: com.chessigma.app.data.local.GameEntity? = null
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -241,8 +243,13 @@ private fun ReviewHeader(
             color = MaterialTheme.colorScheme.onBackground
         )
 
-        if (reviewState is ReviewState.Done && moves.isNotEmpty()) {
-            val (whiteAcc, blackAcc) = computeAccuracy(moves)
+        // Show accuracy if analysis is done, OR if the game was previously analysed
+        if ((reviewState is ReviewState.Done && moves.isNotEmpty()) || currentGame?.isAnalysed == true) {
+            val (whiteAcc, blackAcc) = if (reviewState is ReviewState.Done && moves.isNotEmpty()) {
+                computeAccuracy(moves)
+            } else {
+                (currentGame?.accuracyWhite?.toInt() ?: 0) to (currentGame?.accuracyBlack?.toInt() ?: 0)
+            }
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 AccuracyChip("W", whiteAcc, Color.White)
                 AccuracyChip("B", blackAcc, Color(0xFF666666))
@@ -558,4 +565,106 @@ private fun InsightListBlock(
             )
         }
     }
+}
+
+// ── Game History List (Scaffold) ───────────────────────────────────────────────
+
+@Composable
+private fun GameHistoryList(
+    games: List<com.chessigma.app.data.local.GameEntity>,
+    onGameClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Text(
+            text = "Recent Games",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+
+        if (games.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    "No games played yet.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        } else {
+            androidx.compose.foundation.lazy.LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.weight(1f)
+            ) {
+                items(games.size) { index ->
+                    val game = games[index]
+                    GameHistoryCard(
+                        game = game,
+                        onClick = { onGameClick(game.id) }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun GameHistoryCard(
+    game: com.chessigma.app.data.local.GameEntity,
+    onClick: () -> Unit
+) {
+    Card(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "${game.whiteName} vs ${game.blackName}",
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = "${game.result} • ${formatDate(game.datePlayed)}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            if (game.isAnalysed) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    AccuracyChip("W", game.accuracyWhite?.toInt() ?: 0, Color.White)
+                    AccuracyChip("B", game.accuracyBlack?.toInt() ?: 0, Color(0xFF666666))
+                }
+            } else {
+                Text(
+                    "Not Analysed",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                )
+            }
+        }
+    }
+}
+
+private fun formatDate(timestamp: Long): String {
+    val sdf = java.text.SimpleDateFormat("MMM dd, yyyy HH:mm", java.util.Locale.getDefault())
+    return sdf.format(java.util.Date(timestamp))
 }

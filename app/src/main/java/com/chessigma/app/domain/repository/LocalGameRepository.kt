@@ -46,4 +46,7 @@ interface LocalGameRepository {
 
     /** Update per-game accuracy stats (white and black). */
     suspend fun updateAccuracy(gameId: String, whiteAccuracy: Float, blackAccuracy: Float)
+
+    /** Observe a specific game's metadata. */
+    fun observeGame(gameId: String): Flow<GameEntity?>
 }

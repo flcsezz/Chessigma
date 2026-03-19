@@ -1,9 +1,23 @@
 # Current Active Task
 
 **Current Agent**: Antigravity
-**Task**: Phase 1 AI Cascade Implementation (Complete)
+**Task**: Phase 4: Bot Play & Puzzles (Complete)
 
 ## Completed in This Session
+- [x] Implement Bot Play with Stockfish Skill Levels
+- [x] Create `GetBotMoveUseCase` for engine move generation
+- [x] Update `PlayViewModel` to handle autonomous CPU moves with delay
+- [x] Scaffold "New Game" selection UI in `PlayScreen`
+- [x] Implement Lichess Daily Puzzle import API integration
+- [x] Create `ImportLichessPuzzleUseCase` and DTOs
+- [x] Modify `PersonalPuzzleEntity` schema to support external puzzles
+- [x] Add "Daily Puzzles" tab and import action in `PuzzleScreen`
+- [x] BUILD SUCCESSFUL
+- [x] Display accuracy in Review tab (saved metadata + on-the-fly)
+- [x] Implement Game History list scaffold in Review tab
+- [x] Add saved accuracy chips to Game History items
+- [x] Resolve Flow combine overload (6 flows) in ReviewViewModel
+- [x] Fix deprecation and OptIn warnings
 - [x] Implement AI Cascade (Gemini -> Groq -> NVIDIA NIM -> Deterministic)
 - [x] Create LLM Request/Response DTOs
 - [x] Update API service interfaces
@@ -60,9 +74,9 @@
 - [x] Fix double-tap on pieces (deselection)
 
 ## Next Objectives
-- [ ] Display accuracy in Review tab for analyzed games
-- [ ] Show accuracy on game history list
-- [ ] Optional: Add daily puzzles from bundled puzzles
+- [ ] Phase 5: Polish & Social Features
+- [ ] Accuracy Graphs & ELO Trends
+- [ ] Settings & API Key Management
 
 ## Context
 Phase 3 is complete. Games now have:

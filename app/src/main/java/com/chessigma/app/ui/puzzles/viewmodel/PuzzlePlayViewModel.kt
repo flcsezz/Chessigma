@@ -28,15 +28,18 @@ data class PuzzleUiState(
     val solvedCount: Int = 0,
     val attemptCount: Int = 0,
     val puzzles: List<PersonalPuzzleEntity> = emptyList(),
-    val currentPuzzleIndex: Int = 0
+    val currentPuzzleIndex: Int = 0,
+    val isLoading: Boolean = false,
+    val errorMessage: String? = null
 )
 
 @HiltViewModel
 class PuzzlePlayViewModel @Inject constructor(
-    private val personalPuzzleDao: PersonalPuzzleDao,
+    private val personalPuzzleDao: com.chessigma.app.data.local.PersonalPuzzleDao,
     private val parseFenUseCase: ParseFenUseCase,
     private val getLegalMovesUseCase: GetLegalMovesUseCase,
-    private val applyMoveUseCase: ApplyMoveUseCase
+    private val applyMoveUseCase: ApplyMoveUseCase,
+    private val importLichessPuzzleUseCase: com.chessigma.app.domain.usecase.ImportLichessPuzzleUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PuzzleUiState())
@@ -197,5 +200,21 @@ class PuzzlePlayViewModel @Inject constructor(
 
     fun dismissResult() {
         _uiState.value = _uiState.value.copy(showResult = false)
+    }
+
+    fun importDailyPuzzle() {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
+            val result = importLichessPuzzleUseCase()
+            if (result == null) {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    errorMessage = "Failed to import today's puzzle. Check your connection."
+                )
+            } else {
+                _uiState.value = _uiState.value.copy(isLoading = false)
+                // loadPuzzles() is handled by the collect flow
+            }
+        }
     }
 }

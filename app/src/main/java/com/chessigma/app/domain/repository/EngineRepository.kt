@@ -10,4 +10,5 @@ interface EngineRepository {
     
     suspend fun getBestMove(fen: String, depth: Int): String
     suspend fun evaluatePosition(fen: String, depth: Int): Int
+    suspend fun setSkillLevel(level: Int)
 }

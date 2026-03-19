@@ -34,4 +34,8 @@ class EngineRepositoryImpl @Inject constructor(
     override suspend fun evaluatePosition(fen: String, depth: Int): Int {
         return stockfishEngine.evaluate(fen, depth)
     }
+
+    override suspend fun setSkillLevel(level: Int) {
+        stockfishEngine.setSkillLevel(level)
+    }
 }

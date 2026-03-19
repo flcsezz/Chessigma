@@ -76,6 +76,13 @@ class StockfishEngine @Inject constructor(
         }
     }
 
+    suspend fun setSkillLevel(level: Int) = withContext(Dispatchers.IO) {
+        val boundedLevel = level.coerceIn(0, 20)
+        mutex.withLock {
+            sendCommand("setoption name Skill Level value $boundedLevel")
+        }
+    }
+
     suspend fun getBestMove(depth: Int): String = withContext(Dispatchers.IO) {
         mutex.withLock {
             sendCommand("go depth $depth")

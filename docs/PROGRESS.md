@@ -26,6 +26,8 @@
 | 2026-03-19 | Antigravity | Bug Fixes | Fixed immediate crashes (Stockfish timeout/mutex, Room destructive migration, Networking GsonConverter, ViewModel init try/catch) and short-term correctness issues (promotion check ordering, eval race conditions, UI remember keys, flipped board piece deselection). |
 | 2026-03-19 | Codex/Antigravity | Phase 3 Accuracy & Puzzles | Accuracy formula; Puzzle extraction; Puzzle solving UI; BUILD SUCCESSFUL; Pushed to main ✅ |
 | 2026-03-19 | Antigravity | AI Cascade Implementation | Implemented provider rotation (Gemini -> Groq -> NVIDIA NIM) with deterministic fallback; updated API DTOs; added unit tests with manual mocks; BUILD SUCCESSFUL ✅ |
+| 2026-03-19 | Antigravity | Accuracy & History Display | Displayed per-game accuracy in Review tab; added Game History list scaffold with saved accuracy chips; fixed deprecation and opt-in warnings; BUILD SUCCESSFUL ✅ |
+| 2026-03-19 | Antigravity | Phase 4: Bot Play & Puzzles | Implemented Bot Play with Stockfish Skill Levels; created `GetBotMoveUseCase`; updated `PlayViewModel` & `PlayScreen` UI; implemented Lichess Daily Puzzle import; updated `PersonalPuzzleEntity` schema; BUILD SUCCESSFUL ✅ |
 
 ## Blockers / Hurdles
 - **Java 25 Incompatibility**: Build failed due to host system's Java 25. **Fix**: Prepend `JAVA_HOME=/home/flcsezz/.gradle/jdks/eclipse_adoptium-17-amd64-linux.2` to all Gradle commands.

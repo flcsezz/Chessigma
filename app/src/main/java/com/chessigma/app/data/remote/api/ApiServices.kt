@@ -35,5 +35,6 @@ interface ChessComApiService {
 }
 
 interface LichessApiService {
-    // Stub
+    @retrofit2.http.GET("puzzle/daily")
+    suspend fun getDailyPuzzle(): LichessPuzzleResponse
 }

@@ -89,6 +89,8 @@ class LocalGameRepositoryImpl @Inject constructor(
         gameDao.updateAccuracy(gameId, whiteAccuracy, blackAccuracy)
     }
 
+    override fun observeGame(gameId: String): Flow<GameEntity?> = gameDao.getGameByIdFlow(gameId)
+
     // ── private helpers ────────────────────────────────────────────────────────
 
     private fun buildUci(move: ChessMove): String {

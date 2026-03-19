@@ -10,6 +10,7 @@ import com.chessigma.app.domain.usecase.CalculateGameAccuracyUseCase
 import com.chessigma.app.domain.usecase.ReviewGameUseCase
 import com.chessigma.app.ui.puzzles.PuzzleGenerator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,11 +30,14 @@ data class ReviewUiState(
     val reviewState: ReviewState = ReviewState.Idle,
     val selectedPly: Int = 0,
     val gameId: String? = null,
-    val coachState: AiCascadeState = AiCascadeState.Idle
+    val coachState: AiCascadeState = AiCascadeState.Idle,
+    val recentGames: List<com.chessigma.app.data.local.GameEntity> = emptyList(),
+    val currentGame: com.chessigma.app.data.local.GameEntity? = null
 )
 
 // ── ViewModel ─────────────────────────────────────────────────────────────────
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class ReviewViewModel @Inject constructor(
     private val reviewGameUseCase: ReviewGameUseCase,
@@ -53,17 +57,31 @@ class ReviewViewModel @Inject constructor(
         _gameId,
         aiRepository.cascadeState
     ) { state, ply, id, coachState ->
+        Quadruple(state, ply, id, coachState)
+    }.combine(localGameRepository.getRecentGames()) { quad, recent ->
+        Five(quad.first, quad.second, quad.third, quad.fourth, recent)
+    }.combine(
+        _gameId.flatMapLatest { id ->
+            if (id != null) localGameRepository.observeGame(id)
+            else flowOf(null)
+        }
+    ) { five, current ->
         ReviewUiState(
-            reviewState = state,
-            selectedPly = ply,
-            gameId = id,
-            coachState = coachState
+            reviewState = five.first,
+            selectedPly = five.second,
+            gameId = five.third,
+            coachState = five.fourth,
+            recentGames = five.fifth,
+            currentGame = current
         )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = ReviewUiState()
     )
+
+    private data class Quadruple<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)
+    private data class Five<A, B, C, D, E>(val first: A, val second: B, val third: C, val fourth: D, val fifth: E)
 
     /** Convenience accessor to the reviewed move list (empty while idle/analysing). */
     val reviewedMoves: List<ReviewMoveResult>

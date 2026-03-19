@@ -31,7 +31,10 @@ data class PlayUiState(
     val blackCaptures: List<ChessPiece> = emptyList(),
     val whiteMaterialAdvantage: Int = 0,
     val blackMaterialAdvantage: Int = 0,
-    val historyIndex: Int = -1 // -1 means live position
+    val historyIndex: Int = -1, // -1 means live position
+    val isVsCpu: Boolean = false,
+    val cpuColor: PieceColor = PieceColor.BLACK,
+    val skillLevel: Int = 5
 )
 
 @HiltViewModel
@@ -39,6 +42,7 @@ class PlayViewModel @Inject constructor(
     private val parseFenUseCase: ParseFenUseCase,
     private val getLegalMovesUseCase: GetLegalMovesUseCase,
     private val applyMoveUseCase: ApplyMoveUseCase,
+    private val getBotMoveUseCase: com.chessigma.app.domain.usecase.GetBotMoveUseCase,
     private val aiRepository: AiRepository,
     private val stockfishEngine: StockfishEngine,
     private val localGameRepository: LocalGameRepository
@@ -56,6 +60,9 @@ class PlayViewModel @Inject constructor(
     private val statusMessage = MutableStateFlow<String?>(null)
     private val evaluation = MutableStateFlow(0.0f)
     private val historyIndex = MutableStateFlow(-1)
+    private val isVsCpu = MutableStateFlow(false)
+    private val cpuColor = MutableStateFlow(PieceColor.BLACK)
+    private val skillLevel = MutableStateFlow(5)
 
     val uiState: StateFlow<PlayUiState> = combine(
         gameState,
@@ -66,7 +73,10 @@ class PlayViewModel @Inject constructor(
         aiRepository.cascadeState,
         statusMessage,
         evaluation,
-        historyIndex
+        historyIndex,
+        isVsCpu,
+        cpuColor,
+        skillLevel
     ) { args: Array<Any?> ->
         val currentGameState = args[0] as GameState
         val (whiteCaptures, blackCaptures, whiteAdv, blackAdv) = calculateMaterial(currentGameState.board.pieces.values)
@@ -85,7 +95,10 @@ class PlayViewModel @Inject constructor(
             whiteMaterialAdvantage = whiteAdv,
             blackMaterialAdvantage = blackAdv,
             evaluation = args[7] as Float,
-            historyIndex = args[8] as Int
+            historyIndex = args[8] as Int,
+            isVsCpu = args[9] as Boolean,
+            cpuColor = args[10] as PieceColor,
+            skillLevel = args[11] as Int
         )
     }.stateIn(
         scope = viewModelScope,
@@ -284,6 +297,48 @@ class PlayViewModel @Inject constructor(
         viewModelScope.launch {
             aiRepository.generateCoachInsight()
         }
+
+        if (nextState.status == GameStatus.ONGOING && 
+            isVsCpu.value && 
+            nextState.board.sideToMove == cpuColor.value) {
+            triggerBotMove()
+        }
+    }
+
+    private fun triggerBotMove() {
+        viewModelScope.launch {
+            kotlinx.coroutines.delay(800L) // Add thinking delay
+            val move = getBotMoveUseCase(
+                fen = gameState.value.board.fen,
+                level = skillLevel.value
+            )
+            if (move != null) {
+                onMove(move)
+            }
+        }
+    }
+
+    fun startVsCpuGame(cpuCol: PieceColor, level: Int) {
+        // Reset game state
+        isVsCpu.value = true
+        cpuColor.value = cpuCol
+        skillLevel.value = level
+        gameState.value = initialGameState
+        selectedSquare.value = null
+        legalMoves.value = emptyList()
+        historyIndex.value = -1
+        
+        if (initialGameState.board.sideToMove == cpuCol) {
+            triggerBotMove()
+        }
+    }
+
+    fun startLocalGame() {
+        isVsCpu.value = false
+        gameState.value = initialGameState
+        selectedSquare.value = null
+        legalMoves.value = emptyList()
+        historyIndex.value = -1
     }
 
     fun undo() {

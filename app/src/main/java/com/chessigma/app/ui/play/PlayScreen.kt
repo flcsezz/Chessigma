@@ -43,6 +43,8 @@ fun PlayRoute(
         onPromotionCancelled = viewModel::onPromotionCancelled,
         onMoveHistoryClicked = viewModel::onMoveHistoryClicked,
         onReviewGame = onReviewGame,
+        onStartVsCpuGame = viewModel::startVsCpuGame,
+        onStartLocalGame = viewModel::startLocalGame,
         modifier = modifier
     )
 }
@@ -57,6 +59,8 @@ fun PlayScreen(
     onPromotionCancelled: () -> Unit,
     onMoveHistoryClicked: (Int) -> Unit,
     onReviewGame: (String) -> Unit,
+    onStartVsCpuGame: (PieceColor, Int) -> Unit,
+    onStartLocalGame: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val boardState = rememberChessboardState()
@@ -70,6 +74,38 @@ fun PlayScreen(
             color = uiState.gameState.board.sideToMove,
             onPieceSelected = onPromotionSelected,
             onDismiss = onPromotionCancelled
+        )
+    }
+
+    var showNewGameDialog by remember { mutableStateOf(false) }
+
+    if (showNewGameDialog) {
+        AlertDialog(
+            onDismissRequest = { showNewGameDialog = false },
+            title = { Text("New Game") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(
+                        onClick = {
+                            onStartLocalGame()
+                            showNewGameDialog = false
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Local Play (PVP)")
+                    }
+                    Button(
+                        onClick = {
+                            onStartVsCpuGame(PieceColor.BLACK, 5) // Simple default for now
+                            showNewGameDialog = false
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Vs CPU (Level 5)")
+                    }
+                }
+            },
+            confirmButton = {}
         )
     }
 
@@ -96,19 +132,25 @@ fun PlayScreen(
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 
-                TextButton(onClick = onUndo, enabled = uiState.gameState.fenHistory.isNotEmpty()) {
-                    Text("Undo")
+                Row {
+                    TextButton(onClick = { showNewGameDialog = true }) {
+                        Text("New Game")
+                    }
+                    TextButton(onClick = onUndo, enabled = uiState.gameState.fenHistory.isNotEmpty()) {
+                        Text("Undo")
+                    }
                 }
             }
 
             // Player 2 (Black)
+            val opponentName = if (uiState.isVsCpu) "Stockfish Level ${uiState.skillLevel}" else "Opponent"
             PlayerCard(
-                name = "Stockfish Level 1",
+                name = opponentName,
                 color = PieceColor.BLACK,
                 capturedPieces = uiState.blackCaptures,
                 isActive = uiState.gameState.board.sideToMove == PieceColor.BLACK,
                 materialAdvantage = uiState.blackMaterialAdvantage,
-                avatar = "S1"
+                avatar = if (uiState.isVsCpu) "AI" else "P2"
             )
 
             // Board and Eval Bar

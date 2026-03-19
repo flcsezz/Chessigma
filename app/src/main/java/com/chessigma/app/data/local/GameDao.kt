@@ -11,6 +11,9 @@ interface GameDao {
     @Query("SELECT * FROM games WHERE id = :id")
     suspend fun getGameById(id: String): GameEntity?
 
+    @Query("SELECT * FROM games WHERE id = :id")
+    fun getGameByIdFlow(id: String): Flow<GameEntity?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGame(game: GameEntity)
 
