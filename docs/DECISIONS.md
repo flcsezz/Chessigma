@@ -23,3 +23,9 @@
 - **Context**: SDKMAN installation failed due to missing `zip` package (no sudo access).
 - **Decision**: Download Java 17 directly from Adoptium (Temurin) and set up manually.
 - **Consequence**: Bypasses SDKMAN dependency. Java 17 is installed at `~/java-installs/jdk-17.0.10+7` with `.java-version` file for project configuration.
+
+## ADR 5: Chesslib Dependency Fix
+- **Status**: Accepted
+- **Context**: Build failed with `com.github.bhlangon:chesslib:1.3.3` not found in Maven repositories.
+- **Decision**: Add JitPack repository and correct dependency group to `com.github.bhlangonijr:chesslib`.
+- **Consequence**: Chesslib resolves correctly from JitPack. Code updated to use `getPieceSide()` instead of private `side` field.

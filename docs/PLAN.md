@@ -8,7 +8,7 @@
 - [x] Java 17 Environment Setup (OpenCode - 2026-03-19)
 - [ ] Stockfish Engine Wrapper (Missing Native Binaries)
 - [ ] AI Cascade Setup (Currently Stubbed)
-- [ ] Android SDK Installation (Pending)
+- [x] Android SDK Installation (OpenCode - 2026-03-19)
 
 ## Phase 2: Core Chess Logic & UI
 - [x] PGN/FEN Parsing Implementation

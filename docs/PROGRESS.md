@@ -21,10 +21,21 @@
   - Installed Java 17 (OpenJDK 17.0.10 Temurin) via manual download (Adoptium).
   - Created `.java-version` file for project-specific Java configuration.
   - Verified Java 17 installation and compiler are working correctly.
-  - Attempted Gradle build but failed due to missing Android SDK.
+- **2026-03-19**: First Successful Build (OpenCode)
+  - Configured Android SDK path in `local.properties`.
+  - Added JitPack repository for chesslib dependency.
+  - Fixed chesslib dependency group (`bhlangon` → `bhlangonijr`).
+  - Fixed chesslib API usage (`piece.side` → `piece.pieceSide`).
+  - Created missing Android resources (strings, themes, icons, XML configs).
+  - Added Google Fonts dependency.
+  - Fixed malformed `AndroidManifest.xml`.
+  - Build completed successfully with `./gradlew build`.
+- **2026-03-19**: GitHub Actions CI & Issue Templates (Antigravity)
+  - Configured GitHub Actions CI workflow (`.github/workflows/ci.yml`) for automated linting, testing, and debugging.
+  - Created GitHub Issue templates for bug reports and feature requests.
+  - Initialized git repository and performed initial commit on `main` branch.
 
 ### Blockers / Hurdles
-- **Android SDK Missing**: Build fails because Android SDK is not installed. Need to install Android Studio via `yay -S android-studio`.
 - **Stockfish Binaries**: Still missing native `libstockfish.so`.
 
 ### Next Immediate Goals

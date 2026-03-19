@@ -118,6 +118,9 @@ dependencies {
     // Chess Logic
     implementation(libs.chesslib)
 
+    // Google Fonts
+    implementation(libs.google.fonts)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
