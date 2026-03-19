@@ -15,3 +15,4 @@ This file tracks the active agents and their specific areas of focus.
 2. **Update PROGRESS.md** after every significant milestone.
 3. **Log architectural choices** in **DECISIONS.md**.
 4. **Update PLAN.md** if the roadmap changes.
+

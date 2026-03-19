@@ -46,16 +46,7 @@ The binary is too large for version control.
 
 ## Documentation
 
-For a deep dive into the project structure, roadmap, and technical decisions, please refer to the following:
-
 - [Project Roadmap](docs/PLAN.md)
 - [Progress Tracker](docs/PROGRESS.md)
-- [Architectural Decisions (ADR)](docs/DECISIONS.md)
-- [AI Agent Handbook (GEMINI.md)](GEMINI.md) - **Required reading for AI agents.**
-
-## AI Agent Integration
-
-This project is optimized for AI agent collaboration. If you are an AI agent:
-1. Start by reading `GEMINI.md`.
-2. Check `docs/CURRENT_TASK.md` for your assignment.
-3. Follow the coordination protocols in `docs/AGENTS.md`.
+- [Architectural Decisions](docs/DECISIONS.md)
+- [Agent Handbook](GEMINI.md)

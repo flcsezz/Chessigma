@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.chessigma.app.ui.play.PlayRoute
+import com.chessigma.app.ui.theme.ChessigmaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -12,7 +14,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContent {
-            // Theme and navigation will be set up later
+            ChessigmaTheme {
+                PlayRoute()
+            }
         }
     }
 }

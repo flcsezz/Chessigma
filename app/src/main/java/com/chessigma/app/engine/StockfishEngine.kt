@@ -4,8 +4,10 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.BufferedReader
 import java.io.BufferedWriter
+import java.io.File
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import javax.inject.Inject
@@ -19,17 +21,36 @@ class StockfishEngine @Inject constructor(
     private var writer: BufferedWriter? = null
     private var reader: BufferedReader? = null
 
-    suspend fun initialise() = withContext(Dispatchers.IO) {
+    var isReady = false
+        private set
+
+    suspend fun initialise(): Boolean = withContext(Dispatchers.IO) {
         val binaryPath = "${context.applicationInfo.nativeLibraryDir}/libstockfish.so"
-        process = Runtime.getRuntime().exec(binaryPath)
-        writer = BufferedWriter(OutputStreamWriter(process?.outputStream))
-        reader = BufferedReader(InputStreamReader(process?.inputStream))
-        
-        sendCommand("uci")
-        var line: String?
-        while (reader?.readLine().also { line = it } != null) {
-            if (line == "uciok") break
+        val binaryFile = File(binaryPath)
+
+        if (!binaryFile.exists()) {
+            Timber.e("Stockfish binary not found at $binaryPath")
+            return@withContext false
         }
+
+        try {
+            process = Runtime.getRuntime().exec(binaryPath)
+            writer = BufferedWriter(OutputStreamWriter(process?.outputStream))
+            reader = BufferedReader(InputStreamReader(process?.inputStream))
+
+            sendCommand("uci")
+            var line: String?
+            while (reader?.readLine().also { line = it } != null) {
+                if (line == "uciok") {
+                    isReady = true
+                    Timber.i("StockfishEngine: Initialized successfully")
+                    return@withContext true
+                }
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to initialize Stockfish engine")
+        }
+        false
     }
 
     suspend fun setOption(name: String, value: String) = withContext(Dispatchers.IO) {

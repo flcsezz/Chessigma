@@ -36,3 +36,9 @@
 - **Decision**: Implement a `@Stable` `ChessboardState` class to encapsulate board data, orientation, and selection state. Use Jetpack Compose `pointerInput` with `detectDragGestures` for interaction.
 - **Consequence**: Centralized state makes it easy to control the board from ViewModels and supports complex animations/interactions without polluting the main Composable function.
 
+
+## ADR 7: Force Java 17 in gradle.properties
+- **Status**: Accepted
+- **Context**: Host machine has Java 25, which causes Gradle/KSP compilation errors even with toolchain settings.
+- **Decision**: Explicitly set `org.gradle.java.home` in `gradle.properties` to the local Java 17 path (`/home/flcsezz/java-installs/jdk-17.0.10+7`).
+- **Consequence**: Ensures all agents and local builds use the correct JVM version regardless of host environment.

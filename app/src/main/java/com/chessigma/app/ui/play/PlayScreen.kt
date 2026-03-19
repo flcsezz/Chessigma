@@ -1,0 +1,239 @@
+package com.chessigma.app.ui.play
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.chessigma.app.domain.model.AiCascadeState
+import com.chessigma.app.domain.model.ChessMove
+import com.chessigma.app.domain.model.GameStatus
+import com.chessigma.app.domain.model.PieceType
+import com.chessigma.app.ui.components.Chessboard
+import com.chessigma.app.ui.components.rememberChessboardState
+import com.chessigma.app.ui.play.components.PromotionDialog
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.ui.Alignment
+import com.chessigma.app.domain.model.PieceColor
+import com.chessigma.app.ui.play.components.EvalBar
+import com.chessigma.app.ui.play.components.MoveList
+import com.chessigma.app.ui.play.components.PlayerCard
+
+@Composable
+fun PlayRoute(
+    viewModel: PlayViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    PlayScreen(
+        uiState = uiState,
+        onMove = viewModel::onMove,
+        onSquareClick = viewModel::onSquareSelected,
+        onUndo = viewModel::undo,
+        onPromotionSelected = viewModel::onPromotionSelected,
+        onPromotionCancelled = viewModel::onPromotionCancelled
+    )
+}
+
+@Composable
+fun PlayScreen(
+    uiState: PlayUiState,
+    onMove: (ChessMove) -> Unit,
+    onSquareClick: (String) -> Unit,
+    onUndo: () -> Unit,
+    onPromotionSelected: (PieceType) -> Unit,
+    onPromotionCancelled: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val boardState = rememberChessboardState()
+    boardState.board = uiState.gameState.board
+    boardState.legalMoves = uiState.legalMoves
+    boardState.lastMove = uiState.gameState.moveHistory.lastOrNull()
+    boardState.selectedSquare = uiState.selectedSquare
+
+    if (uiState.isPromotionRequired) {
+        PromotionDialog(
+            color = uiState.gameState.board.sideToMove,
+            onPieceSelected = onPromotionSelected,
+            onDismiss = onPromotionCancelled
+        )
+    }
+
+    Surface(
+        modifier = modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            // Header
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Play",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                
+                TextButton(onClick = onUndo, enabled = uiState.gameState.fenHistory.isNotEmpty()) {
+                    Text("Undo")
+                }
+            }
+
+            // Player 2 (Black)
+            PlayerCard(
+                name = "Stockfish Level 1",
+                color = PieceColor.BLACK,
+                capturedPieces = uiState.blackCaptures,
+                isActive = uiState.gameState.board.sideToMove == PieceColor.BLACK,
+                avatar = "S1"
+            )
+
+            // Board and Eval Bar
+            Row(
+                modifier = Modifier.fillMaxWidth().weight(1f, fill = false),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                EvalBar(
+                    eval = uiState.evaluation,
+                    modifier = Modifier.height(IntrinsicSize.Min)
+                )
+                
+                Chessboard(
+                    state = boardState,
+                    onMove = onMove,
+                    onSquareClick = onSquareClick,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            // Player 1 (White)
+            PlayerCard(
+                name = "Guest Player",
+                color = PieceColor.WHITE,
+                capturedPieces = uiState.whiteCaptures,
+                isActive = uiState.gameState.board.sideToMove == PieceColor.WHITE,
+                avatar = "G"
+            )
+
+            // Move List
+            MoveList(
+                moves = uiState.gameState.moveHistory,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+
+            // Status and Coach
+            AnimatedVisibility(
+                visible = uiState.gameState.status != GameStatus.ONGOING,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
+                GameStatusBanner(status = uiState.gameState.status)
+            }
+
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+                )
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    uiState.statusMessage?.let { message ->
+                        Text(
+                            text = message,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+
+                    CascadeStatus(state = uiState.cascadeState)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun GameStatusBanner(status: GameStatus) {
+    if (status == GameStatus.ONGOING) return
+    
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = "GAME OVER: $status",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(8.dp),
+            color = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+    }
+}
+
+@Composable
+private fun CascadeStatus(state: AiCascadeState) {
+    when (state) {
+        AiCascadeState.Idle -> {
+            Text("Coach cascade idle.", style = MaterialTheme.typography.bodyMedium)
+        }
+
+        is AiCascadeState.Loading -> {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                CircularProgressIndicator()
+                Text(
+                    text = "Generating coach insight via ${state.provider}...",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
+
+        is AiCascadeState.Success -> {
+            Text(
+                text = "Coach verdict: ${state.insight.summaryText}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+
+        is AiCascadeState.RateLimited -> {
+            Text(
+                text = "${state.provider} rate limited. Falling through provider cascade.",
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+
+        AiCascadeState.AllProvidersFailed -> {
+            Text(
+                text = "Coach insight unavailable. All providers failed.",
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+
+        AiCascadeState.Offline -> {
+            Text(
+                text = "Coach insight unavailable while offline.",
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
+}

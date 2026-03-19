@@ -1,26 +1,28 @@
 # Contributing to Chessigma
 
-Thank you for your interest in contributing!
-
 ## Conventions
+- **Branch Naming**: `feature/name`, `fix/description`, `chore/task`
+- **Commit Messages**: [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) - `feat:`, `fix:`, `chore:`
 
-- **Branch Naming**: 
-  - `feature/your-feature-name` for new features
-  - `fix/issue-description` for bug fixes
-  - `chore/task-description` for chores and refactoring
+## Documentation Updates (Mandatory)
 
-- **Commit Messages**: We follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
-  - `feat: added new puzzle mode`
-  - `fix: crash on engine load`
-  - `chore: update dependencies`
+After completing any task, update all relevant files:
 
-## Documentation Maintenance (Mandatory for AI Agents)
+| File | When | What |
+| :--- | :--- | :--- |
+| `docs/PROGRESS.md` | Every milestone | `- **YYYY-MM-DD**: Task (Agent) - Description` |
+| `docs/CURRENT_TASK.md` | Task changes | Mark `[x]` objectives, update next steps |
+| `docs/PLAN.md` | Phase complete | Check `[x]` items, add new sub-tasks |
+| `docs/DECISIONS.md` | Architecture choice | New `## ADR N:` section |
+| `README.md` | User-facing change | Update features/setup |
+| `GEMINI.md` | Structure change | Update file tree/notes |
 
-To ensure seamless collaboration between human developers and multiple AI agents across different sessions, the following files **must** be kept up to date:
-
-1.  **`docs/PROGRESS.md`**: Update after completing any significant milestone or resolving a blocker.
-2.  **`docs/CURRENT_TASK.md`**: Update when starting a new task or handing off work to another session.
-3.  **`docs/DECISIONS.md`**: Document any significant architectural or technical choices (ADRs).
-4.  **`GEMINI.md`**: If core foundational mandates change, update the root handbook.
+### Checklist
+- [ ] `PROGRESS.md` updated
+- [ ] `CURRENT_TASK.md` reflects new state
+- [ ] `PLAN.md` checkboxes updated
+- [ ] `DECISIONS.md` has new ADR if applicable
+- [ ] `README.md` updated if user-facing
+- [ ] `GEMINI.md` updated if structure changed
 
 ## Development Workflow

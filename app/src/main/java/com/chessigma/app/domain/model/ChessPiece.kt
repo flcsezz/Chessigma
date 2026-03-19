@@ -21,4 +21,24 @@ data class ChessPiece(
             PieceType.QUEEN -> "Q"
             PieceType.KING -> "K"
         }
+
+    val unicodeSymbol: String
+        get() = when (color) {
+            PieceColor.WHITE -> when (type) {
+                PieceType.PAWN -> "♙"
+                PieceType.KNIGHT -> "♘"
+                PieceType.BISHOP -> "♗"
+                PieceType.ROOK -> "♖"
+                PieceType.QUEEN -> "♕"
+                PieceType.KING -> "♔"
+            }
+            PieceColor.BLACK -> when (type) {
+                PieceType.PAWN -> "♟"
+                PieceType.KNIGHT -> "♞"
+                PieceType.BISHOP -> "♝"
+                PieceType.ROOK -> "♜"
+                PieceType.QUEEN -> "♛"
+                PieceType.KING -> "♚"
+            }
+        }
 }
