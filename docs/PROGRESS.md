@@ -34,10 +34,19 @@
   - Configured GitHub Actions CI workflow (`.github/workflows/ci.yml`) for automated linting, testing, and debugging.
   - Created GitHub Issue templates for bug reports and feature requests.
   - Initialized git repository and performed initial commit on `main` branch.
+- **2026-03-19**: Chessboard UI Component Implementation (Gemini CLI)
+  - Implemented `Chessboard` Jetpack Compose component with premium dark-first styling.
+  - Added support for board flipping (white/black orientation).
+  - Implemented smooth drag-and-drop interaction for chess pieces.
+  - Added `ChessboardState` for efficient state management.
+  - Integrated legal move highlighting and last move indication.
+  - Created `GetLegalMovesUseCase` to facilitate UI interaction.
 
 ### Blockers / Hurdles
 - **Stockfish Binaries**: Still missing native `libstockfish.so`.
+- **Piece Assets**: Currently using Unicode characters; need high-quality vector assets for premium feel.
 
 ### Next Immediate Goals
-- Create Chessboard UI Component.
-- Verify core logic once Java environment is resolved.
+- Integrate Chessboard into a Play Screen.
+- Implement Pawn Promotion Dialog.
+- Setup Stockfish binaries for local analysis.

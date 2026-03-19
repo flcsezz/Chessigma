@@ -1,21 +1,20 @@
 # Current Active Task
 
-**Current Agent**: OpenCode (CLI Assistant)
-**Task**: Build Environment Setup & Verification
+**Current Agent**: Gemini CLI
+**Task**: Chessboard UI Component Implementation
 
 ## Objectives
-- [x] Install Java 17 (OpenJDK 17.0.10 Temurin).
-- [x] Configure project to use Java 17 (.java-version file).
-- [x] Verify Java 17 installation and compiler.
-- [x] Set up GitHub Actions CI.
-- [x] Set up GitHub Issue Templates.
-- [x] Install Android SDK (via `yay -S android-studio`).
-- [x] Create `local.properties` with SDK path.
-- [x] Run successful Gradle build.
-- [ ] Push project to remote repository.
+- [x] Implement a custom Chessboard Jetpack Compose component.
+- [x] Support board representation from `ChessBoard` domain model.
+- [x] Implement smooth drag-and-drop for chess pieces.
+- [x] Support board orientation (flipping for black/white).
+- [x] Integrate with `ValidateMoveUseCase` for legal move highlighting and execution.
 
 ## Context
-The build environment is fully set up and verified. Java 17 and Android SDK are configured. The Gradle build completes successfully with all resources and dependencies resolved.
+Phase 1 foundation is complete. Phase 2 core chess logic (parsing and validation) is implemented. Now starting the UI implementation for the board.
 
-## Next Step
-1. Provide remote repository URL to push the project.
+## Next Steps
+1. Integrate `Chessboard` component into `PlayScreen`.
+2. Implement Pawn Promotion Dialog UI.
+3. Integrate AI coaching cascade into the move execution flow.
+4. Setup Stockfish native binaries for local analysis.

@@ -8,6 +8,8 @@ data class ChessBoard(
     val isDraw: Boolean,
     val fen: String
 ) {
+    fun getPiece(squareName: String): ChessPiece? = pieces[squareName.lowercase()]
+
     companion object {
         fun empty() = ChessBoard(
             pieces = emptyMap(),
