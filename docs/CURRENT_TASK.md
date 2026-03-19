@@ -1,9 +1,14 @@
 # Current Active Task
 
-**Current Agent**: Codex
-**Task**: Phase 3 Accuracy + Practice Extraction (Completed)
+**Current Agent**: Antigravity
+**Task**: Phase 1 AI Cascade Implementation (Complete)
 
 ## Completed in This Session
+- [x] Implement AI Cascade (Gemini -> Groq -> NVIDIA NIM -> Deterministic)
+- [x] Create LLM Request/Response DTOs
+- [x] Update API service interfaces
+- [x] Add AI provider rotation and prompt generation in `AiRepository`
+- [x] Verify cascade logic with `AiRepositoryTest` (manual mocks)
 - [x] Create `CalculateGameAccuracyUseCase` - Lichess-style accuracy formula
 - [x] Update `GameDao` and `LocalGameRepository` to persist accuracy
 - [x] Update `PersonalPuzzleDao` with solve tracking methods (markSolved, incrementAttempts)

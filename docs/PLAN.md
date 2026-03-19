@@ -3,7 +3,7 @@
 ## Recommended Timeline
 - **Phase 1**: Foundation and environment stabilization. Complete before major feature work.
 - **Phase 2**: Core board/game state and local play scaffolding. Complete before serious review UX work.
-- **Phase 3**: Review-first coaching system. This is the correct phase for Chess.com-style game review, Stockfish analysis, eval bar, move classifications, and AI explanations.
+- **Phase 3**: Review-first coaching system. This is the correct phase for Chess.com-style game review, Stockfish analysis, eval bar, move classifications, and AI explanations. ✅ COMPLETE
 - **Phase 4**: Bot play and puzzle experiences after the review pipeline is stable enough to reuse engine/review components.
 - **Phase 5**: Polish, social features, settings, and product refinement.
 
@@ -14,7 +14,7 @@
 - [x] Core Domain Models
 - [x] Java 17 Environment Setup (OpenCode - 2026-03-19)
 - [x] Stockfish Engine Wrapper (Native Binaries Integrated) <!-- id: 1.1 -->
-- [ ] AI Cascade Scaffolding (Stub only; do not prioritize until Phase 3 review pipeline is working)
+- [x] AI Cascade Scaffolding (Gemini -> Groq -> NVIDIA rotation + fallback) (Antigravity - 2026-03-19) <!-- id: 1.1 -->
 - [x] Android SDK Installation (OpenCode - 2026-03-19)
 
 ## Phase 2: Core Chess Logic & UI

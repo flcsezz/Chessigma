@@ -24,9 +24,8 @@
 | 2026-03-19 | Codex | Review Coaching Summary | Deterministic `GenerateReviewCoachInsightUseCase`; review-derived coach summary persisted through `AiRepository`; Review tab now shows summary, weaknesses/strengths, and practice-next suggestions; `GenerateReviewCoachInsightUseCaseTest` ✅; `assembleDebug` ✅ |
 | 2026-03-19 | Codex | Explicit Review Action | Completed-game `Review Game` button in play flow now switches to Review and starts Stockfish analysis for that specific saved game; `assembleDebug` ✅ |
 | 2026-03-19 | Antigravity | Bug Fixes | Fixed immediate crashes (Stockfish timeout/mutex, Room destructive migration, Networking GsonConverter, ViewModel init try/catch) and short-term correctness issues (promotion check ordering, eval race conditions, UI remember keys, flipped board piece deselection). |
-| 2026-03-19 | Codex | Phase 3 Accuracy Formula | Created `CalculateGameAccuracyUseCase` with Lichess-style accuracy calculation; updated `GameDao` and `LocalGameRepository` to persist per-game accuracy; accuracy automatically computed after each review. |
-| 2026-03-19 | Codex | Personal Puzzle Generation | `PuzzleGenerator` now extracts puzzles from MISTAKE and BLUNDER positions after review; `PersonalPuzzleEntity` stores FEN, correct move, original classification; puzzles auto-generated on review completion. |
-| 2026-03-19 | Codex | Puzzle Solving UI | Added Puzzles tab to navigation; created `PuzzlePlayViewModel` with move validation; `PuzzleScreen` now features interactive board, move solving, progress tracking; BUILD SUCCESSFUL. |
+| 2026-03-19 | Codex/Antigravity | Phase 3 Accuracy & Puzzles | Accuracy formula; Puzzle extraction; Puzzle solving UI; BUILD SUCCESSFUL; Pushed to main ✅ |
+| 2026-03-19 | Antigravity | AI Cascade Implementation | Implemented provider rotation (Gemini -> Groq -> NVIDIA NIM) with deterministic fallback; updated API DTOs; added unit tests with manual mocks; BUILD SUCCESSFUL ✅ |
 
 ## Blockers / Hurdles
 - **Java 25 Incompatibility**: Build failed due to host system's Java 25. **Fix**: Prepend `JAVA_HOME=/home/flcsezz/.gradle/jdks/eclipse_adoptium-17-amd64-linux.2` to all Gradle commands.

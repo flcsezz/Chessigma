@@ -5,6 +5,7 @@ import com.chessigma.app.data.local.CoachInsightEntity
 import com.chessigma.app.data.remote.api.GeminiApiService
 import com.chessigma.app.data.remote.api.GroqApiService
 import com.chessigma.app.data.remote.api.NvidiaApiService
+import com.chessigma.app.data.remote.dto.*
 import com.chessigma.app.domain.model.AiCascadeState
 import com.chessigma.app.domain.model.CoachInsight
 import com.chessigma.app.domain.model.MoveClassification
@@ -33,6 +34,11 @@ class AiRepository @Inject constructor(
 ) {
     private val _cascadeState = MutableStateFlow<AiCascadeState>(AiCascadeState.Idle)
     val cascadeState: StateFlow<AiCascadeState> = _cascadeState
+
+    // Placeholder keys — in a real app, these would be in BuildConfig or DataStore
+    private val GEMINI_KEY = "GEMINI_API_KEY_PLACEHOLDER"
+    private val GROQ_KEY = "GROQ_API_KEY_PLACEHOLDER"
+    private val NVIDIA_KEY = "NVIDIA_API_KEY_PLACEHOLDER"
 
     suspend fun generateCoachInsight() {
         val latestReviewedGame = localGameRepository
@@ -82,29 +88,125 @@ class AiRepository @Inject constructor(
         gameId: String,
         moves: List<ReviewMoveResult>
     ) {
-        _cascadeState.value = AiCascadeState.Loading("Review Summary")
-
         val game = localGameRepository.loadGame(gameId)?.first
-        val insight = generateReviewCoachInsightUseCase(game, moves)
-        saveAndEmitSuccess(
-            insight = insight,
-            rawJson = Json.encodeToString(insight)
+        
+        // 1. Generate deterministic fallback/base insight
+        val baseInsight = generateReviewCoachInsightUseCase(game, moves)
+
+        if (!networkMonitor.isConnected()) {
+            _cascadeState.value = AiCascadeState.Offline
+            saveAndEmitSuccess(baseInsight, Json.encodeToString(baseInsight))
+            return
+        }
+
+        val prompt = buildPrompt(game, moves, baseInsight)
+
+        // 2. Start Cascade
+        _cascadeState.value = AiCascadeState.Loading("Gemini 1.5")
+        if (tryCallGemini(prompt)) return
+
+        _cascadeState.value = AiCascadeState.Loading("Groq (Mixtral)")
+        if (tryCallGroq(prompt)) return
+
+        _cascadeState.value = AiCascadeState.Loading("NVIDIA NIM (Llama-3)")
+        if (tryCallNvidia(prompt)) return
+
+        // 3. All failed — emitter base insight
+        _cascadeState.value = AiCascadeState.AllProvidersFailed
+        saveAndEmitSuccess(baseInsight, Json.encodeToString(baseInsight))
+    }
+
+    private fun buildPrompt(
+        game: com.chessigma.app.data.local.GameEntity?,
+        moves: List<ReviewMoveResult>,
+        base: CoachInsight
+    ): String {
+        return """
+            You are a master chess coach. Analyse this game for the ${game?.userColor ?: "player"}.
+            Game Result: ${game?.result ?: "Unknown"}
+            Base Summary: ${base.summaryText}
+            Strengths Identified: ${base.strengths.joinToString()}
+            Weaknesses Identified: ${base.weaknesses.joinToString()}
+            
+            Key Moves Data:
+            ${moves.filter { it.classification != MoveClassification.Good && it.classification != MoveClassification.Best }
+                .take(10)
+                .joinToString("\n") { 
+                    "Ply ${it.ply}: ${it.san} was ${it.classification}. Eval dropped from ${it.evalCpBefore} to ${it.evalCpAfter}." 
+                }
+            }
+            
+            Return a JSON object matching this schema:
+            {
+              "weaknesses": ["string"],
+              "strengths": ["string"],
+              "youtube_suggestions": [{"title": "string", "channel": "string", "search_query": "string"}],
+              "one_line_verdict": "string"
+            }
+            The "one_line_verdict" should be a professional, encouraging, and highly specific summary of the game.
+        """.trimIndent()
+    }
+
+    private suspend fun tryCallGemini(prompt: String): Boolean {
+        return try {
+            val request = GeminiRequest(
+                contents = listOf(GeminiContent(parts = listOf(GeminiPart(prompt))))
+            )
+            val response = geminiApi.generateContent(GEMINI_KEY, request)
+            val jsonText = response.candidates.firstOrNull()?.content?.parts?.firstOrNull()?.text ?: return false
+            parseAndSaveAiResponse(jsonText)
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    private suspend fun tryCallGroq(prompt: String): Boolean {
+        return try {
+            val request = ChatCompletionRequest(
+                model = "mixtral-8x7b-32768",
+                messages = listOf(ChatMessage("user", prompt))
+            )
+            val response = groqApi.createChatCompletion("Bearer $GROQ_KEY", request)
+            val jsonText = response.choices.firstOrNull()?.message?.content ?: return false
+            parseAndSaveAiResponse(jsonText)
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    private suspend fun tryCallNvidia(prompt: String): Boolean {
+        return try {
+            val request = ChatCompletionRequest(
+                model = "meta/llama3-70b-instruct",
+                messages = listOf(ChatMessage("user", prompt))
+            )
+            val response = nvidiaApi.createChatCompletion("Bearer $NVIDIA_KEY", request)
+            val jsonText = response.choices.firstOrNull()?.message?.content ?: return false
+            parseAndSaveAiResponse(jsonText)
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    private suspend fun parseAndSaveAiResponse(jsonText: String) {
+        // Clean JSON formatting if AI wrapped it in markdown
+        val cleaned = jsonText.trim().removePrefix("```json").removeSuffix("```").trim()
+        val dto = Json.decodeFromString<com.chessigma.app.data.remote.dto.CoachInsightDto>(cleaned)
+        
+        val insight = CoachInsight(
+            id = 0,
+            weaknesses = dto.weaknesses,
+            strengths = dto.strengths,
+            youtubeLinks = dto.youtube_suggestions.map { YoutubeSuggestion(it.title, it.channel, it.search_query) },
+            summaryText = dto.one_line_verdict
         )
-    }
-
-    @Suppress("unused")
-    private suspend fun tryCallGemini(payload: String, prompt: String): Boolean {
-        return false
-    }
-
-    @Suppress("unused")
-    private suspend fun tryCallGroq(payload: String, prompt: String): Boolean {
-        return false
-    }
-
-    @Suppress("unused")
-    private suspend fun tryCallNvidia(payload: String, prompt: String): Boolean {
-        return false
+        saveAndEmitSuccess(insight, cleaned)
     }
 
     private suspend fun saveAndEmitSuccess(
