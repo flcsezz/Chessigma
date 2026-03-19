@@ -1,5 +1,6 @@
 package com.chessigma.app.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,6 +9,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.painterResource
+import com.chessigma.app.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -273,22 +276,22 @@ private fun Piece(
     squareSize: Dp,
     modifier: Modifier = Modifier
 ) {
-    val pieceSymbol = when (piece.color) {
+    val drawableRes = when (piece.color) {
         PieceColor.WHITE -> when (piece.type) {
-            PieceType.PAWN -> "♙"
-            PieceType.KNIGHT -> "♘"
-            PieceType.BISHOP -> "♗"
-            PieceType.ROOK -> "♖"
-            PieceType.QUEEN -> "♕"
-            PieceType.KING -> "♔"
+            PieceType.PAWN -> R.drawable.ic_white_pawn
+            PieceType.KNIGHT -> R.drawable.ic_white_knight
+            PieceType.BISHOP -> R.drawable.ic_white_bishop
+            PieceType.ROOK -> R.drawable.ic_white_rook
+            PieceType.QUEEN -> R.drawable.ic_white_queen
+            PieceType.KING -> R.drawable.ic_white_king
         }
         PieceColor.BLACK -> when (piece.type) {
-            PieceType.PAWN -> "♟"
-            PieceType.KNIGHT -> "♞"
-            PieceType.BISHOP -> "♝"
-            PieceType.ROOK -> "♜"
-            PieceType.QUEEN -> "♛"
-            PieceType.KING -> "♚"
+            PieceType.PAWN -> R.drawable.ic_black_pawn
+            PieceType.KNIGHT -> R.drawable.ic_black_knight
+            PieceType.BISHOP -> R.drawable.ic_black_bishop
+            PieceType.ROOK -> R.drawable.ic_black_rook
+            PieceType.QUEEN -> R.drawable.ic_black_queen
+            PieceType.KING -> R.drawable.ic_black_king
         }
     }
 
@@ -296,10 +299,10 @@ private fun Piece(
         modifier = modifier.size(squareSize),
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = pieceSymbol,
-            fontSize = (squareSize.value * 0.8f).sp,
-            color = if (piece.color == PieceColor.WHITE) Color.White else Color.Black
+        Image(
+            painter = painterResource(id = drawableRes),
+            contentDescription = "${piece.color} ${piece.type}",
+            modifier = Modifier.fillMaxSize(0.85f)
         )
     }
 }

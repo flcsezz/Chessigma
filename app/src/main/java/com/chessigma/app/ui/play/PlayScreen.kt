@@ -38,7 +38,8 @@ fun PlayRoute(
         onSquareClick = viewModel::onSquareSelected,
         onUndo = viewModel::undo,
         onPromotionSelected = viewModel::onPromotionSelected,
-        onPromotionCancelled = viewModel::onPromotionCancelled
+        onPromotionCancelled = viewModel::onPromotionCancelled,
+        onMoveHistoryClicked = viewModel::onMoveHistoryClicked
     )
 }
 
@@ -50,6 +51,7 @@ fun PlayScreen(
     onUndo: () -> Unit,
     onPromotionSelected: (PieceType) -> Unit,
     onPromotionCancelled: () -> Unit,
+    onMoveHistoryClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val boardState = rememberChessboardState()
@@ -100,6 +102,7 @@ fun PlayScreen(
                 color = PieceColor.BLACK,
                 capturedPieces = uiState.blackCaptures,
                 isActive = uiState.gameState.board.sideToMove == PieceColor.BLACK,
+                materialAdvantage = uiState.blackMaterialAdvantage,
                 avatar = "S1"
             )
 
@@ -127,12 +130,15 @@ fun PlayScreen(
                 color = PieceColor.WHITE,
                 capturedPieces = uiState.whiteCaptures,
                 isActive = uiState.gameState.board.sideToMove == PieceColor.WHITE,
+                materialAdvantage = uiState.whiteMaterialAdvantage,
                 avatar = "G"
             )
 
             // Move List
             MoveList(
                 moves = uiState.gameState.moveHistory,
+                activeIndex = uiState.historyIndex,
+                onMoveClick = onMoveHistoryClicked,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
 

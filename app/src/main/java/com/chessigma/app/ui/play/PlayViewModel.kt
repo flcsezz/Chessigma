@@ -25,7 +25,10 @@ data class PlayUiState(
     val statusMessage: String? = null,
     val evaluation: Float = 0.0f,
     val whiteCaptures: List<ChessPiece> = emptyList(),
-    val blackCaptures: List<ChessPiece> = emptyList()
+    val blackCaptures: List<ChessPiece> = emptyList(),
+    val whiteMaterialAdvantage: Int = 0,
+    val blackMaterialAdvantage: Int = 0,
+    val historyIndex: Int = -1 // -1 means live position
 )
 
 @HiltViewModel
@@ -45,6 +48,7 @@ class PlayViewModel @Inject constructor(
     private val promotionMove = MutableStateFlow<ChessMove?>(null)
     private val statusMessage = MutableStateFlow<String?>(null)
     private val evaluation = MutableStateFlow(0.0f)
+    private val historyIndex = MutableStateFlow(-1)
 
     val uiState: StateFlow<PlayUiState> = combine(
         gameState,
@@ -54,10 +58,11 @@ class PlayViewModel @Inject constructor(
         promotionMove,
         aiRepository.cascadeState,
         statusMessage,
-        evaluation
+        evaluation,
+        historyIndex
     ) { args: Array<Any?> ->
         val currentGameState = args[0] as GameState
-        val (whiteCaptures, blackCaptures) = calculateCaptures(currentGameState.board.pieces.values)
+        val (whiteCaptures, blackCaptures, whiteAdv, blackAdv) = calculateMaterial(currentGameState.board.pieces.values)
         
         PlayUiState(
             gameState = currentGameState,
@@ -69,7 +74,10 @@ class PlayViewModel @Inject constructor(
             statusMessage = args[6] as String?,
             whiteCaptures = whiteCaptures,
             blackCaptures = blackCaptures,
-            evaluation = args[7] as Float
+            whiteMaterialAdvantage = whiteAdv,
+            blackMaterialAdvantage = blackAdv,
+            evaluation = args[7] as Float,
+            historyIndex = args[8] as Int
         )
     }.stateIn(
         scope = viewModelScope,
@@ -95,7 +103,7 @@ class PlayViewModel @Inject constructor(
         }
     }
 
-    private fun calculateCaptures(pieces: Collection<ChessPiece>): Pair<List<ChessPiece>, List<ChessPiece>> {
+    private fun calculateMaterial(pieces: Collection<ChessPiece>): MaterialData {
         val whiteOnBoard = pieces.filter { it.color == PieceColor.WHITE }.groupBy { it.type }.mapValues { it.value.size }
         val blackOnBoard = pieces.filter { it.color == PieceColor.BLACK }.groupBy { it.type }.mapValues { it.value.size }
 
@@ -122,8 +130,30 @@ class PlayViewModel @Inject constructor(
         addCaptures(PieceColor.WHITE, PieceType.KNIGHT, 2, whiteOnBoard[PieceType.KNIGHT] ?: 0, blackCaptures)
         addCaptures(PieceColor.WHITE, PieceType.PAWN, 8, whiteOnBoard[PieceType.PAWN] ?: 0, blackCaptures)
 
-        return Pair(whiteCaptures, blackCaptures)
+        val whiteValue = pieces.filter { it.color == PieceColor.WHITE }.sumOf { getPieceValue(it.type) }
+        val blackValue = pieces.filter { it.color == PieceColor.BLACK }.sumOf { getPieceValue(it.type) }
+        
+        val whiteAdv = (whiteValue - blackValue).coerceAtLeast(0)
+        val blackAdv = (blackValue - whiteValue).coerceAtLeast(0)
+
+        return MaterialData(whiteCaptures, blackCaptures, whiteAdv, blackAdv)
     }
+
+    private fun getPieceValue(type: PieceType): Int = when (type) {
+        PieceType.PAWN -> 1
+        PieceType.KNIGHT -> 3
+        PieceType.BISHOP -> 3
+        PieceType.ROOK -> 5
+        PieceType.QUEEN -> 9
+        PieceType.KING -> 0
+    }
+
+    data class MaterialData(
+        val whiteCaptures: List<ChessPiece>,
+        val blackCaptures: List<ChessPiece>,
+        val whiteAdvantage: Int,
+        val blackAdvantage: Int
+    )
 
     fun onSquareSelected(square: String) {
         if (gameState.value.status != GameStatus.ONGOING) return
@@ -187,6 +217,7 @@ class PlayViewModel @Inject constructor(
         gameState.value = nextState
         selectedSquare.value = null
         legalMoves.value = emptyList()
+        historyIndex.value = -1 // Return to live
         val lastMove = nextState.moveHistory.lastOrNull()
         statusMessage.value = "Move played: ${lastMove?.san ?: (move.fromSquare + "-" + move.toSquare)}"
         
@@ -219,7 +250,27 @@ class PlayViewModel @Inject constructor(
         
         selectedSquare.value = null
         legalMoves.value = emptyList()
+        historyIndex.value = -1
         statusMessage.value = "Move undone."
+        updateEvaluation()
+    }
+
+    fun onMoveHistoryClicked(index: Int) {
+        if (index == historyIndex.value) return
+        
+        val fens = listOf(STARTING_FEN) + gameState.value.fenHistory
+        if (index < 0 || index >= fens.size) return
+        
+        val targetFen = fens[index]
+        val targetBoard = parseFenUseCase(targetFen)
+        
+        // Update board view without changing game state history
+        // This is a "preview" mode.
+        historyIndex.value = index
+        gameState.value = gameState.value.copy(board = targetBoard)
+        
+        selectedSquare.value = null
+        legalMoves.value = emptyList()
         updateEvaluation()
     }
 }

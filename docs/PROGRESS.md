@@ -67,6 +67,12 @@
   - Added vertical Eval Bar driven by real-time Stockfish 16 evaluation.
   - Improved screen layout with Material 3 components and animated transitions.
   - Verified SAN logic with `UciParserTest`.
+- **2026-03-19**: Premium Visual Polish & Navigation (Antigravity)
+  - Replaced Unicode chess pieces with 12 high-quality Vector Drawables.
+  - Implemented non-linear (sigmoidal) scaling for the `EvalBar` to improve sensitivity.
+  - Added live Material Advantage calculation and display (e.g., +3) in `PlayerCard`.
+  - Implemented Board History Navigation: users can tap past moves to view previous positions.
+  - Fixed `EvalBar` compilation issues and verified build stability.
 
 ### Blockers / Hurdles
 - **Piece Assets**: Currently using Unicode characters; need high-quality vector assets for premium feel.

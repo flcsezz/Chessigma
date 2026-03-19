@@ -22,14 +22,10 @@ fun EvalBar(
     eval: Float, // Positive for White, negative for Black. 0.0 is equal.
     modifier: Modifier = Modifier
 ) {
-    // Clamp eval to [-10, 10] for visualization purposes
     val clampedEval = eval.coerceIn(-10f, 10f)
-    
-    // Convert to percentage (0.0 to 1.0), where 0.5 is equal
-    // clampedEval = -10 -> 0.0
-    // clampedEval = 0 -> 0.5
-    // clampedEval = 10 -> 1.0
-    val targetFill = (clampedEval + 10f) / 20f
+    // Non-linear scaling: y = 0.5 + 0.5 * (x / (abs(x) + 2.0))
+    // This makes small advantages (e.g. +1.0) more visually significant.
+    val targetFill = 0.5f + 0.5f * (clampedEval / (abs(clampedEval) + 2.0f))
     
     val animatedFill by animateFloatAsState(targetValue = targetFill, label = "evalFill")
 

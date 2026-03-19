@@ -1,6 +1,7 @@
 package com.chessigma.app.ui.play.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -22,7 +23,9 @@ import com.chessigma.app.domain.model.ChessMove
 @Composable
 fun MoveList(
     moves: List<ChessMove>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    activeIndex: Int = -1,
+    onMoveClick: (Int) -> Unit = {}
 ) {
     val listState = rememberLazyListState()
 
@@ -60,11 +63,19 @@ fun MoveList(
                 )
                 
                 // White move
-                MoveItem(text = turnMoves[0].san ?: "${turnMoves[0].fromSquare}-${turnMoves[0].toSquare}")
+                MoveItem(
+                    text = turnMoves[0].san ?: "${turnMoves[0].fromSquare}-${turnMoves[0].toSquare}",
+                    isSelected = index * 2 == activeIndex,
+                    onClick = { onMoveClick(index * 2) }
+                )
                 
                 // Black move (if exists)
                 if (turnMoves.size > 1) {
-                    MoveItem(text = turnMoves[1].san ?: "${turnMoves[1].fromSquare}-${turnMoves[1].toSquare}")
+                    MoveItem(
+                        text = turnMoves[1].san ?: "${turnMoves[1].fromSquare}-${turnMoves[1].toSquare}",
+                        isSelected = index * 2 + 1 == activeIndex,
+                        onClick = { onMoveClick(index * 2 + 1) }
+                    )
                 }
             }
         }
@@ -72,11 +83,16 @@ fun MoveList(
 }
 
 @Composable
-private fun MoveItem(text: String) {
+private fun MoveItem(
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(4.dp))
-            .background(MaterialTheme.colorScheme.surface)
+            .background(if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.2f) else MaterialTheme.colorScheme.surface)
+            .clickable { onClick() }
             .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
         Text(

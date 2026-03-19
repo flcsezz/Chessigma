@@ -22,6 +22,7 @@ fun PlayerCard(
     capturedPieces: List<ChessPiece>,
     modifier: Modifier = Modifier,
     isActive: Boolean = false,
+    materialAdvantage: Int = 0,
     avatar: String? = null
 ) {
     Row(
@@ -48,12 +49,26 @@ fun PlayerCard(
         }
 
         Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = name,
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = if (isActive) FontWeight.Bold else FontWeight.Medium,
-                color = if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = name,
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = if (isActive) FontWeight.Bold else FontWeight.Medium,
+                    color = if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                )
+                
+                if (materialAdvantage > 0) {
+                    Text(
+                        text = "+$materialAdvantage",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.secondary,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
             
             // Captures
             if (capturedPieces.isNotEmpty()) {
