@@ -1,0 +1,23 @@
+# Android Studio / IntelliJ / Gradle artifacts
+*.iml
+.gradle
+/local.properties
+/.idea/
+.externalNativeBuild
+.cxx
+/build
+app/build/
+captures
+*.jks
+
+# AI Agent / CLI artifacts
+*.txt
+*.log
+node_modules/
+.tmp_wrapper/
+
+# Assets (Binaries not in VCS)
+google-services.json
+*.so
+lichess_db_puzzle.csv
+gradle-*.zip
