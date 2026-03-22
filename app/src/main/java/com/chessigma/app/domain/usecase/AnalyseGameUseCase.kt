@@ -32,10 +32,10 @@ class ReviewGameUseCase @Inject constructor(
             return@flow
         }
 
-        if (!stockfish.isReady) {
+        if (!stockfish.isReady.value) {
             Timber.d("ReviewGameUseCase: initialising Stockfish")
             stockfish.initialise()
-            if (!stockfish.isReady) {
+            if (!stockfish.isReady.value) {
                 Timber.e("ReviewGameUseCase: Stockfish failed to initialise")
                 return@flow
             }

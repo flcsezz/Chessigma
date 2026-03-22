@@ -13,7 +13,8 @@ import androidx.room.PrimaryKey
             childColumns = ["gameId"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [androidx.room.Index(value = ["gameId"])]
 )
 data class MoveEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,

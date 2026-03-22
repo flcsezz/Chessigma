@@ -31,13 +31,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.chessigma.app.domain.model.AiCascadeState
-import com.chessigma.app.domain.model.CoachInsight
-import com.chessigma.app.domain.model.MoveClassification
-import com.chessigma.app.domain.model.ReviewMoveResult
+import com.chessigma.app.domain.model.*
 import com.chessigma.app.domain.usecase.ParseFenUseCase
 import com.chessigma.app.ui.components.Chessboard
 import com.chessigma.app.ui.components.rememberChessboardState
+import com.chessigma.app.ui.util.bounceClick
+import com.chessigma.app.ui.util.screenEntryTransition
 import com.chessigma.app.ui.play.components.EvalBar
 import kotlinx.coroutines.launch
 
@@ -53,7 +52,7 @@ fun ReviewRoute(
     LaunchedEffect(requestedGameId, requestNonce) {
         if (requestedGameId != null) {
             viewModel.startReview(requestedGameId)
-        } else {
+        } else if (uiState.gameId == null) {
             viewModel.loadLatestGame()
         }
     }
@@ -67,6 +66,7 @@ fun ReviewRoute(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReviewScreen(
     uiState: ReviewUiState,
@@ -88,137 +88,157 @@ fun ReviewScreen(
     }
 
     val board = remember(boardFen) { parseFen(boardFen) }
-    val boardState = rememberChessboardState()
+    val boardState = rememberChessboardState(
+        boardTheme = uiState.settings.boardTheme,
+        pieceSet = uiState.settings.pieceSet
+    )
     boardState.board = board
+    boardState.boardTheme = uiState.settings.boardTheme
+    boardState.pieceSet = uiState.settings.pieceSet
 
     // Eval at selected ply (for the eval bar)
     val currentEval = remember(uiState.selectedPly, moves) {
         moves.getOrNull(uiState.selectedPly)?.evalCpBefore?.div(100f) ?: 0f
     }
 
-    val scope = rememberCoroutineScope()
+    var visible by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        visible = true
+    }
 
-    Surface(
-        modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(12.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            // ── Header ────────────────────────────────────────────────────────
-            ReviewHeader(
-                reviewState = reviewState,
-                moves = moves,
-                currentGame = uiState.currentGame
-            )
-
-            // ── Board + Eval bar ──────────────────────────────────────────────
-            Row(
+    screenEntryTransition(visible = visible) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text("Game Review", fontWeight = FontWeight.Bold) },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    )
+                )
+            },
+            modifier = modifier
+        ) { innerPadding ->
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f, fill = false),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                EvalBar(
-                    eval = currentEval,
-                    modifier = Modifier.height(IntrinsicSize.Min)
+                // ── Header ────────────────────────────────────────────────────────
+                ReviewHeader(
+                    reviewState = reviewState,
+                    moves = moves,
+                    currentGame = uiState.currentGame
                 )
-                Chessboard(
-                    state = boardState,
-                    onMove = {},
-                    onSquareClick = {},
-                    modifier = Modifier.weight(1f)
-                )
-            }
 
-            // ── Eval Sparkline ────────────────────────────────────────────────
-            if (evalHistory.size >= 2) {
-                EvalSparkline(
-                    evals = evalHistory,
-                    selectedIndex = uiState.selectedPly,
-                    onTap = { onSelectPly(it) },
+                // ── Board + Eval bar ──────────────────────────────────────────────
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp)
-                )
-            }
-
-            // ── Navigation arrows ─────────────────────────────────────────────
-            if (moves.isNotEmpty()) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
+                        .weight(1f, fill = false),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    IconButton(
-                        onClick = { onSelectPly((uiState.selectedPly - 1).coerceAtLeast(0)) },
-                        enabled = uiState.selectedPly > 0
-                    ) {
-                        Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Previous move")
-                    }
-                    Text(
-                        text = "Move ${uiState.selectedPly + 1} / ${moves.size}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(horizontal = 12.dp)
+                    EvalBar(
+                        eval = currentEval,
+                        modifier = Modifier.height(IntrinsicSize.Min)
                     )
-                    IconButton(
-                        onClick = { onSelectPly((uiState.selectedPly + 1).coerceAtMost(moves.size - 1)) },
-                        enabled = uiState.selectedPly < moves.size - 1
-                    ) {
-                        Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "Next move")
-                    }
-                }
-            }
-
-            // ── Annotated Move List ────────────────────────────────────────────
-            ReviewMoveList(
-                moves = moves,
-                selectedPly = uiState.selectedPly,
-                onMoveTap = onSelectPly,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(max = 120.dp)
-            )
-
-            // ── Progress / Idle banner ─────────────────────────────────────────
-            when (reviewState) {
-                is ReviewState.Analysing -> {
-                    val progress = if (reviewState.totalPlies > 0)
-                        reviewState.completedPlies.toFloat() / reviewState.totalPlies.toFloat()
-                    else 0f
-                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Text(
-                            "Analysing… ${reviewState.completedPlies}/${reviewState.totalPlies} moves",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        LinearProgressIndicator(
-                            progress = { progress },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                }
-                is ReviewState.Error -> {
-                    Text(
-                        "Error: ${reviewState.message}",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-                is ReviewState.Idle -> {
-                    GameHistoryList(
-                        games = uiState.recentGames,
-                        onGameClick = onStartReview,
+                    Chessboard(
+                        state = boardState,
+                        onMove = {},
+                        onSquareClick = {},
                         modifier = Modifier.weight(1f)
                     )
                 }
-                else -> Unit
-            }
 
-            CoachInsightSection(uiState.coachState)
+                // ── Eval Sparkline ────────────────────────────────────────────────
+                if (evalHistory.size >= 2) {
+                    EvalSparkline(
+                        evals = evalHistory,
+                        selectedIndex = uiState.selectedPly,
+                        onTap = { onSelectPly(it) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp)
+                    )
+                }
+
+                // ── Navigation arrows ─────────────────────────────────────────────
+                if (moves.isNotEmpty()) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(
+                            onClick = { onSelectPly((uiState.selectedPly - 1).coerceAtLeast(0)) },
+                            enabled = uiState.selectedPly > 0,
+                            modifier = Modifier.bounceClick()
+                        ) {
+                            Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Previous move")
+                        }
+                        Text(
+                            text = "Move ${uiState.selectedPly + 1} / ${moves.size}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(horizontal = 12.dp)
+                        )
+                        IconButton(
+                            onClick = { onSelectPly((uiState.selectedPly + 1).coerceAtMost(moves.size - 1)) },
+                            enabled = uiState.selectedPly < moves.size - 1,
+                            modifier = Modifier.bounceClick()
+                        ) {
+                            Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "Next move")
+                        }
+                    }
+                }
+
+                // ── Annotated Move List ────────────────────────────────────────────
+                ReviewMoveList(
+                    moves = moves,
+                    selectedPly = uiState.selectedPly,
+                    onMoveTap = onSelectPly,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 120.dp)
+                )
+
+                // ── Progress / Idle banner ─────────────────────────────────────────
+                when (reviewState) {
+                    is ReviewState.Analysing -> {
+                        val progress = if (reviewState.totalPlies > 0)
+                            reviewState.completedPlies.toFloat() / reviewState.totalPlies.toFloat()
+                        else 0f
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text(
+                                "Analysing… ${reviewState.completedPlies}/${reviewState.totalPlies} moves",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            LinearProgressIndicator(
+                                progress = { progress },
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
+                    is ReviewState.Error -> {
+                        Text(
+                            "Error: ${reviewState.message}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                    is ReviewState.Idle -> {
+                        GameHistoryList(
+                            games = uiState.recentGames,
+                            onGameClick = onStartReview,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                    else -> Unit
+                }
+
+                CoachInsightSection(uiState.coachState)
+            }
         }
     }
 }
@@ -623,7 +643,7 @@ private fun GameHistoryCard(
 ) {
     Card(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().bounceClick(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
         )

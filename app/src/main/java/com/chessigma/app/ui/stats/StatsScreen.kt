@@ -7,9 +7,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chessigma.app.domain.model.EloPoint
+import com.chessigma.app.ui.util.screenEntryTransition
 import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
@@ -26,33 +28,40 @@ fun StatsScreen(
     modifier: Modifier = Modifier
 ) {
     val eloHistory by viewModel.eloHistory.collectAsState()
+    var visible by remember { mutableStateOf(false) }
     
+    LaunchedEffect(Unit) {
+        visible = true
+    }
+
     val displayHistory = if (eloHistory.isEmpty()) {
         mockEloHistory()
     } else {
         eloHistory
     }
 
-    Scaffold(
-        topBar = {
-            LargeTopAppBar(
-                title = { Text("Statistics") }
-            )
-        },
-        modifier = modifier
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
-        ) {
-            EloTrendCard(displayHistory)
-            
-            // Accuracy Card (Placeholder for now)
-            AccuracyCard()
+    screenEntryTransition(visible = visible) {
+        Scaffold(
+            topBar = {
+                LargeTopAppBar(
+                    title = { Text("Statistics", fontWeight = FontWeight.Bold) }
+                )
+            },
+            modifier = modifier
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                EloTrendCard(displayHistory)
+                
+                // Accuracy Card (Placeholder for now)
+                AccuracyCard()
+            }
         }
     }
 }

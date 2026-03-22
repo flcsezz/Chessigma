@@ -34,8 +34,12 @@ data class PlayUiState(
     val historyIndex: Int = -1, // -1 means live position
     val isVsCpu: Boolean = false,
     val cpuColor: PieceColor = PieceColor.BLACK,
-    val skillLevel: Int = 5
+    val skillLevel: Int = 5,
+    val isExtractingEngine: Boolean = false,
+    val engineExtractionProgress: Float = 0f,
+    val settings: UserSettings = UserSettings()
 )
+
 
 @HiltViewModel
 class PlayViewModel @Inject constructor(
@@ -43,6 +47,7 @@ class PlayViewModel @Inject constructor(
     private val getLegalMovesUseCase: GetLegalMovesUseCase,
     private val applyMoveUseCase: ApplyMoveUseCase,
     private val getBotMoveUseCase: com.chessigma.app.domain.usecase.GetBotMoveUseCase,
+    private val getSettingsUseCase: com.chessigma.app.domain.usecase.GetSettingsUseCase,
     private val aiRepository: AiRepository,
     private val stockfishEngine: StockfishEngine,
     private val localGameRepository: LocalGameRepository
@@ -64,46 +69,104 @@ class PlayViewModel @Inject constructor(
     private val cpuColor = MutableStateFlow(PieceColor.BLACK)
     private val skillLevel = MutableStateFlow(5)
 
-    val uiState: StateFlow<PlayUiState> = combine(
+    private val gamePlayState = combine(
         gameState,
         selectedSquare,
         legalMoves,
         isPromotionRequired,
-        promotionMove,
+        promotionMove
+    ) { state, square, moves, promoReq, promoMove ->
+        GamePlayState(state, square, moves, promoReq, promoMove)
+    }
+
+    private val gameAndAiState = combine(
+        gamePlayState,
         aiRepository.cascadeState,
         statusMessage,
-        evaluation,
+        evaluation
+    ) { gamePlay, cascade, status, eval ->
+        GameAndAiState(gamePlay, cascade, status, eval)
+    }
+
+    private val playerConfigState = combine(
         historyIndex,
         isVsCpu,
         cpuColor,
         skillLevel
-    ) { args: Array<Any?> ->
-        val currentGameState = args[0] as GameState
+    ) { idx, vsCpu, cpuCol, skill ->
+        PlayerConfigState(idx, vsCpu, cpuCol, skill)
+    }
+
+    private val engineAndSettingsState = combine(
+        stockfishEngine.isExtracting,
+        stockfishEngine.extractionProgress,
+        getSettingsUseCase()
+    ) { extracting, progress, settings ->
+        EngineAndSettingsState(extracting, progress, settings)
+    }
+
+    val uiState: StateFlow<PlayUiState> = combine(
+        gameAndAiState,
+        playerConfigState,
+        engineAndSettingsState
+    ) { gameAi, playerConfig, engineSettings ->
+        val currentGameState = gameAi.gamePlayState.gameState
         val (whiteCaptures, blackCaptures, whiteAdv, blackAdv) = calculateMaterial(currentGameState.board.pieces.values)
         
         PlayUiState(
             gameState = currentGameState,
             gameId = gameId,
-            selectedSquare = args[1] as String?,
-            legalMoves = args[2] as List<String>,
-            isPromotionRequired = args[3] as Boolean,
-            promotionMove = args[4] as ChessMove?,
-            cascadeState = args[5] as AiCascadeState,
-            statusMessage = args[6] as String?,
+            selectedSquare = gameAi.gamePlayState.selectedSquare,
+            legalMoves = gameAi.gamePlayState.legalMoves,
+            isPromotionRequired = gameAi.gamePlayState.isPromotionRequired,
+            promotionMove = gameAi.gamePlayState.promotionMove,
+            cascadeState = gameAi.cascadeState,
+            statusMessage = gameAi.statusMessage,
             whiteCaptures = whiteCaptures,
             blackCaptures = blackCaptures,
             whiteMaterialAdvantage = whiteAdv,
             blackMaterialAdvantage = blackAdv,
-            evaluation = args[7] as Float,
-            historyIndex = args[8] as Int,
-            isVsCpu = args[9] as Boolean,
-            cpuColor = args[10] as PieceColor,
-            skillLevel = args[11] as Int
+            evaluation = gameAi.evaluation,
+            historyIndex = playerConfig.historyIndex,
+            isVsCpu = playerConfig.isVsCpu,
+            cpuColor = playerConfig.cpuColor,
+            skillLevel = playerConfig.skillLevel,
+            isExtractingEngine = engineSettings.isExtractingEngine,
+            engineExtractionProgress = engineSettings.engineExtractionProgress,
+            settings = engineSettings.settings
         )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = PlayUiState(gameState = initialGameState, gameId = gameId)
+    )
+
+    private data class GamePlayState(
+        val gameState: GameState,
+        val selectedSquare: String?,
+        val legalMoves: List<String>,
+        val isPromotionRequired: Boolean,
+        val promotionMove: ChessMove?
+    )
+
+    private data class GameAndAiState(
+        val gamePlayState: GamePlayState,
+        val cascadeState: AiCascadeState,
+        val statusMessage: String?,
+        val evaluation: Float
+    )
+
+    private data class PlayerConfigState(
+        val historyIndex: Int,
+        val isVsCpu: Boolean,
+        val cpuColor: PieceColor,
+        val skillLevel: Int
+    )
+
+    private data class EngineAndSettingsState(
+        val isExtractingEngine: Boolean,
+        val engineExtractionProgress: Float,
+        val settings: UserSettings
     )
 
     init {
@@ -119,9 +182,10 @@ class PlayViewModel @Inject constructor(
         }
         viewModelScope.launch {
             try {
-                if (!stockfishEngine.isReady) {
+                if (!stockfishEngine.isReady.value) {
                     stockfishEngine.initialise()
                 }
+
                 updateEvaluation()
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -134,8 +198,9 @@ class PlayViewModel @Inject constructor(
     private fun updateEvaluation() {
         evalJob?.cancel()
         evalJob = viewModelScope.launch {
-            if (stockfishEngine.isReady) {
+            if (stockfishEngine.isReady.value) {
                 val score = stockfishEngine.evaluate(gameState.value.board.fen, depth = 10)
+
                 evaluation.value = score / 100.0f
             }
         }

@@ -6,6 +6,8 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.chessigma.app.domain.model.BoardTheme
+import com.chessigma.app.domain.model.PieceSet
 import com.chessigma.app.domain.model.UserSettings
 import com.chessigma.app.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +25,8 @@ class SettingsRepositoryImpl @Inject constructor(
         val PREFERRED_AI_PROVIDER = stringPreferencesKey("preferred_ai_provider")
         val DARK_MODE = booleanPreferencesKey("dark_mode")
         val STOCKFISH_DEPTH = intPreferencesKey("stockfish_depth")
+        val BOARD_THEME = stringPreferencesKey("board_theme")
+        val PIECE_SET = stringPreferencesKey("piece_set")
     }
 
     override fun getUserSettings(): Flow<UserSettings> {
@@ -33,7 +37,9 @@ class SettingsRepositoryImpl @Inject constructor(
                 nvidiaApiKey = preferences[PreferencesKeys.NVIDIA_API_KEY] ?: "",
                 preferredAiProvider = preferences[PreferencesKeys.PREFERRED_AI_PROVIDER] ?: "GEMINI",
                 isDarkMode = preferences[PreferencesKeys.DARK_MODE] ?: true,
-                stockfishDepth = preferences[PreferencesKeys.STOCKFISH_DEPTH] ?: 12
+                stockfishDepth = preferences[PreferencesKeys.STOCKFISH_DEPTH] ?: 12,
+                boardTheme = BoardTheme.valueOf(preferences[PreferencesKeys.BOARD_THEME] ?: BoardTheme.WOOD.name),
+                pieceSet = PieceSet.valueOf(preferences[PreferencesKeys.PIECE_SET] ?: PieceSet.DEFAULT.name)
             )
         }
     }
@@ -46,6 +52,8 @@ class SettingsRepositoryImpl @Inject constructor(
             preferences[PreferencesKeys.PREFERRED_AI_PROVIDER] = settings.preferredAiProvider
             preferences[PreferencesKeys.DARK_MODE] = settings.isDarkMode
             preferences[PreferencesKeys.STOCKFISH_DEPTH] = settings.stockfishDepth
+            preferences[PreferencesKeys.BOARD_THEME] = settings.boardTheme.name
+            preferences[PreferencesKeys.PIECE_SET] = settings.pieceSet.name
         }
     }
 

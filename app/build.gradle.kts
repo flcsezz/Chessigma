@@ -26,9 +26,19 @@ android {
         }
     }
 
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("arm64-v8a")
+            isUniversalApk = false
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -41,9 +51,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
-    }
-    kotlin {
-        jvmToolchain(17)
     }
     buildFeatures {
         compose = true
@@ -125,6 +132,7 @@ dependencies {
     implementation(platform(libs.supabase.bom))
     implementation(libs.supabase.auth)
     implementation(libs.supabase.postgrest)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

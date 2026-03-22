@@ -16,6 +16,11 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withTimeoutOrNull
 
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+
+
 @Singleton
 class StockfishEngine @Inject constructor(
     @ApplicationContext private val context: Context
@@ -26,11 +31,17 @@ class StockfishEngine @Inject constructor(
 
     private val mutex = Mutex()
 
-    var isReady = false
-        private set
+    private val _isReady = MutableStateFlow(false)
+    val isReady: StateFlow<Boolean> = _isReady.asStateFlow()
+
+    private val _isExtracting = MutableStateFlow(false)
+    val isExtracting: StateFlow<Boolean> = _isExtracting.asStateFlow()
+
+    private val _extractionProgress = MutableStateFlow(0f)
+    val extractionProgress: StateFlow<Float> = _extractionProgress.asStateFlow()
 
     suspend fun initialise(): Boolean = withContext(Dispatchers.IO) {
-        val binaryPath = "${context.applicationInfo.nativeLibraryDir}/libstockfish.so"
+        val binaryPath = getBinaryPath() ?: return@withContext false
         val binaryFile = File(binaryPath)
 
         if (!binaryFile.exists()) {
@@ -39,6 +50,7 @@ class StockfishEngine @Inject constructor(
         }
 
         mutex.withLock {
+            if (_isReady.value) return@withContext true
             try {
                 process = Runtime.getRuntime().exec(binaryPath)
                 writer = BufferedWriter(OutputStreamWriter(process?.outputStream))
@@ -49,7 +61,7 @@ class StockfishEngine @Inject constructor(
                     var line: String?
                     while (reader?.readLine().also { line = it } != null) {
                         if (line == "uciok") {
-                            isReady = true
+                            _isReady.value = true
                             Timber.i("StockfishEngine: Initialized successfully")
                             return@withTimeoutOrNull true
                         }
@@ -63,6 +75,18 @@ class StockfishEngine @Inject constructor(
         }
         false
     }
+
+    private fun getBinaryPath(): String? {
+        val nativeLibDir = context.applicationInfo.nativeLibraryDir
+        val binaryFile = File(nativeLibDir, "libstockfish.so")
+        return if (binaryFile.exists()) {
+            binaryFile.absolutePath
+        } else {
+            Timber.e("Stockfish binary not found in $nativeLibDir")
+            null
+        }
+    }
+
 
     suspend fun setOption(name: String, value: String) = withContext(Dispatchers.IO) {
         mutex.withLock {

@@ -21,11 +21,13 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = InfoBrilliant,
     background = BackgroundDark,
     surface = SurfaceDark,
+    surfaceVariant = SurfaceVariantDark,
     error = ErrorBlunder,
     onPrimary = BackgroundDark,
     onSecondary = BackgroundDark,
     onBackground = TextPrimary,
     onSurface = TextPrimary,
+    onSurfaceVariant = TextSecondary,
     onError = TextPrimary
 )
 

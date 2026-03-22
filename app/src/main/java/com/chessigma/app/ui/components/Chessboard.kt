@@ -1,11 +1,16 @@
 package com.chessigma.app.ui.components
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateIntOffsetAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -13,9 +18,11 @@ import androidx.compose.ui.res.painterResource
 import com.chessigma.app.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
@@ -28,72 +35,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.chessigma.app.ui.theme.ChessigmaTheme
 import kotlin.math.roundToInt
 
-@Preview(showBackground = true)
-@Composable
-fun ChessboardPreview() {
-    ChessigmaTheme {
-        val board = ChessBoard(
-            pieces = mapOf(
-                "e2" to ChessPiece(PieceType.PAWN, PieceColor.WHITE),
-                "e4" to ChessPiece(PieceType.PAWN, PieceColor.WHITE),
-                "e7" to ChessPiece(PieceType.PAWN, PieceColor.BLACK),
-                "e5" to ChessPiece(PieceType.PAWN, PieceColor.BLACK),
-                "g1" to ChessPiece(PieceType.KNIGHT, PieceColor.WHITE),
-                "b8" to ChessPiece(PieceType.KNIGHT, PieceColor.BLACK)
-            ),
-            sideToMove = PieceColor.WHITE,
-            isCheck = false,
-            isCheckmate = false,
-            isDraw = false,
-            fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-        )
-        val state = rememberChessboardState(board)
-        Chessboard(state = state, onMove = {})
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ChessboardFlippedPreview() {
-    ChessigmaTheme {
-        val board = ChessBoard(
-            pieces = mapOf(
-                "e2" to ChessPiece(PieceType.PAWN, PieceColor.WHITE),
-                "e4" to ChessPiece(PieceType.PAWN, PieceColor.WHITE),
-                "e7" to ChessPiece(PieceType.PAWN, PieceColor.BLACK),
-                "e5" to ChessPiece(PieceType.PAWN, PieceColor.BLACK),
-                "g1" to ChessPiece(PieceType.KNIGHT, PieceColor.WHITE),
-                "b8" to ChessPiece(PieceType.KNIGHT, PieceColor.BLACK)
-            ),
-            sideToMove = PieceColor.WHITE,
-            isCheck = false,
-            isCheckmate = false,
-            isDraw = false,
-            fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-        )
-        val state = rememberChessboardState(board, isFlipped = true)
-        Chessboard(state = state, onMove = {})
-    }
-}
-
 @Stable
 class ChessboardState(
     initialBoard: ChessBoard = ChessBoard.empty(),
-    initialIsFlipped: Boolean = false
+    initialIsFlipped: Boolean = false,
+    initialBoardTheme: BoardTheme = BoardTheme.WOOD,
+    initialPieceSet: PieceSet = PieceSet.DEFAULT
 ) {
     var board by mutableStateOf(initialBoard)
     var isFlipped by mutableStateOf(initialIsFlipped)
     var selectedSquare by mutableStateOf<String?>(null)
     var lastMove by mutableStateOf<ChessMove?>(null)
     var legalMoves by mutableStateOf<List<String>>(emptyList())
+    var boardTheme by mutableStateOf(initialBoardTheme)
+    var pieceSet by mutableStateOf(initialPieceSet)
 }
 
 @Composable
 fun rememberChessboardState(
     board: ChessBoard = ChessBoard.empty(),
-    isFlipped: Boolean = false
-) = remember(board, isFlipped) {
-    ChessboardState(board, isFlipped)
+    isFlipped: Boolean = false,
+    boardTheme: BoardTheme = BoardTheme.WOOD,
+    pieceSet: PieceSet = PieceSet.DEFAULT
+) = remember(board, isFlipped, boardTheme, pieceSet) {
+    ChessboardState(board, isFlipped, boardTheme, pieceSet)
 }
 
 @Composable
@@ -105,8 +70,25 @@ fun Chessboard(
 ) {
     var draggingSquare by remember { mutableStateOf<String?>(null) }
     var dragOffset by remember { mutableStateOf(Offset.Zero) }
+    
+    // Track previous pieces to animate captures
+    var previousPieces by remember { mutableStateOf<Map<String, ChessPiece>>(emptyMap()) }
+    val currentPieces = state.board.pieces
+    
+    // Update previous pieces when board changes
+    LaunchedEffect(state.board) {
+        // We only care about pieces that were removed (captured)
+        // pieces that moved are handled by animateIntOffsetAsState
+        previousPieces = currentPieces
+    }
 
-    BoxWithConstraints(modifier = modifier.aspectRatio(1f)) {
+    BoxWithConstraints(
+        modifier = modifier
+            .aspectRatio(1f)
+            .shadow(16.dp, RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(8.dp))
+            .background(state.boardTheme.darkSquare)
+    ) {
         val boardWidth = maxWidth
         val squareSize = boardWidth / 8
         val squareSizePx = with(LocalDensity.current) { squareSize.toPx() }
@@ -118,14 +100,53 @@ fun Chessboard(
             lastMove = state.lastMove,
             legalMoves = state.legalMoves,
             squareSize = squareSize,
+            theme = state.boardTheme,
             onSquareClick = {
                 state.selectedSquare = it
                 onSquareClick(it)
             }
         )
 
-        // Draw pieces (except the one being dragged)
-        state.board.pieces.forEach { (squareName, piece) ->
+        // Identify captured pieces to animate them out
+        val capturedPieces = remember(state.board) {
+            val captured = mutableMapOf<String, ChessPiece>()
+            previousPieces.forEach { (sq, piece) ->
+                if (!currentPieces.containsKey(sq) || currentPieces[sq] != piece) {
+                    // Piece was at sq, but now it's gone or replaced
+                    // If it was replaced, it might have been captured or moved
+                    // In chess, if a move happened TO this square, the piece was captured.
+                    if (state.lastMove?.toSquare == sq) {
+                        captured[sq] = piece
+                    }
+                }
+            }
+            captured
+        }
+
+        // Draw captured pieces (animating out)
+        capturedPieces.forEach { (squareName, piece) ->
+            val file = squareName[0] - 'a'
+            val rank = squareName[1] - '1'
+            val displayFile = if (state.isFlipped) 7 - file else file
+            val displayRank = if (state.isFlipped) rank else 7 - rank
+            val targetOffset = IntOffset(
+                (displayFile * squareSizePx).roundToInt(),
+                (displayRank * squareSizePx).roundToInt()
+            )
+
+            key("captured", piece, squareName) {
+                Piece(
+                    piece = piece,
+                    squareSize = squareSize,
+                    pieceSet = state.pieceSet,
+                    isVisible = false, // Trigger exit animation
+                    modifier = Modifier.offset { targetOffset }
+                )
+            }
+        }
+
+        // Draw current pieces
+        currentPieces.forEach { (squareName, piece) ->
             if (squareName != draggingSquare) {
                 val file = squareName[0] - 'a'
                 val rank = squareName[1] - '1'
@@ -133,62 +154,75 @@ fun Chessboard(
                 val displayFile = if (state.isFlipped) 7 - file else file
                 val displayRank = if (state.isFlipped) rank else 7 - rank
 
-                Piece(
-                    piece = piece,
-                    squareSize = squareSize,
-                    modifier = Modifier
-                        .offset {
-                            IntOffset(
-                                (displayFile * squareSizePx).roundToInt(),
-                                (displayRank * squareSizePx).roundToInt()
-                            )
-                        }
-                        .pointerInput(squareName, state.isFlipped) {
-                            detectDragGestures(
-                                onDragStart = {
-                                    draggingSquare = squareName
-                                    dragOffset = Offset.Zero
-                                    state.selectedSquare = squareName
-                                    onSquareClick(squareName)
-                                },
-                                onDrag = { change, dragAmount ->
-                                    change.consume()
-                                    dragOffset += dragAmount
-                                },
-                                onDragEnd = {
-                                    val targetFile = if (state.isFlipped) {
-                                        7 - ((displayFile * squareSizePx + dragOffset.x) / squareSizePx).roundToInt()
-                                    } else {
-                                        ((displayFile * squareSizePx + dragOffset.x) / squareSizePx).roundToInt()
-                                    }
-                                    val targetRank = if (state.isFlipped) {
-                                        ((displayRank * squareSizePx + dragOffset.y) / squareSizePx).roundToInt()
-                                    } else {
-                                        7 - ((displayRank * squareSizePx + dragOffset.y) / squareSizePx).roundToInt()
-                                    }
-
-                                    if (targetFile in 0..7 && targetRank in 0..7) {
-                                        val fileChar = ('a' + targetFile)
-                                        val rankChar = ('1' + targetRank)
-                                        val targetSquare = "$fileChar$rankChar"
-                                        if (targetSquare != squareName) {
-                                            onMove(ChessMove(squareName, targetSquare))
-                                        }
-                                    }
-                                    draggingSquare = null
-                                    dragOffset = Offset.Zero
-                                },
-                                onDragCancel = {
-                                    draggingSquare = null
-                                    dragOffset = Offset.Zero
-                                }
-                            )
-                        }
-                        .clickable { 
-                            state.selectedSquare = squareName
-                            onSquareClick(squareName) 
-                        }
+                val targetOffset = IntOffset(
+                    (displayFile * squareSizePx).roundToInt(),
+                    (displayRank * squareSizePx).roundToInt()
                 )
+
+                val animatedOffset by animateIntOffsetAsState(
+                    targetValue = targetOffset,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessMediumLow
+                    ),
+                    label = "PieceMoveAnimation"
+                )
+
+                key(piece, squareName) {
+                    Piece(
+                        piece = piece,
+                        squareSize = squareSize,
+                        pieceSet = state.pieceSet,
+                        isVisible = true,
+                        modifier = Modifier
+                            .offset { animatedOffset }
+                            .pointerInput(squareName, state.isFlipped) {
+                                detectDragGestures(
+                                    onDragStart = {
+                                        draggingSquare = squareName
+                                        dragOffset = Offset.Zero
+                                        state.selectedSquare = squareName
+                                        onSquareClick(squareName)
+                                    },
+                                    onDrag = { change, dragAmount ->
+                                        change.consume()
+                                        dragOffset += dragAmount
+                                    },
+                                    onDragEnd = {
+                                        val targetFile = if (state.isFlipped) {
+                                            7 - ((displayFile * squareSizePx + dragOffset.x) / squareSizePx).roundToInt()
+                                        } else {
+                                            ((displayFile * squareSizePx + dragOffset.x) / squareSizePx).roundToInt()
+                                        }
+                                        val targetRank = if (state.isFlipped) {
+                                            ((displayRank * squareSizePx + dragOffset.y) / squareSizePx).roundToInt()
+                                        } else {
+                                            7 - ((displayRank * squareSizePx + dragOffset.y) / squareSizePx).roundToInt()
+                                        }
+
+                                        if (targetFile in 0..7 && targetRank in 0..7) {
+                                            val fileChar = ('a' + targetFile)
+                                            val rankChar = ('1' + targetRank)
+                                            val targetSquare = "$fileChar$rankChar"
+                                            if (targetSquare != squareName) {
+                                                onMove(ChessMove(squareName, targetSquare))
+                                            }
+                                        }
+                                        draggingSquare = null
+                                        dragOffset = Offset.Zero
+                                    },
+                                    onDragCancel = {
+                                        draggingSquare = null
+                                        dragOffset = Offset.Zero
+                                    }
+                                )
+                            }
+                            .clickable { 
+                                state.selectedSquare = squareName
+                                onSquareClick(squareName) 
+                            }
+                    )
+                }
             }
         }
 
@@ -204,6 +238,8 @@ fun Chessboard(
             Piece(
                 piece = piece,
                 squareSize = squareSize,
+                pieceSet = state.pieceSet,
+                isVisible = true,
                 modifier = Modifier
                     .offset {
                         IntOffset(
@@ -226,15 +262,9 @@ private fun BoardGrid(
     lastMove: ChessMove?,
     legalMoves: List<String>,
     squareSize: Dp,
+    theme: BoardTheme,
     onSquareClick: (String) -> Unit
 ) {
-    // Premium wood/dark theme colors
-    val lightSquareColor = Color(0xFFF0EBE0) // TextPrimary style light
-    val darkSquareColor = Color(0xFFC8A45A).copy(alpha = 0.2f) // PrimaryAccent muted
-    val selectedColor = Color(0xFFC8A45A).copy(alpha = 0.5f)
-    val lastMoveColor = Color(0xFF4A9B6F).copy(alpha = 0.3f) // SecondaryAccent muted
-    val legalMoveIndicatorColor = Color(0xFF4A9B6F).copy(alpha = 0.4f)
-
     Column {
         for (rankIdx in 0..7) {
             Row {
@@ -245,10 +275,10 @@ private fun BoardGrid(
 
                     val isLight = (visualFile + visualRank) % 2 != 0
                     val bgColor = when {
-                        squareName == selectedSquare -> selectedColor
-                        squareName == lastMove?.fromSquare || squareName == lastMove?.toSquare -> lastMoveColor
-                        isLight -> lightSquareColor
-                        else -> Color(0xFF1A1A1A) // SurfaceDark
+                        squareName == selectedSquare -> theme.selectedSquare
+                        squareName == lastMove?.fromSquare || squareName == lastMove?.toSquare -> theme.lastMoveSquare
+                        isLight -> theme.lightSquare
+                        else -> theme.darkSquare
                     }
 
                     Box(
@@ -259,8 +289,8 @@ private fun BoardGrid(
                         contentAlignment = Alignment.Center
                     ) {
                         if (legalMoves.contains(squareName)) {
-                            Canvas(modifier = Modifier.size(squareSize / 3)) {
-                                drawCircle(color = legalMoveIndicatorColor)
+                            Canvas(modifier = Modifier.size(squareSize / 3.5f)) {
+                                drawCircle(color = theme.lastMoveSquare.copy(alpha = 0.6f))
                             }
                         }
                     }
@@ -270,10 +300,13 @@ private fun BoardGrid(
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun Piece(
     piece: ChessPiece,
     squareSize: Dp,
+    pieceSet: PieceSet,
+    isVisible: Boolean,
     modifier: Modifier = Modifier
 ) {
     val drawableRes = when (piece.color) {
@@ -295,22 +328,43 @@ private fun Piece(
         }
     }
 
+    val colorFilter = when (pieceSet) {
+        PieceSet.NEON -> {
+            val tint = if (piece.color == PieceColor.WHITE) Color(0xFF00FFFF) else Color(0xFFFF00FF)
+            ColorFilter.tint(tint)
+        }
+        PieceSet.STARK -> {
+            val tint = if (piece.color == PieceColor.WHITE) Color.White else Color.Black
+            ColorFilter.tint(tint)
+        }
+        else -> null
+    }
+
     Box(
         modifier = modifier.size(squareSize),
         contentAlignment = Alignment.Center
     ) {
-        Image(
-            painter = painterResource(id = drawableRes),
-            contentDescription = "${piece.color} ${piece.type}",
-            modifier = Modifier.fillMaxSize(0.85f)
-        )
+        AnimatedVisibility(
+            visible = isVisible,
+            enter = scaleIn(initialScale = 0.8f) + fadeIn(),
+            exit = scaleOut(targetScale = 0.5f) + fadeOut(),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Image(
+                painter = painterResource(id = drawableRes),
+                contentDescription = "${piece.color} ${piece.type}",
+                colorFilter = colorFilter,
+                modifier = Modifier.fillMaxSize(0.9f)
+            )
+        }
     }
 }
 
 @Composable
 private fun BoardCoordinates(isFlipped: Boolean, squareSize: Dp) {
-    val textColor = Color.Gray
+    val textColor = Color(0xFFFAFAF9).copy(alpha = 0.6f) // Subtle text color
     val fontSize = 10.sp
+    val fontWeight = FontWeight.SemiBold
 
     // Files (a-h)
     Row(
@@ -327,6 +381,7 @@ private fun BoardCoordinates(isFlipped: Boolean, squareSize: Dp) {
                     text = file.toString(),
                     color = textColor,
                     fontSize = fontSize,
+                    fontWeight = fontWeight,
                     modifier = Modifier.padding(2.dp)
                 )
             }
@@ -348,6 +403,7 @@ private fun BoardCoordinates(isFlipped: Boolean, squareSize: Dp) {
                     text = rank.toString(),
                     color = textColor,
                     fontSize = fontSize,
+                    fontWeight = fontWeight,
                     modifier = Modifier.padding(2.dp)
                 )
             }

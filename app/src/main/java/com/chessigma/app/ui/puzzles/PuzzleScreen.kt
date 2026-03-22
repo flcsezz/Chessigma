@@ -1,5 +1,6 @@
 package com.chessigma.app.ui.puzzles
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -7,8 +8,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
@@ -18,13 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chessigma.app.data.local.PersonalPuzzleWithGame
-import com.chessigma.app.domain.model.ChessBoard
-import com.chessigma.app.domain.model.PieceColor
-import com.chessigma.app.domain.model.PieceType
+import com.chessigma.app.domain.model.*
 import com.chessigma.app.ui.components.Chessboard
 import com.chessigma.app.ui.components.rememberChessboardState
 import com.chessigma.app.ui.puzzles.viewmodel.PuzzlePlayViewModel
 import com.chessigma.app.ui.puzzles.viewmodel.PuzzleUiState
+import com.chessigma.app.ui.util.bounceClick
+import com.chessigma.app.ui.util.screenEntryTransition
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,34 +37,45 @@ fun PuzzleScreen(
     val uiState by viewModel.uiState.collectAsState()
     var selectedTabIndex by remember { mutableStateOf(0) }
     val tabs = listOf("My Mistakes", "Daily Puzzles")
+    
+    var visible by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        visible = true
+    }
 
-    Column(modifier = modifier.fillMaxSize()) {
-        TabRow(selectedTabIndex = selectedTabIndex) {
-            tabs.forEachIndexed { index, title ->
-                Tab(
-                    selected = selectedTabIndex == index,
-                    onClick = { selectedTabIndex = index },
-                    text = { Text(title) }
+    screenEntryTransition(visible = visible) {
+        Column(modifier = modifier.fillMaxSize()) {
+            TabRow(
+                selectedTabIndex = selectedTabIndex,
+                containerColor = MaterialTheme.colorScheme.background,
+                contentColor = MaterialTheme.colorScheme.primary
+            ) {
+                tabs.forEachIndexed { index, title ->
+                    Tab(
+                        selected = selectedTabIndex == index,
+                        onClick = { selectedTabIndex = index },
+                        text = { Text(title) }
+                    )
+                }
+            }
+
+            when (selectedTabIndex) {
+                0 -> MyMistakesTabContent(
+                    uiState = uiState,
+                    onSquareClick = viewModel::onSquareClick,
+                    onNextPuzzle = viewModel::nextPuzzle,
+                    onPreviousPuzzle = viewModel::previousPuzzle,
+                    onDismissResult = viewModel::dismissResult
+                )
+                1 -> DailyPuzzlesTabContent(
+                    uiState = uiState,
+                    onImportDailyPuzzle = viewModel::importDailyPuzzle,
+                    onSquareClick = viewModel::onSquareClick,
+                    onNextPuzzle = viewModel::nextPuzzle,
+                    onPreviousPuzzle = viewModel::previousPuzzle,
+                    onDismissResult = viewModel::dismissResult
                 )
             }
-        }
-
-        when (selectedTabIndex) {
-            0 -> MyMistakesTabContent(
-                uiState = uiState,
-                onSquareClick = viewModel::onSquareClick,
-                onNextPuzzle = viewModel::nextPuzzle,
-                onPreviousPuzzle = viewModel::previousPuzzle,
-                onDismissResult = viewModel::dismissResult
-            )
-            1 -> DailyPuzzlesTabContent(
-                uiState = uiState,
-                onImportDailyPuzzle = viewModel::importDailyPuzzle,
-                onSquareClick = viewModel::onSquareClick,
-                onNextPuzzle = viewModel::nextPuzzle,
-                onPreviousPuzzle = viewModel::previousPuzzle,
-                onDismissResult = viewModel::dismissResult
-            )
         }
     }
 }
@@ -76,14 +88,19 @@ fun MyMistakesTabContent(
     onPreviousPuzzle: () -> Unit,
     onDismissResult: () -> Unit
 ) {
-    val boardState = rememberChessboardState()
+    val boardState = rememberChessboardState(
+        boardTheme = uiState.settings.boardTheme,
+        pieceSet = uiState.settings.pieceSet
+    )
 
-    LaunchedEffect(uiState.board, uiState.selectedSquare, uiState.lastMove) {
+    LaunchedEffect(uiState.board, uiState.selectedSquare, uiState.lastMove, uiState.settings) {
         uiState.board?.let { board ->
             boardState.board = board
             boardState.legalMoves = uiState.legalMoves
             boardState.lastMove = uiState.lastMove
             boardState.selectedSquare = uiState.selectedSquare
+            boardState.boardTheme = uiState.settings.boardTheme
+            boardState.pieceSet = uiState.settings.pieceSet
         }
     }
 
@@ -178,9 +195,10 @@ fun MyMistakesTabContent(
         ) {
             IconButton(
                 onClick = onPreviousPuzzle,
-                enabled = uiState.currentPuzzleIndex > 0
+                enabled = uiState.currentPuzzleIndex > 0,
+                modifier = Modifier.bounceClick()
             ) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "Previous")
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Previous")
             }
 
             Text(
@@ -191,50 +209,57 @@ fun MyMistakesTabContent(
 
             IconButton(
                 onClick = onNextPuzzle,
-                enabled = uiState.currentPuzzleIndex < uiState.puzzles.size - 1
+                enabled = uiState.currentPuzzleIndex < uiState.puzzles.size - 1,
+                modifier = Modifier.bounceClick()
             ) {
-                Icon(Icons.Default.ArrowForward, contentDescription = "Next")
+                Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Next")
             }
         }
 
-        if (uiState.showResult) {
-            Spacer(modifier = Modifier.height(16.dp))
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = if (uiState.isCorrect == true)
-                        MaterialTheme.colorScheme.primaryContainer
-                    else
-                        MaterialTheme.colorScheme.errorContainer
-                )
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+        AnimatedVisibility(
+            visible = uiState.showResult,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            Column {
+                Spacer(modifier = Modifier.height(16.dp))
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = if (uiState.isCorrect == true)
+                            MaterialTheme.colorScheme.primaryContainer
+                        else
+                            MaterialTheme.colorScheme.errorContainer
+                    )
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = if (uiState.isCorrect == true)
-                                Icons.Default.Check
-                            else
-                                Icons.Default.Close,
-                            contentDescription = null,
-                            tint = if (uiState.isCorrect == true)
-                                MaterialTheme.colorScheme.primary
-                            else
-                                MaterialTheme.colorScheme.error
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = if (uiState.isCorrect == true)
-                                "Correct! Well done!"
-                            else
-                                "Not quite. Try again!",
-                            style = MaterialTheme.typography.titleMedium
-                        )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = if (uiState.isCorrect == true)
+                                    Icons.Default.Check
+                                else
+                                    Icons.Default.Close,
+                                contentDescription = null,
+                                tint = if (uiState.isCorrect == true)
+                                    MaterialTheme.colorScheme.primary
+                                else
+                                    MaterialTheme.colorScheme.error
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = if (uiState.isCorrect == true)
+                                    "Correct! Well done!"
+                                else
+                                    "Not quite. Try again!",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        }
                     }
                 }
             }
@@ -276,15 +301,13 @@ fun DailyPuzzlesTabContent(
                         )
                     }
                     Spacer(modifier = Modifier.height(16.dp))
-                    Button(onClick = onImportDailyPuzzle) {
+                    Button(onClick = onImportDailyPuzzle, modifier = Modifier.bounceClick()) {
                         Text("Import Today's Puzzle")
                     }
                 }
             }
         }
     } else {
-        // Reuse MyMistakesTabContent style but for daily puzzles
-        // For simplicity, we could merge them or just show the same board UI
         MyMistakesTabContent(
             uiState = uiState.copy(puzzles = dailyPuzzles),
             onSquareClick = onSquareClick,

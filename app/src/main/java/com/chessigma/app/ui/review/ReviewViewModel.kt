@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.chessigma.app.data.repository.AiRepository
 import com.chessigma.app.domain.model.AiCascadeState
 import com.chessigma.app.domain.model.ReviewMoveResult
+import com.chessigma.app.domain.model.UserSettings
 import com.chessigma.app.domain.repository.LocalGameRepository
 import com.chessigma.app.domain.usecase.CalculateGameAccuracyUseCase
 import com.chessigma.app.domain.usecase.ReviewGameUseCase
+import com.chessigma.app.domain.usecase.GetSettingsUseCase
 import com.chessigma.app.ui.puzzles.PuzzleGenerator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,7 +34,8 @@ data class ReviewUiState(
     val gameId: String? = null,
     val coachState: AiCascadeState = AiCascadeState.Idle,
     val recentGames: List<com.chessigma.app.data.local.GameEntity> = emptyList(),
-    val currentGame: com.chessigma.app.data.local.GameEntity? = null
+    val currentGame: com.chessigma.app.data.local.GameEntity? = null,
+    val settings: UserSettings = UserSettings()
 )
 
 // ── ViewModel ─────────────────────────────────────────────────────────────────
@@ -44,7 +47,8 @@ class ReviewViewModel @Inject constructor(
     private val localGameRepository: LocalGameRepository,
     private val aiRepository: AiRepository,
     private val calculateGameAccuracyUseCase: CalculateGameAccuracyUseCase,
-    private val puzzleGenerator: PuzzleGenerator
+    private val puzzleGenerator: PuzzleGenerator,
+    private val getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
     private val _reviewState = MutableStateFlow<ReviewState>(ReviewState.Idle)
@@ -55,23 +59,25 @@ class ReviewViewModel @Inject constructor(
         _reviewState,
         _selectedPly,
         _gameId,
-        aiRepository.cascadeState
-    ) { state, ply, id, coachState ->
-        Quadruple(state, ply, id, coachState)
-    }.combine(localGameRepository.getRecentGames()) { quad, recent ->
-        Five(quad.first, quad.second, quad.third, quad.fourth, recent)
+        aiRepository.cascadeState,
+        getSettingsUseCase()
+    ) { state, ply, id, coachState, settings ->
+        Five(state, ply, id, coachState, settings)
+    }.combine(localGameRepository.getRecentGames()) { five, recent ->
+        Six(five.first, five.second, five.third, five.fourth, five.fifth, recent)
     }.combine(
         _gameId.flatMapLatest { id ->
             if (id != null) localGameRepository.observeGame(id)
             else flowOf(null)
         }
-    ) { five, current ->
+    ) { six, current ->
         ReviewUiState(
-            reviewState = five.first,
-            selectedPly = five.second,
-            gameId = five.third,
-            coachState = five.fourth,
-            recentGames = five.fifth,
+            reviewState = six.first,
+            selectedPly = six.second,
+            gameId = six.third,
+            coachState = six.fourth,
+            settings = six.fifth,
+            recentGames = six.sixth,
             currentGame = current
         )
     }.stateIn(
@@ -80,8 +86,8 @@ class ReviewViewModel @Inject constructor(
         initialValue = ReviewUiState()
     )
 
-    private data class Quadruple<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)
     private data class Five<A, B, C, D, E>(val first: A, val second: B, val third: C, val fourth: D, val fifth: E)
+    private data class Six<A, B, C, D, E, F>(val first: A, val second: B, val third: C, val fourth: D, val fifth: E, val sixth: F)
 
     /** Convenience accessor to the reviewed move list (empty while idle/analysing). */
     val reviewedMoves: List<ReviewMoveResult>

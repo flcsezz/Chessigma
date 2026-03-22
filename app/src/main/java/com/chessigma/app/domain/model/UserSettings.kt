@@ -6,5 +6,7 @@ data class UserSettings(
     val nvidiaApiKey: String = "",
     val preferredAiProvider: String = "GEMINI",
     val isDarkMode: Boolean = true,
-    val stockfishDepth: Int = 12
+    val stockfishDepth: Int = 12,
+    val boardTheme: BoardTheme = BoardTheme.WOOD,
+    val pieceSet: PieceSet = PieceSet.DEFAULT
 )

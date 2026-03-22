@@ -4,16 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chessigma.app.data.local.PersonalPuzzleDao
 import com.chessigma.app.data.local.PersonalPuzzleEntity
-import com.chessigma.app.domain.model.ChessBoard
-import com.chessigma.app.domain.model.ChessMove
-import com.chessigma.app.domain.model.GameState
-import com.chessigma.app.domain.usecase.ApplyMoveUseCase
-import com.chessigma.app.domain.usecase.GetLegalMovesUseCase
-import com.chessigma.app.domain.usecase.ParseFenUseCase
+import com.chessigma.app.domain.model.*
+import com.chessigma.app.domain.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,20 +24,31 @@ data class PuzzleUiState(
     val puzzles: List<PersonalPuzzleEntity> = emptyList(),
     val currentPuzzleIndex: Int = 0,
     val isLoading: Boolean = false,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val settings: UserSettings = UserSettings()
 )
 
 @HiltViewModel
 class PuzzlePlayViewModel @Inject constructor(
-    private val personalPuzzleDao: com.chessigma.app.data.local.PersonalPuzzleDao,
+    private val personalPuzzleDao: PersonalPuzzleDao,
     private val parseFenUseCase: ParseFenUseCase,
     private val getLegalMovesUseCase: GetLegalMovesUseCase,
     private val applyMoveUseCase: ApplyMoveUseCase,
-    private val importLichessPuzzleUseCase: com.chessigma.app.domain.usecase.ImportLichessPuzzleUseCase
+    private val importLichessPuzzleUseCase: ImportLichessPuzzleUseCase,
+    private val getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PuzzleUiState())
-    val uiState: StateFlow<PuzzleUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<PuzzleUiState> = combine(
+        _uiState,
+        getSettingsUseCase()
+    ) { state, settings ->
+        state.copy(settings = settings)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = PuzzleUiState()
+    )
 
     private var gameState = MutableStateFlow<GameState?>(null)
 
@@ -54,10 +59,10 @@ class PuzzlePlayViewModel @Inject constructor(
     private fun loadPuzzles() {
         viewModelScope.launch {
             personalPuzzleDao.getAllPersonalPuzzles().collect { puzzles ->
-                _uiState.value = _uiState.value.copy(
+                _uiState.update { it.copy(
                     puzzles = puzzles,
                     solvedCount = puzzles.count { it.solved }
-                )
+                ) }
                 if (puzzles.isNotEmpty() && _uiState.value.currentPuzzle == null) {
                     loadPuzzle(0)
                 }
@@ -75,7 +80,7 @@ class PuzzlePlayViewModel @Inject constructor(
             GameState(board = it, moveHistory = emptyList(), fenHistory = emptyList())
         }
 
-        _uiState.value = _uiState.value.copy(
+        _uiState.update { it.copy(
             currentPuzzle = puzzle,
             board = board,
             selectedSquare = null,
@@ -84,14 +89,7 @@ class PuzzlePlayViewModel @Inject constructor(
             showResult = false,
             currentPuzzleIndex = index,
             attemptCount = puzzle.attemptCount
-        )
-
-        updateLegalMoves()
-    }
-
-    private fun updateLegalMoves() {
-        val board = _uiState.value.board ?: return
-        _uiState.value = _uiState.value.copy(legalMoves = emptyList())
+        ) }
     }
 
     fun onSquareClick(square: String) {
@@ -105,10 +103,10 @@ class PuzzlePlayViewModel @Inject constructor(
             val piece = board.getPiece(square)
             if (piece != null && piece.color == board.sideToMove) {
                 val moves = getLegalMovesUseCase(board.fen, square)
-                _uiState.value = currentState.copy(
+                _uiState.update { it.copy(
                     selectedSquare = square,
                     legalMoves = moves
-                )
+                ) }
             }
         } else {
             val from = selectedSquare
@@ -122,15 +120,15 @@ class PuzzlePlayViewModel @Inject constructor(
                 val piece = board.getPiece(square)
                 if (piece != null && piece.color == board.sideToMove) {
                     val moves = getLegalMovesUseCase(board.fen, square)
-                    _uiState.value = currentState.copy(
+                    _uiState.update { it.copy(
                         selectedSquare = square,
                         legalMoves = moves
-                    )
+                    ) }
                 } else {
-                    _uiState.value = currentState.copy(
+                    _uiState.update { it.copy(
                         selectedSquare = null,
                         legalMoves = emptyList()
-                    )
+                    ) }
                 }
             }
         }
@@ -149,10 +147,10 @@ class PuzzlePlayViewModel @Inject constructor(
         val newGameState = applyMoveUseCase(currentGameState, move)
 
         if (newGameState == null) {
-            _uiState.value = currentState.copy(
+            _uiState.update { it.copy(
                 selectedSquare = null,
                 legalMoves = emptyList()
-            )
+            ) }
             return
         }
 
@@ -161,7 +159,7 @@ class PuzzlePlayViewModel @Inject constructor(
         val playedUci = move.toUci()
         val isCorrect = playedUci == puzzle.correctUci
 
-        _uiState.value = currentState.copy(
+        _uiState.update { it.copy(
             board = newGameState.board,
             selectedSquare = null,
             legalMoves = emptyList(),
@@ -169,16 +167,16 @@ class PuzzlePlayViewModel @Inject constructor(
             isCorrect = isCorrect,
             showResult = true,
             attemptCount = currentState.attemptCount + 1
-        )
+        ) }
 
         if (isCorrect) {
             viewModelScope.launch {
                 personalPuzzleDao.markSolved(puzzle.id)
                 val updatedPuzzle = personalPuzzleDao.getPuzzleById(puzzle.id)
-                _uiState.value = _uiState.value.copy(
-                    solvedCount = _uiState.value.solvedCount + 1,
+                _uiState.update { it.copy(
+                    solvedCount = it.solvedCount + 1,
                     currentPuzzle = updatedPuzzle
-                )
+                ) }
             }
         }
     }
@@ -199,21 +197,20 @@ class PuzzlePlayViewModel @Inject constructor(
     }
 
     fun dismissResult() {
-        _uiState.value = _uiState.value.copy(showResult = false)
+        _uiState.update { it.copy(showResult = false) }
     }
 
     fun importDailyPuzzle() {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
             val result = importLichessPuzzleUseCase()
             if (result == null) {
-                _uiState.value = _uiState.value.copy(
+                _uiState.update { it.copy(
                     isLoading = false,
                     errorMessage = "Failed to import today's puzzle. Check your connection."
-                )
+                ) }
             } else {
-                _uiState.value = _uiState.value.copy(isLoading = false)
-                // loadPuzzles() is handled by the collect flow
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
     }
