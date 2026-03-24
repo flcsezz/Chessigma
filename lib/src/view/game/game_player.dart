@@ -175,7 +175,7 @@ class GamePlayer extends StatelessWidget {
                 const SizedBox(width: 5),
                 Icon(
                   ChessigmaIcons.body_cut,
-                  color: LichessColors.brag,
+                  color: ChessigmaColors.brag,
                   size: playerFontSize,
                   semanticLabel: context.l10n.arenaBerserk,
                 ),

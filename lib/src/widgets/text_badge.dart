@@ -6,7 +6,7 @@ class TextBadge extends StatelessWidget {
   const TextBadge({
     super.key,
     required this.text,
-    this.badgeColor = LichessColors.red,
+    this.badgeColor = ChessigmaColors.red,
     this.textColor = Colors.white,
   });
 

@@ -234,11 +234,11 @@ class _TournamentListBodyState extends ConsumerState<_TournamentListBody> {
 
 Color? _iconColor(LightTournament tournament) {
   return tournament.meta.maxRating != null
-      ? LichessColors.purple
+      ? ChessigmaColors.purple
       : switch (tournament.meta.freq) {
-          TournamentFreq.hourly => LichessColors.green,
-          TournamentFreq.daily => LichessColors.blue,
-          TournamentFreq.monthly => LichessColors.red,
+          TournamentFreq.hourly => ChessigmaColors.green,
+          TournamentFreq.daily => ChessigmaColors.blue,
+          TournamentFreq.monthly => ChessigmaColors.red,
           _ => null,
         };
 }

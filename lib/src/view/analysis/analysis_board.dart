@@ -111,8 +111,8 @@ abstract class AnalysisBoardState<
         localEval!.bestMoves,
         currentPosition.turn.opposite,
         pieceAssets,
-        bestMoveColor: LichessColors.red.withValues(alpha: 0.6),
-        nextBestMovesColor: LichessColors.red.withValues(alpha: 0.4),
+        bestMoveColor: ChessigmaColors.red.withValues(alpha: 0.6),
+        nextBestMovesColor: ChessigmaColors.red.withValues(alpha: 0.4),
       );
       return {...threatMoveShapes, if (bestMoveShapes.isNotEmpty) bestMoveShapes.first}.toISet();
     }

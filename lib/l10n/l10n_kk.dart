@@ -12,7 +12,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get mobileAccountPreferences => 'Account preferences';
 
   @override
-  String get mobileAccountPreferencesHelp => 'These preferences are applied to your Lichess account and will be used across all devices.';
+  String get mobileAccountPreferencesHelp => 'These preferences are applied to your Chessigma account and will be used across all devices.';
 
   @override
   String get mobileAllGames => 'Барлық ойындар';
@@ -242,7 +242,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get mobileWatchTab => 'Бақылау';
 
   @override
-  String get mobileWelcomeToLichessApp => 'Welcome to Lichess app!';
+  String get mobileWelcomeToChessigmaApp => 'Welcome to Chessigma app!';
 
   @override
   String get mobileViewGame => 'View Game';
@@ -761,7 +761,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get broadcastAboutBroadcasts => 'Көрсетілім деген не?';
 
   @override
-  String get broadcastHowToUseLichessBroadcasts => 'Личес Көрсетілімді қолдану жолы.';
+  String get broadcastHowToUseChessigmaBroadcasts => 'Личес Көрсетілімді қолдану жолы.';
 
   @override
   String get broadcastTheNewRoundHelp => 'Жаңа айналымда өткендегі сол мүше мен қолдаушылар болады.';
@@ -799,7 +799,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get broadcastSourceUrlHelp => 'PGN жаңартуларын алу үшін Личес тексеретін сілтеме. Ол интернетте баршалыққа ашық болуы керек.';
 
   @override
-  String get broadcastSourceGameIds => 'Up to 64 Lichess game IDs, separated by spaces.';
+  String get broadcastSourceGameIds => 'Up to 64 Chessigma game IDs, separated by spaces.';
 
   @override
   String broadcastStartDateTimeZone(String param) {
@@ -870,7 +870,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get broadcastRecentTournaments => 'Recent tournaments';
 
   @override
-  String get broadcastOpenLichess => 'Open in Lichess';
+  String get broadcastOpenChessigma => 'Open in Chessigma';
 
   @override
   String get broadcastTeams => 'Teams';
@@ -1158,13 +1158,13 @@ class AppLocalizationsKk extends AppLocalizations {
   String get challengeDeclineOnlyBot => 'Мен тек роботтардан келген шақыруларды қабылдаймын.';
 
   @override
-  String get challengeInviteLichessUser => 'Не Личес ойыншысын шақыру:';
+  String get challengeInviteChessigmaUser => 'Не Личес ойыншысын шақыру:';
 
   @override
   String get contactContact => 'Байланыс';
 
   @override
-  String get contactContactLichess => 'Личеспен байланыс';
+  String get contactContactChessigma => 'Личеспен байланыс';
 
   @override
   String get coordinatesCoordinates => 'Координат';
@@ -1231,7 +1231,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get patronDonate => 'Демеу жасау';
 
   @override
-  String get patronLichessPatron => 'Личес Қамқоршысы';
+  String get patronChessigmaPatron => 'Личес Қамқоршысы';
 
   @override
   String get patronBecomePatron => 'Қамқоршы болыңыз';
@@ -2913,7 +2913,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get blankedPassword => 'Бұл құпиясөзді сіз басқа сайтта қолданғансыз. Сол сайт құпиясөзді сақтай алмай жария етті. Сондықтан Личес тіркелгіңізді қорғау мақсатында сізден жаңа құпиясөзді орнатуды сұраймыз.';
 
   @override
-  String get youAreLeavingLichess => 'Сіз Личес-тен шыққалы тұрсыз';
+  String get youAreLeavingChessigma => 'Сіз Личес-тен шыққалы тұрсыз';
 
   @override
   String get neverTypeYourPassword => 'Личестегі құпиясөзіңізді басқа сайттарда қолданбаңыз!';
@@ -3613,7 +3613,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clearSavedMoves => 'Жүрістерді жою';
 
   @override
-  String get previouslyOnLichessTV => 'Личес ТВ-да көрсетілген';
+  String get previouslyOnChessigmaTV => 'Личес ТВ-да көрсетілген';
 
   @override
   String get onlinePlayers => 'Желідегі ойыншылар';
@@ -4268,10 +4268,10 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
-  String get networkLagBetweenYouAndLichess => 'Личес пен сіздің араңыздағы кідіріс';
+  String get networkLagBetweenYouAndChessigma => 'Личес пен сіздің араңыздағы кідіріс';
 
   @override
-  String get timeToProcessAMoveOnLichessServer => 'Личес сервердің жүрісті өңдеуге жұмсайтын уақыты';
+  String get timeToProcessAMoveOnChessigmaServer => 'Личес сервердің жүрісті өңдеуге жұмсайтын уақыты';
 
   @override
   String get downloadAnnotated => 'Өңделген күйде алу';
@@ -4328,7 +4328,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get kidModeExplanation => 'Бұл сақтық үшін. Балалық нұсқада бүкіл әңгімелесу жолдары жабылған. Мақсатыңыз – бала мен мектеп оқушыларын басқа интернет қолданушыларынан қорғау болса, осы нұсқаны іске қосыңыз.';
 
   @override
-  String inKidModeTheLichessLogoGetsIconX(String param) {
+  String inKidModeTheChessigmaLogoGetsIconX(String param) {
     return 'Балалық нұсқа кезінде Личес таңбасына $param белгісі қосылады, осылайша балаңызға қауіп жоқ екенін білесіз.';
   }
 
@@ -5736,7 +5736,7 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
-  String get streamerLichessStreamers => 'Личес стримерлері';
+  String get streamerChessigmaStreamers => 'Личес стримерлері';
 
   @override
   String get studyPrivate => 'Жеке';
@@ -6206,10 +6206,10 @@ class AppLocalizationsKk extends AppLocalizations {
   String get studyGetTheTour => 'Need help? Get the tour!';
 
   @override
-  String get studyWelcomeToLichessStudyTitle => 'Welcome to Lichess Study!';
+  String get studyWelcomeToChessigmaStudyTitle => 'Welcome to Chessigma Study!';
 
   @override
-  String get studyWelcomeToLichessStudyText => 'This is a shared analysis board.<br><br>Use it to analyse and annotate games,<br>discuss positions with friends,<br>and of course for chess lessons!<br><br>It\'s a powerful tool, let\'s take some time to see how it works.';
+  String get studyWelcomeToChessigmaStudyText => 'This is a shared analysis board.<br><br>Use it to analyse and annotate games,<br>discuss positions with friends,<br>and of course for chess lessons!<br><br>It\'s a powerful tool, let\'s take some time to see how it works.';
 
   @override
   String get studySharedAndSaveTitle => 'Shared and saved';
@@ -6275,10 +6275,10 @@ class AppLocalizationsKk extends AppLocalizations {
   String get studyCustomPositionText => 'Setup the board your way.<br>Suited to explore endgames.';
 
   @override
-  String get studyLoadExistingLichessGameTitle => 'Load an existing lichess game';
+  String get studyLoadExistingChessigmaGameTitle => 'Load an existing lichess game';
 
   @override
-  String get studyLoadExistingLichessGameText => 'Paste a lichess game URL<br>(like lichess.org/7fHIU0XI)<br>to load the game moves in the chapter.';
+  String get studyLoadExistingChessigmaGameText => 'Paste a lichess game URL<br>(like lichess.org/7fHIU0XI)<br>to load the game moves in the chapter.';
 
   @override
   String get studyFromFenStringTitle => 'From a FEN string';

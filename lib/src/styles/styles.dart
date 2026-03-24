@@ -15,7 +15,7 @@ abstract class Styles {
   static const subtitleOpacity = 0.7;
   static const timeControl = TextStyle(letterSpacing: 1.2);
   static const formLabel = TextStyle(fontWeight: FontWeight.bold);
-  static const formError = TextStyle(color: LichessColors.red);
+  static const formError = TextStyle(color: ChessigmaColors.red);
   static const formDescription = TextStyle(fontSize: 12);
   static const linkStyle = TextStyle(color: Colors.blueAccent, decoration: TextDecoration.none);
   static const noResultTextStyle = TextStyle(color: Colors.grey, fontSize: 20.0);
@@ -129,13 +129,13 @@ class LichessCustomColors extends ThemeExtension<LichessCustomColors> {
 }
 
 const lichessCustomColors = LichessCustomColors(
-  cyan: LichessColors.cyan,
-  brag: LichessColors.brag,
-  good: LichessColors.good,
-  error: LichessColors.error,
-  fancy: LichessColors.fancy,
-  purple: LichessColors.purple,
-  primary: LichessColors.primary,
+  cyan: ChessigmaColors.cyan,
+  brag: ChessigmaColors.brag,
+  good: ChessigmaColors.good,
+  error: ChessigmaColors.error,
+  fancy: ChessigmaColors.fancy,
+  purple: ChessigmaColors.purple,
+  primary: ChessigmaColors.primary,
 );
 
 extension CustomColorsBuildContext on BuildContext {

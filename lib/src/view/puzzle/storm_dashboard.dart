@@ -61,7 +61,7 @@ class _Body extends ConsumerWidget {
               padding: Styles.sectionTopPadding.add(Styles.horizontalBodyPadding),
               child: StatCardRow([
                 StatCard(
-                  backgroundColor: LichessColors.brag.withValues(alpha: 0.5),
+                  backgroundColor: ChessigmaColors.brag.withValues(alpha: 0.5),
                   context.l10n.stormAllTime,
                   value: data.highScore.allTime.toString(),
                   valueFontSize: 26,
@@ -123,7 +123,7 @@ class _Body extends ConsumerWidget {
                     // Date row
                     final entryIndex = index ~/ 2;
                     return ColoredBox(
-                      color: LichessColors.grey.withValues(alpha: 0.23),
+                      color: ChessigmaColors.grey.withValues(alpha: 0.23),
                       child: Padding(
                         padding: Styles.horizontalBodyPadding,
                         child: Text(

@@ -205,7 +205,7 @@ abstract class AppLocalizations {
   /// No description provided for @mobileAccountPreferencesHelp.
   ///
   /// In en, this message translates to:
-  /// **'These preferences are applied to your Lichess account and will be used across all devices.'**
+  /// **'These preferences are applied to your Chessigma account and will be used across all devices.'**
   String get mobileAccountPreferencesHelp;
 
   /// No description provided for @mobileAllGames.
@@ -646,11 +646,11 @@ abstract class AppLocalizations {
   /// **'Watch'**
   String get mobileWatchTab;
 
-  /// No description provided for @mobileWelcomeToLichessApp.
+  /// No description provided for @mobileWelcomeToChessigmaApp.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to Lichess app!'**
-  String get mobileWelcomeToLichessApp;
+  /// **'Welcome to Chessigma app!'**
+  String get mobileWelcomeToChessigmaApp;
 
   /// No description provided for @mobileViewGame.
   ///
@@ -1348,11 +1348,11 @@ abstract class AppLocalizations {
   /// **'About broadcasts'**
   String get broadcastAboutBroadcasts;
 
-  /// No description provided for @broadcastHowToUseLichessBroadcasts.
+  /// No description provided for @broadcastHowToUseChessigmaBroadcasts.
   ///
   /// In en, this message translates to:
-  /// **'How to use Lichess Broadcasts.'**
-  String get broadcastHowToUseLichessBroadcasts;
+  /// **'How to use Chessigma Broadcasts.'**
+  String get broadcastHowToUseChessigmaBroadcasts;
 
   /// No description provided for @broadcastTheNewRoundHelp.
   ///
@@ -1417,13 +1417,13 @@ abstract class AppLocalizations {
   /// No description provided for @broadcastSourceUrlHelp.
   ///
   /// In en, this message translates to:
-  /// **'URL that Lichess will check to get PGN updates. It must be publicly accessible from the Internet.'**
+  /// **'URL that Chessigma will check to get PGN updates. It must be publicly accessible from the Internet.'**
   String get broadcastSourceUrlHelp;
 
   /// No description provided for @broadcastSourceGameIds.
   ///
   /// In en, this message translates to:
-  /// **'Up to 64 Lichess game IDs, separated by spaces.'**
+  /// **'Up to 64 Chessigma game IDs, separated by spaces.'**
   String get broadcastSourceGameIds;
 
   /// No description provided for @broadcastStartDateTimeZone.
@@ -1558,11 +1558,11 @@ abstract class AppLocalizations {
   /// **'Recent tournaments'**
   String get broadcastRecentTournaments;
 
-  /// No description provided for @broadcastOpenLichess.
+  /// No description provided for @broadcastOpenChessigma.
   ///
   /// In en, this message translates to:
-  /// **'Open in Lichess'**
-  String get broadcastOpenLichess;
+  /// **'Open in Chessigma'**
+  String get broadcastOpenChessigma;
 
   /// No description provided for @broadcastTeams.
   ///
@@ -2038,11 +2038,11 @@ abstract class AppLocalizations {
   /// **'I\'m only accepting challenges from bots.'**
   String get challengeDeclineOnlyBot;
 
-  /// No description provided for @challengeInviteLichessUser.
+  /// No description provided for @challengeInviteChessigmaUser.
   ///
   /// In en, this message translates to:
-  /// **'Or invite a Lichess user:'**
-  String get challengeInviteLichessUser;
+  /// **'Or invite a Chessigma user:'**
+  String get challengeInviteChessigmaUser;
 
   /// No description provided for @contactContact.
   ///
@@ -2050,11 +2050,11 @@ abstract class AppLocalizations {
   /// **'Contact'**
   String get contactContact;
 
-  /// No description provided for @contactContactLichess.
+  /// No description provided for @contactContactChessigma.
   ///
   /// In en, this message translates to:
-  /// **'Contact Lichess'**
-  String get contactContactLichess;
+  /// **'Contact Chessigma'**
+  String get contactContactChessigma;
 
   /// No description provided for @coordinatesCoordinates.
   ///
@@ -2176,16 +2176,16 @@ abstract class AppLocalizations {
   /// **'Donate'**
   String get patronDonate;
 
-  /// No description provided for @patronLichessPatron.
+  /// No description provided for @patronChessigmaPatron.
   ///
   /// In en, this message translates to:
-  /// **'Lichess Patron'**
-  String get patronLichessPatron;
+  /// **'Chessigma Patron'**
+  String get patronChessigmaPatron;
 
   /// No description provided for @patronBecomePatron.
   ///
   /// In en, this message translates to:
-  /// **'Become a Lichess Patron'**
+  /// **'Become a Chessigma Patron'**
   String get patronBecomePatron;
 
   /// No description provided for @perfStatPerfStats.
@@ -2461,7 +2461,7 @@ abstract class AppLocalizations {
   /// No description provided for @preferencesExplainShowPlayerRatings.
   ///
   /// In en, this message translates to:
-  /// **'This hides all ratings from Lichess, to help focus on the chess. Rated games still impact your rating, this is only about what you get to see.'**
+  /// **'This hides all ratings from Chessigma, to help focus on the chess. Rated games still impact your rating, this is only about what you get to see.'**
   String get preferencesExplainShowPlayerRatings;
 
   /// No description provided for @preferencesDisplayBoardResizeHandle.
@@ -2749,13 +2749,13 @@ abstract class AppLocalizations {
   /// No description provided for @preferencesNotifyBell.
   ///
   /// In en, this message translates to:
-  /// **'Bell notification within Lichess'**
+  /// **'Bell notification within Chessigma'**
   String get preferencesNotifyBell;
 
   /// No description provided for @preferencesNotifyPush.
   ///
   /// In en, this message translates to:
-  /// **'Device notification when you\'re not on Lichess'**
+  /// **'Device notification when you\'re not on Chessigma'**
   String get preferencesNotifyPush;
 
   /// No description provided for @preferencesNotifyWeb.
@@ -3175,7 +3175,7 @@ abstract class AppLocalizations {
   /// No description provided for @puzzleFromMyGamesNone.
   ///
   /// In en, this message translates to:
-  /// **'You have no puzzles in the database, but Lichess still loves you very much.\n\nPlay rapid and classical games to increase your chances of having a puzzle of yours added!'**
+  /// **'You have no puzzles in the database, but Chessigma still loves you very much.\n\nPlay rapid and classical games to increase your chances of having a puzzle of yours added!'**
   String get puzzleFromMyGamesNone;
 
   /// No description provided for @puzzlePuzzleDashboardDescription.
@@ -5353,19 +5353,19 @@ abstract class AppLocalizations {
   /// No description provided for @blankedPassword.
   ///
   /// In en, this message translates to:
-  /// **'You have used the same password on another site, and that site has been compromised. To ensure the safety of your Lichess account, we need you to set a new password. Thank you for your understanding.'**
+  /// **'You have used the same password on another site, and that site has been compromised. To ensure the safety of your Chessigma account, we need you to set a new password. Thank you for your understanding.'**
   String get blankedPassword;
 
-  /// No description provided for @youAreLeavingLichess.
+  /// No description provided for @youAreLeavingChessigma.
   ///
   /// In en, this message translates to:
-  /// **'You are leaving Lichess'**
-  String get youAreLeavingLichess;
+  /// **'You are leaving Chessigma'**
+  String get youAreLeavingChessigma;
 
   /// No description provided for @neverTypeYourPassword.
   ///
   /// In en, this message translates to:
-  /// **'Never type your Lichess password on another site!'**
+  /// **'Never type your Chessigma password on another site!'**
   String get neverTypeYourPassword;
 
   /// No description provided for @proceedToX.
@@ -5803,7 +5803,7 @@ abstract class AppLocalizations {
   /// No description provided for @thisAccountViolatedTos.
   ///
   /// In en, this message translates to:
-  /// **'This account violated the Lichess Terms of Service'**
+  /// **'This account violated the Chessigma Terms of Service'**
   String get thisAccountViolatedTos;
 
   /// No description provided for @openingExplorerAndTablebase.
@@ -6640,11 +6640,11 @@ abstract class AppLocalizations {
   /// **'Clear moves'**
   String get clearSavedMoves;
 
-  /// No description provided for @previouslyOnLichessTV.
+  /// No description provided for @previouslyOnChessigmaTV.
   ///
   /// In en, this message translates to:
-  /// **'Previously on Lichess TV'**
-  String get previouslyOnLichessTV;
+  /// **'Previously on Chessigma TV'**
+  String get previouslyOnChessigmaTV;
 
   /// No description provided for @onlinePlayers.
   ///
@@ -7579,7 +7579,7 @@ abstract class AppLocalizations {
   /// No description provided for @lichessTournaments.
   ///
   /// In en, this message translates to:
-  /// **'Lichess tournaments'**
+  /// **'Chessigma tournaments'**
   String get lichessTournaments;
 
   /// No description provided for @tournamentFAQ.
@@ -7846,17 +7846,17 @@ abstract class AppLocalizations {
   /// **'Read about our {param}.'**
   String readAboutOur(String param);
 
-  /// No description provided for @networkLagBetweenYouAndLichess.
+  /// No description provided for @networkLagBetweenYouAndChessigma.
   ///
   /// In en, this message translates to:
-  /// **'Network lag between you and Lichess'**
-  String get networkLagBetweenYouAndLichess;
+  /// **'Network lag between you and Chessigma'**
+  String get networkLagBetweenYouAndChessigma;
 
-  /// No description provided for @timeToProcessAMoveOnLichessServer.
+  /// No description provided for @timeToProcessAMoveOnChessigmaServer.
   ///
   /// In en, this message translates to:
-  /// **'Time to process a move on Lichess\'s server'**
-  String get timeToProcessAMoveOnLichessServer;
+  /// **'Time to process a move on Chessigma\'s server'**
+  String get timeToProcessAMoveOnChessigmaServer;
 
   /// No description provided for @downloadAnnotated.
   ///
@@ -7966,11 +7966,11 @@ abstract class AppLocalizations {
   /// **'This is about safety. In kid mode, all site communications are disabled. Enable this for your children and school students, to protect them from other internet users.'**
   String get kidModeExplanation;
 
-  /// No description provided for @inKidModeTheLichessLogoGetsIconX.
+  /// No description provided for @inKidModeTheChessigmaLogoGetsIconX.
   ///
   /// In en, this message translates to:
-  /// **'In kid mode, the Lichess logo gets a {param} icon, so you know your kids are safe.'**
-  String inKidModeTheLichessLogoGetsIconX(String param);
+  /// **'In kid mode, the Chessigma logo gets a {param} icon, so you know your kids are safe.'**
+  String inKidModeTheChessigmaLogoGetsIconX(String param);
 
   /// No description provided for @askYourChessTeacherAboutLiftingKidMode.
   ///
@@ -8533,7 +8533,7 @@ abstract class AppLocalizations {
   /// No description provided for @showUnreadChessigmaMessage.
   ///
   /// In en, this message translates to:
-  /// **'You have received a private message from Lichess.'**
+  /// **'You have received a private message from Chessigma.'**
   String get showUnreadChessigmaMessage;
 
   /// No description provided for @clickHereToReadIt.
@@ -8653,7 +8653,7 @@ abstract class AppLocalizations {
   /// No description provided for @agreementPolicy.
   ///
   /// In en, this message translates to:
-  /// **'I agree that I will follow all Lichess policies.'**
+  /// **'I agree that I will follow all Chessigma policies.'**
   String get agreementPolicy;
 
   /// No description provided for @searchOrStartNewDiscussion.
@@ -8893,7 +8893,7 @@ abstract class AppLocalizations {
   /// No description provided for @lostAgainstTOSViolator.
   ///
   /// In en, this message translates to:
-  /// **'You lost rating points to someone who violated the Lichess TOS'**
+  /// **'You lost rating points to someone who violated the Chessigma TOS'**
   String get lostAgainstTOSViolator;
 
   /// No description provided for @refundXpointsTimeControlY.
@@ -9199,7 +9199,7 @@ abstract class AppLocalizations {
   /// No description provided for @lichessDbExplanation.
   ///
   /// In en, this message translates to:
-  /// **'Rated games played on Lichess'**
+  /// **'Rated games played on Chessigma'**
   String get lichessDbExplanation;
 
   /// No description provided for @switchSides.
@@ -9235,7 +9235,7 @@ abstract class AppLocalizations {
   /// No description provided for @lichessPatronInfo.
   ///
   /// In en, this message translates to:
-  /// **'Lichess is a charity and entirely free/libre open source software.\nAll operating costs, development, and content are funded solely by user donations.'**
+  /// **'Chessigma is a charity and entirely free/libre open source software.\nAll operating costs, development, and content are funded solely by user donations.'**
   String get lichessPatronInfo;
 
   /// No description provided for @nothingToSeeHere.
@@ -9898,11 +9898,11 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{Played one run of {param2}} other{Played {count} runs of {param2}}}'**
   String stormPlayedNbRunsOfPuzzleStorm(int count, String param2);
 
-  /// No description provided for @streamerLichessStreamers.
+  /// No description provided for @streamerChessigmaStreamers.
   ///
   /// In en, this message translates to:
-  /// **'Lichess streamers'**
-  String get streamerLichessStreamers;
+  /// **'Chessigma streamers'**
+  String get streamerChessigmaStreamers;
 
   /// No description provided for @studyPrivate.
   ///
@@ -10231,7 +10231,7 @@ abstract class AppLocalizations {
   /// No description provided for @studyYouCanPasteThisInTheForumToEmbed.
   ///
   /// In en, this message translates to:
-  /// **'You can paste this in the forum or your Lichess blog to embed'**
+  /// **'You can paste this in the forum or your Chessigma blog to embed'**
   String get studyYouCanPasteThisInTheForumToEmbed;
 
   /// No description provided for @studyStartAtInitialPosition.
@@ -10810,17 +10810,17 @@ abstract class AppLocalizations {
   /// **'Need help? Get the tour!'**
   String get studyGetTheTour;
 
-  /// No description provided for @studyWelcomeToLichessStudyTitle.
+  /// No description provided for @studyWelcomeToChessigmaStudyTitle.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to Lichess Study!'**
-  String get studyWelcomeToLichessStudyTitle;
+  /// **'Welcome to Chessigma Study!'**
+  String get studyWelcomeToChessigmaStudyTitle;
 
-  /// No description provided for @studyWelcomeToLichessStudyText.
+  /// No description provided for @studyWelcomeToChessigmaStudyText.
   ///
   /// In en, this message translates to:
   /// **'This is a shared analysis board.<br><br>Use it to analyse and annotate games,<br>discuss positions with friends,<br>and of course for chess lessons!<br><br>It\'s a powerful tool, let\'s take some time to see how it works.'**
-  String get studyWelcomeToLichessStudyText;
+  String get studyWelcomeToChessigmaStudyText;
 
   /// No description provided for @studySharedAndSaveTitle.
   ///
@@ -10936,17 +10936,17 @@ abstract class AppLocalizations {
   /// **'Setup the board your way.<br>Suited to explore endgames.'**
   String get studyCustomPositionText;
 
-  /// No description provided for @studyLoadExistingLichessGameTitle.
+  /// No description provided for @studyLoadExistingChessigmaGameTitle.
   ///
   /// In en, this message translates to:
   /// **'Load an existing lichess game'**
-  String get studyLoadExistingLichessGameTitle;
+  String get studyLoadExistingChessigmaGameTitle;
 
-  /// No description provided for @studyLoadExistingLichessGameText.
+  /// No description provided for @studyLoadExistingChessigmaGameText.
   ///
   /// In en, this message translates to:
   /// **'Paste a lichess game URL<br>(like lichess.org/7fHIU0XI)<br>to load the game moves in the chapter.'**
-  String get studyLoadExistingLichessGameText;
+  String get studyLoadExistingChessigmaGameText;
 
   /// No description provided for @studyFromFenStringTitle.
   ///

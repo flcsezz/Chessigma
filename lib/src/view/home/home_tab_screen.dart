@@ -688,7 +688,7 @@ class _WelcomeMessageCardState extends State<_WelcomeMessageCard> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: '${context.l10n.mobileWelcomeToLichessApp}\n\n',
+                        text: '${context.l10n.mobileWelcomeToChessigmaApp}\n\n',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       TextSpan(

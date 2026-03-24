@@ -16,7 +16,7 @@ import 'package:chessigma_mobile/src/utils/rate_limit.dart';
 import 'package:chessigma_mobile/src/widgets/adaptive_bottom_sheet.dart';
 import 'package:chessigma_mobile/src/widgets/list.dart';
 
-const innacuracyColor = LichessColors.cyan;
+const innacuracyColor = ChessigmaColors.cyan;
 const mistakeColor = Color(0xFFe69f00);
 const blunderColor = Color(0xFFdf5353);
 const kInlineMovePadding = EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0);
@@ -86,7 +86,7 @@ Annotation? makeAnnotation(Iterable<int>? nags) {
     1 => const Annotation(symbol: '!', color: Colors.lightGreen),
     3 => const Annotation(symbol: '!!', color: Colors.teal),
     5 => const Annotation(symbol: '!?', color: Colors.purple),
-    6 => const Annotation(symbol: '?!', color: LichessColors.cyan),
+    6 => const Annotation(symbol: '?!', color: ChessigmaColors.cyan),
     2 => const Annotation(symbol: '?', color: mistakeColor),
     4 => const Annotation(symbol: '??', color: blunderColor),
     8 => const Annotation(symbol: '□', color: Colors.grey),
@@ -1340,7 +1340,7 @@ class InlineMove extends ConsumerWidget {
                     style: moveTextStyle.copyWith(
                       color: isPremove
                           // TODO Possibly choose a more suitable color
-                          ? LichessColors.brag
+                          ? ChessigmaColors.brag
                           : _textColor(context, isCurrentMove ? 1 : 0.9, nag: nag),
                     ),
                   ),

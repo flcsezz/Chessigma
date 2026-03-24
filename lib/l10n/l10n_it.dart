@@ -12,7 +12,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get mobileAccountPreferences => 'Preferenze dell\'account';
 
   @override
-  String get mobileAccountPreferencesHelp => 'Queste preferenze sono applicate al tuo account Lichess e saranno utilizzate su tutti i dispositivi.';
+  String get mobileAccountPreferencesHelp => 'Queste preferenze sono applicate al tuo account Chessigma e saranno utilizzate su tutti i dispositivi.';
 
   @override
   String get mobileAllGames => 'Tutte le partite';
@@ -242,7 +242,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get mobileWatchTab => 'Guarda';
 
   @override
-  String get mobileWelcomeToLichessApp => 'Benvenuto nell\'app Lichess!';
+  String get mobileWelcomeToChessigmaApp => 'Benvenuto nell\'app Chessigma!';
 
   @override
   String get mobileViewGame => 'Visualizza Partita';
@@ -761,7 +761,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get broadcastAboutBroadcasts => 'Informazioni sulle trasmissioni';
 
   @override
-  String get broadcastHowToUseLichessBroadcasts => 'Istruzioni delle trasmissioni Lichess.';
+  String get broadcastHowToUseChessigmaBroadcasts => 'Istruzioni delle trasmissioni Chessigma.';
 
   @override
   String get broadcastTheNewRoundHelp => 'Il nuovo turno avrà gli stessi membri e contributori del precedente.';
@@ -796,10 +796,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get broadcastSourceSingleUrl => 'Sorgente URL PGN';
 
   @override
-  String get broadcastSourceUrlHelp => 'L\'URL che Lichess utilizzerà per ottenere gli aggiornamenti dei PGN. Deve essere accessibile pubblicamente su Internet.';
+  String get broadcastSourceUrlHelp => 'L\'URL che Chessigma utilizzerà per ottenere gli aggiornamenti dei PGN. Deve essere accessibile pubblicamente su Internet.';
 
   @override
-  String get broadcastSourceGameIds => 'Fino a 64 ID di partite Lichess, separati da spazi.';
+  String get broadcastSourceGameIds => 'Fino a 64 ID di partite Chessigma, separati da spazi.';
 
   @override
   String broadcastStartDateTimeZone(String param) {
@@ -870,7 +870,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get broadcastRecentTournaments => 'Tornei recenti';
 
   @override
-  String get broadcastOpenLichess => 'Apri con Lichess';
+  String get broadcastOpenChessigma => 'Apri con Chessigma';
 
   @override
   String get broadcastTeams => 'Squadre';
@@ -1158,13 +1158,13 @@ class AppLocalizationsIt extends AppLocalizations {
   String get challengeDeclineOnlyBot => 'Accetto solo sfide da bot.';
 
   @override
-  String get challengeInviteLichessUser => 'Oppure invita un utente di Lichess:';
+  String get challengeInviteChessigmaUser => 'Oppure invita un utente di Chessigma:';
 
   @override
   String get contactContact => 'Contattaci';
 
   @override
-  String get contactContactLichess => 'Contatta Lichess';
+  String get contactContactChessigma => 'Contatta Chessigma';
 
   @override
   String get coordinatesCoordinates => 'Coordinate';
@@ -1231,10 +1231,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get patronDonate => 'Fai una donazione';
 
   @override
-  String get patronLichessPatron => 'Patron di Lichess';
+  String get patronChessigmaPatron => 'Patron di Chessigma';
 
   @override
-  String get patronBecomePatron => 'Diventa un Mecenate di Lichess';
+  String get patronBecomePatron => 'Diventa un Mecenate di Chessigma';
 
   @override
   String perfStatPerfStats(String param) {
@@ -1534,10 +1534,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get preferencesNotifyTimeAlarm => 'Il tempo sta per scadere in una partita per corrispondenza';
 
   @override
-  String get preferencesNotifyBell => 'Notifica sonora in Lichess';
+  String get preferencesNotifyBell => 'Notifica sonora in Chessigma';
 
   @override
-  String get preferencesNotifyPush => 'Notifiche dispositivo (push) quando non sei collegato a Lichess';
+  String get preferencesNotifyPush => 'Notifiche dispositivo (push) quando non sei collegato a Chessigma';
 
   @override
   String get preferencesNotifyWeb => 'Browser';
@@ -1755,7 +1755,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get puzzleSearchPuzzles => 'Cerca problemi';
 
   @override
-  String get puzzleFromMyGamesNone => 'Nel database dei problemi di Lichess non è presente nessuna delle tue partite, ma Lichess ti vuole bene lo stesso.\nGioca altre partite rapide o classiche per aumentare le possibilità di avere un problema tratto dalle tue partite!';
+  String get puzzleFromMyGamesNone => 'Nel database dei problemi di Chessigma non è presente nessuna delle tue partite, ma Chessigma ti vuole bene lo stesso.\nGioca altre partite rapide o classiche per aumentare le possibilità di avere un problema tratto dalle tue partite!';
 
   @override
   String get puzzlePuzzleDashboardDescription => 'Allenati, analizza, migliora';
@@ -2910,13 +2910,13 @@ class AppLocalizationsIt extends AppLocalizations {
   String get error_namePassword => 'Sei pregato di non utilizzare il tuo nome utente come password.';
 
   @override
-  String get blankedPassword => 'Hai usato la stessa password su un altro sito e quel sito è stato violato. Per garantire la sicurezza del tuo account Lichess, abbiamo bisogno che imposti una nuova password. Grazie per la tua comprensione.';
+  String get blankedPassword => 'Hai usato la stessa password su un altro sito e quel sito è stato violato. Per garantire la sicurezza del tuo account Chessigma, abbiamo bisogno che imposti una nuova password. Grazie per la tua comprensione.';
 
   @override
-  String get youAreLeavingLichess => 'Stai uscendo da Lichess';
+  String get youAreLeavingChessigma => 'Stai uscendo da Chessigma';
 
   @override
-  String get neverTypeYourPassword => 'Non digitare mai la tua password di Lichess su un altro sito!';
+  String get neverTypeYourPassword => 'Non digitare mai la tua password di Chessigma su un altro sito!';
 
   @override
   String proceedToX(String param) {
@@ -3153,7 +3153,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get ratingFilter => 'Filtro punteggi';
 
   @override
-  String get thisAccountViolatedTos => 'Questo account ha violato i termini di servizio di Lichess';
+  String get thisAccountViolatedTos => 'Questo account ha violato i termini di servizio di Chessigma';
 
   @override
   String get openingExplorerAndTablebase => 'Explorer delle aperture & tablebase';
@@ -3613,7 +3613,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get clearSavedMoves => 'Fai pulizia delle mosse';
 
   @override
-  String get previouslyOnLichessTV => 'Già visti sulla TV di Lichess';
+  String get previouslyOnChessigmaTV => 'Già visti sulla TV di Chessigma';
 
   @override
   String get onlinePlayers => 'Giocatori online';
@@ -4113,7 +4113,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get simulHostExtraTimePerPlayer => 'Tempo extra per il simultaneista per ciascun giocatore';
 
   @override
-  String get lichessTournaments => 'Tornei Lichess';
+  String get lichessTournaments => 'Tornei Chessigma';
 
   @override
   String get tournamentFAQ => 'Domande frequenti sui tornei';
@@ -4268,10 +4268,10 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String get networkLagBetweenYouAndLichess => 'Ping tra te e Lichess';
+  String get networkLagBetweenYouAndChessigma => 'Ping tra te e Chessigma';
 
   @override
-  String get timeToProcessAMoveOnLichessServer => 'Tempo per elaborare una mossa sul server di Lichess';
+  String get timeToProcessAMoveOnChessigmaServer => 'Tempo per elaborare una mossa sul server di Chessigma';
 
   @override
   String get downloadAnnotated => 'Scarica PGN annotato';
@@ -4328,7 +4328,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get kidModeExplanation => 'Questa modalità riguarda la sicurezza: in modalità bambino tutte le comunicazioni sono disabilitate. Si consiglia di attivare questa modalità per bambini e studenti, in modo da proteggerli dagli altri utenti.';
 
   @override
-  String inKidModeTheLichessLogoGetsIconX(String param) {
+  String inKidModeTheChessigmaLogoGetsIconX(String param) {
     return 'In \"modalità bambino\", al logo di lichess viene aggiunto $param, in questo modo sai che il bambino è sicuro.';
   }
 
@@ -4636,7 +4636,7 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String get showUnreadChessigmaMessage => 'Hai ricevuto un messaggio privato da Lichess.';
+  String get showUnreadChessigmaMessage => 'Hai ricevuto un messaggio privato da Chessigma.';
 
   @override
   String get clickHereToReadIt => 'Clicca qui per leggerlo';
@@ -4698,7 +4698,7 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String get agreementPolicy => 'Dichiaro di acconsentire a tutte le politiche di Lichess.';
+  String get agreementPolicy => 'Dichiaro di acconsentire a tutte le politiche di Chessigma.';
 
   @override
   String get searchOrStartNewDiscussion => 'Cerca o inizia una nuova conversazione';
@@ -5009,7 +5009,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get until => 'Fino al';
 
   @override
-  String get lichessDbExplanation => 'Partite classificate di tutti i giocatori di Lichess';
+  String get lichessDbExplanation => 'Partite classificate di tutti i giocatori di Chessigma';
 
   @override
   String get switchSides => 'Cambia colore';
@@ -5027,7 +5027,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get showMeEverything => 'Mostra tutto';
 
   @override
-  String get lichessPatronInfo => 'Lichess è un software open source completamente gratuito e libero\nTutti i costi operativi, lo sviluppo e i contenuti sono finanziati esclusivamente dalle donazioni degli utenti.';
+  String get lichessPatronInfo => 'Chessigma è un software open source completamente gratuito e libero\nTutti i costi operativi, lo sviluppo e i contenuti sono finanziati esclusivamente dalle donazioni degli utenti.';
 
   @override
   String get nothingToSeeHere => 'Niente da vedere qui al momento.';
@@ -5736,7 +5736,7 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String get streamerLichessStreamers => 'Lichess streamer';
+  String get streamerChessigmaStreamers => 'Chessigma streamer';
 
   @override
   String get studyPrivate => 'Privato';
@@ -6206,10 +6206,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get studyGetTheTour => 'Hai bisogno di aiuto? Fai un tour!';
 
   @override
-  String get studyWelcomeToLichessStudyTitle => 'Benvenuto allo Studio!';
+  String get studyWelcomeToChessigmaStudyTitle => 'Benvenuto allo Studio!';
 
   @override
-  String get studyWelcomeToLichessStudyText => 'Questa è una scacchiera di analisi condivisa.<br><br>Usala per analizzare e annotare le partite,<br>discutere delle posizioni con gli amici,<br>e, naturalmente, per le lezioni di scacchi!<br><br>È uno strumento potente, prendiamoci un po\' di tempo per vedere come funziona.';
+  String get studyWelcomeToChessigmaStudyText => 'Questa è una scacchiera di analisi condivisa.<br><br>Usala per analizzare e annotare le partite,<br>discutere delle posizioni con gli amici,<br>e, naturalmente, per le lezioni di scacchi!<br><br>È uno strumento potente, prendiamoci un po\' di tempo per vedere come funziona.';
 
   @override
   String get studySharedAndSaveTitle => 'Condivisa e salvata';
@@ -6275,10 +6275,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get studyCustomPositionText => 'Personalizza la scacchiera come preferisci.<br>Ideale per esplorare i finali.';
 
   @override
-  String get studyLoadExistingLichessGameTitle => 'Carica una partita lichess esistente';
+  String get studyLoadExistingChessigmaGameTitle => 'Carica una partita lichess esistente';
 
   @override
-  String get studyLoadExistingLichessGameText => 'Incolla un\'URL di una partita lichess <br> (come lichess.org/7fHIU0XI)<br>per caricare le mosse nel capitolo.';
+  String get studyLoadExistingChessigmaGameText => 'Incolla un\'URL di una partita lichess <br> (come lichess.org/7fHIU0XI)<br>per caricare le mosse nel capitolo.';
 
   @override
   String get studyFromFenStringTitle => 'Da una stringa FEN';

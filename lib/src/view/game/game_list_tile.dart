@@ -45,7 +45,7 @@ class GameListTile extends StatelessWidget {
 
     Widget getResultIcon(LightExportedGame game, Side mySide) {
       if (game.status == GameStatus.aborted || game.status == GameStatus.noStart) {
-        return const Icon(CupertinoIcons.xmark_square_fill, color: LichessColors.grey);
+        return Icon(CupertinoIcons.xmark_square_fill, color: ChessigmaColors.grey);
       } else {
         return game.winner == null
             ? Icon(CupertinoIcons.equal_square_fill, color: context.chessigmaColors.brag)

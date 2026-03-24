@@ -61,7 +61,7 @@ class PatronIcon extends StatelessWidget {
                 : patronColorsLight[(color! - 1)]
           : null,
       size: size ?? textStyle.fontSize,
-      semanticLabel: context.l10n.patronLichessPatron,
+      semanticLabel: context.l10n.patronChessigmaPatron,
     );
   }
 
