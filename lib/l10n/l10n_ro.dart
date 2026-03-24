@@ -4664,7 +4664,7 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Ați primit un mesaj privat de la Lichess.';
+  String get showUnreadChessigmaMessage => 'Ați primit un mesaj privat de la Lichess.';
 
   @override
   String get clickHereToReadIt => 'Click aici pentru a-l citi';

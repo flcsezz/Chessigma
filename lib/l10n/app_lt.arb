@@ -1240,7 +1240,7 @@
   "noConditionalPremoves": "Nėra sąlyginių išankstinių ėjimų",
   "playX": "Žaiskite {param}",
   "challengeX": "Teikti iššūkį {param}",
-  "showUnreadLichessMessage": "Jūs gavote privačią žinutę iš Lichess.",
+  "showUnreadChessigmaMessage": "Jūs gavote privačią žinutę iš Lichess.",
   "clickHereToReadIt": "Spustelėkite čia, kad peržiūrėtumėte",
   "sorry": "Atsiprašome :(",
   "weHadToTimeYouOutForAWhile": "Turėjome jus laikinai apriboti.",

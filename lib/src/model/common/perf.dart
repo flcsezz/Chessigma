@@ -1,30 +1,30 @@
 import 'package:deep_pick/deep_pick.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lichess_mobile/src/model/common/chess.dart';
-import 'package:lichess_mobile/src/model/common/speed.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/model/common/chess.dart';
+import 'package:chessigma_mobile/src/model/common/speed.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
 
 /// Represents a lichess rating perf item
 enum Perf {
-  ultraBullet('UltraBullet', 'Ultra', LichessIcons.ultrabullet),
-  bullet('Bullet', 'Bullet', LichessIcons.bullet),
-  blitz('Blitz', 'Blitz', LichessIcons.blitz),
-  rapid('Rapid', 'Rapid', LichessIcons.rapid),
-  classical('Classical', 'Classical', LichessIcons.classical),
-  correspondence('Correspondence', 'Corresp.', LichessIcons.correspondence),
-  fromPosition('From Position', 'From Pos.', LichessIcons.feather),
-  chess960('Chess960', '960', LichessIcons.die_six),
-  antichess('Antichess', 'Antichess', LichessIcons.antichess),
-  kingOfTheHill('King of the Hill', 'KotH', LichessIcons.flag),
-  threeCheck('Three-check', '3check', LichessIcons.three_check),
-  atomic('Atomic', 'Atomic', LichessIcons.atom),
-  horde('Horde', 'Horde', LichessIcons.horde),
-  racingKings('Racing Kings', 'Racing', LichessIcons.racing_kings),
-  crazyhouse('Crazyhouse', 'Crazy', LichessIcons.h_square),
-  puzzle('Puzzle', 'Puzzle', LichessIcons.target),
-  storm('Storm', 'Storm', LichessIcons.storm),
-  streak('Streak', 'Streak', LichessIcons.streak);
+  ultraBullet('UltraBullet', 'Ultra', ChessigmaIcons.ultrabullet),
+  bullet('Bullet', 'Bullet', ChessigmaIcons.bullet),
+  blitz('Blitz', 'Blitz', ChessigmaIcons.blitz),
+  rapid('Rapid', 'Rapid', ChessigmaIcons.rapid),
+  classical('Classical', 'Classical', ChessigmaIcons.classical),
+  correspondence('Correspondence', 'Corresp.', ChessigmaIcons.correspondence),
+  fromPosition('From Position', 'From Pos.', ChessigmaIcons.feather),
+  chess960('Chess960', '960', ChessigmaIcons.die_six),
+  antichess('Antichess', 'Antichess', ChessigmaIcons.antichess),
+  kingOfTheHill('King of the Hill', 'KotH', ChessigmaIcons.flag),
+  threeCheck('Three-check', '3check', ChessigmaIcons.three_check),
+  atomic('Atomic', 'Atomic', ChessigmaIcons.atom),
+  horde('Horde', 'Horde', ChessigmaIcons.horde),
+  racingKings('Racing Kings', 'Racing', ChessigmaIcons.racing_kings),
+  crazyhouse('Crazyhouse', 'Crazy', ChessigmaIcons.h_square),
+  puzzle('Puzzle', 'Puzzle', ChessigmaIcons.target),
+  storm('Storm', 'Storm', ChessigmaIcons.storm),
+  streak('Streak', 'Streak', ChessigmaIcons.streak);
 
   const Perf(this.title, this.shortTitle, this.icon);
 

@@ -4636,7 +4636,7 @@ class AppLocalizationsDa extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Du har modtaget en privat besked fra Lichess.';
+  String get showUnreadChessigmaMessage => 'Du har modtaget en privat besked fra Lichess.';
 
   @override
   String get clickHereToReadIt => 'Klik her for at læse den';

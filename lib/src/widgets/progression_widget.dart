@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
 
 const _customOpacity = 0.6;
 
@@ -18,14 +18,14 @@ class ProgressionWidget extends StatelessWidget {
       children: [
         if (progress != 0) ...[
           Icon(
-            progress > 0 ? LichessIcons.arrow_full_upperright : LichessIcons.arrow_full_lowerright,
+            progress > 0 ? ChessigmaIcons.arrow_full_upperright : ChessigmaIcons.arrow_full_lowerright,
             size: fontSize,
-            color: progress > 0 ? context.lichessColors.good : context.lichessColors.error,
+            color: progress > 0 ? context.chessigmaColors.good : context.chessigmaColors.error,
           ),
           Text(
             progress.abs().toString(),
             style: TextStyle(
-              color: progress > 0 ? context.lichessColors.good : context.lichessColors.error,
+              color: progress > 0 ? context.chessigmaColors.good : context.chessigmaColors.error,
               fontSize: fontSize,
               fontFeatures: const [FontFeature.tabularFigures()],
             ),

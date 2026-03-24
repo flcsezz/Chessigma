@@ -5,15 +5,15 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/l10n/l10n.dart';
-import 'package:lichess_mobile/src/binding.dart';
-import 'package:lichess_mobile/src/localizations.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/common/preloaded_data.dart';
-import 'package:lichess_mobile/src/model/notifications/notifications.dart';
-import 'package:lichess_mobile/src/network/connectivity.dart';
-import 'package:lichess_mobile/src/network/http.dart';
-import 'package:lichess_mobile/src/utils/badge_service.dart';
+import 'package:chessigma_mobile/l10n/l10n.dart';
+import 'package:chessigma_mobile/src/binding.dart';
+import 'package:chessigma_mobile/src/localizations.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/common/preloaded_data.dart';
+import 'package:chessigma_mobile/src/model/notifications/notifications.dart';
+import 'package:chessigma_mobile/src/network/connectivity.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/utils/badge_service.dart';
 import 'package:logging/logging.dart';
 
 final _logger = Logger('NotificationService');
@@ -93,21 +93,21 @@ class NotificationService {
   /// It also registers the device for push notifications once the app is online.
   ///
   /// This method should be called once the app is ready to receive notifications,
-  /// and after [LichessBinding.initializeNotifications] has been called.
+  /// and after [ChessigmaBinding.initializeNotifications] has been called.
   Future<void> start() async {
     // Listen for incoming messages while the app is in the foreground.
-    LichessBinding.instance.firebaseMessagingOnMessage.listen((RemoteMessage message) {
+    ChessigmaBinding.instance.firebaseMessagingOnMessage.listen((RemoteMessage message) {
       _processFcmMessage(message, fromBackground: false);
     });
 
     // Listen for incoming messages while the app is in the background.
-    LichessBinding.instance.firebaseMessagingOnBackgroundMessage(
+    ChessigmaBinding.instance.firebaseMessagingOnBackgroundMessage(
       _firebaseMessagingBackgroundHandler,
     );
 
     // Request permission to receive notifications. Pop-up will appear only
     // once.
-    await LichessBinding.instance.firebaseMessaging.requestPermission(
+    await ChessigmaBinding.instance.firebaseMessaging.requestPermission(
       alert: true,
       badge: true,
       sound: true,
@@ -118,7 +118,7 @@ class NotificationService {
     );
 
     // Listen for token refresh and update the token on the server accordingly.
-    _fcmTokenRefreshSubscription = LichessBinding.instance.firebaseMessaging.onTokenRefresh.listen((
+    _fcmTokenRefreshSubscription = ChessigmaBinding.instance.firebaseMessaging.onTokenRefresh.listen((
       String token,
     ) {
       _registerToken(token);
@@ -140,7 +140,7 @@ class NotificationService {
 
     // Get any messages which caused the application to open from
     // a terminated state.
-    final RemoteMessage? initialMessage = await LichessBinding.instance.firebaseMessaging
+    final RemoteMessage? initialMessage = await ChessigmaBinding.instance.firebaseMessaging
         .getInitialMessage();
 
     if (initialMessage != null) {
@@ -148,7 +148,7 @@ class NotificationService {
     }
 
     // Handle any other interaction that caused the app to open when in background.
-    LichessBinding.instance.firebaseMessagingOnMessageOpenedApp.listen(_handleFcmMessageOpenedApp);
+    ChessigmaBinding.instance.firebaseMessagingOnMessageOpenedApp.listen(_handleFcmMessageOpenedApp);
   }
 
   /// Shows a notification.
@@ -330,13 +330,13 @@ class NotificationService {
   Future<bool> registerDevice() async {
     // For apple platforms, make sure the APNS token is available before making any FCM plugin API calls
     if (defaultTargetPlatform == TargetPlatform.iOS) {
-      final apnsToken = await LichessBinding.instance.firebaseMessaging.getAPNSToken();
+      final apnsToken = await ChessigmaBinding.instance.firebaseMessaging.getAPNSToken();
       if (apnsToken == null) {
         _logger.warning('APNS token is null');
         return false;
       }
     }
-    final token = await LichessBinding.instance.firebaseMessaging.getToken();
+    final token = await ChessigmaBinding.instance.firebaseMessaging.getToken();
     if (token == null) {
       _logger.warning('FCM token is null');
       return false;
@@ -359,7 +359,7 @@ class NotificationService {
   }
 
   Future<bool> _registerToken(String token) async {
-    final settings = await LichessBinding.instance.firebaseMessaging.getNotificationSettings();
+    final settings = await ChessigmaBinding.instance.firebaseMessaging.getNotificationSettings();
     if (settings.authorizationStatus == AuthorizationStatus.denied) {
       return false;
     }
@@ -382,7 +382,7 @@ class NotificationService {
     // create a new provider scope for the background isolate
     final ref = ProviderContainer();
 
-    final lichessBinding = AppLichessBinding.ensureInitialized();
+    final lichessBinding = AppChessigmaBinding.ensureInitialized();
     await lichessBinding.preloadSharedPreferences();
     await ref.read(preloadedDataProvider.future);
 

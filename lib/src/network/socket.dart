@@ -8,13 +8,13 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/binding.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/auth/bearer.dart';
-import 'package:lichess_mobile/src/model/common/preloaded_data.dart';
-import 'package:lichess_mobile/src/model/common/socket.dart';
-import 'package:lichess_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/binding.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/auth/bearer.dart';
+import 'package:chessigma_mobile/src/model/common/preloaded_data.dart';
+import 'package:chessigma_mobile/src/model/common/socket.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
 import 'package:logging/logging.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:web_socket_channel/io.dart';
@@ -381,7 +381,7 @@ class SocketClient {
           _logger.severe(
             'Cannot solve event gap: version incoming ${event.version} vs current $version',
           );
-          LichessBinding.instance.firebaseCrashlytics.recordError(
+          ChessigmaBinding.instance.firebaseCrashlytics.recordError(
             'Cannot solve event gap: version incoming ${event.version} vs current $version',
             null,
             information: ['socket.route: $route', 'event.topic: ${event.topic}'],

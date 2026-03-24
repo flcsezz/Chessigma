@@ -1187,7 +1187,7 @@
   "playVariationToCreateConditionalPremoves": "Шартты ертелі жүрістерді құру үшін бір тармақты ойнаңыз",
   "noConditionalPremoves": "Шартты ертелі жүрістер жоқ",
   "playX": "{param} жүріңіз",
-  "showUnreadLichessMessage": "Сізге Личестен жеке хат келді.",
+  "showUnreadChessigmaMessage": "Сізге Личестен жеке хат келді.",
   "clickHereToReadIt": "Осында басып оқыңыз",
   "sorry": "Өкінішті-ақ :(",
   "weHadToTimeYouOutForAWhile": "Сізді уақытша шектеуге мәжбүрміз.",

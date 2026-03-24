@@ -1372,7 +1372,7 @@
   "noConditionalPremoves": "Καμία υποθετική προκίνηση",
   "playX": "Παίξτε {param}",
   "challengeX": "Προκαλέστε τον χρήστη {param}",
-  "showUnreadLichessMessage": "Έχετε λάβει ένα προσωπικό μήνυμα από το Lichess.",
+  "showUnreadChessigmaMessage": "Έχετε λάβει ένα προσωπικό μήνυμα από το Lichess.",
   "clickHereToReadIt": "Κάντε κλικ εδώ για να το δείτε",
   "sorry": "Λυπούμαστε :(",
   "weHadToTimeYouOutForAWhile": "Ο λογαριασμός σας έχει αποκλειστεί προσωρινά.",

@@ -1,17 +1,17 @@
 import 'package:deep_pick/deep_pick.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lichess_mobile/src/model/common/time_increment.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/model/common/time_increment.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
 
 /// Represents a lichess rating Speed item
 enum Speed {
-  ultraBullet(LichessIcons.ultrabullet),
-  bullet(LichessIcons.bullet),
-  blitz(LichessIcons.blitz),
-  rapid(LichessIcons.rapid),
-  classical(LichessIcons.classical),
-  correspondence(LichessIcons.correspondence);
+  ultraBullet(ChessigmaIcons.ultrabullet),
+  bullet(ChessigmaIcons.bullet),
+  blitz(ChessigmaIcons.blitz),
+  rapid(ChessigmaIcons.rapid),
+  classical(ChessigmaIcons.classical),
+  correspondence(ChessigmaIcons.correspondence);
 
   const Speed(this.icon);
 

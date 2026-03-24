@@ -1211,7 +1211,7 @@
   "playVariationToCreateConditionalPremoves": "Memainkan sebuah variasi untuk membuat syarat pra-langkah",
   "noConditionalPremoves": "Tidak ada syarat pra-langkah",
   "playX": "Memainkan {param}",
-  "showUnreadLichessMessage": "Anda telah menerima pesan pribadi dari Lichess.",
+  "showUnreadChessigmaMessage": "Anda telah menerima pesan pribadi dari Lichess.",
   "clickHereToReadIt": "Klik di sini untuk membaca",
   "sorry": "Maaf :(",
   "weHadToTimeYouOutForAWhile": "Kami harus mengatur waktu Anda untuk sementara waktu.",

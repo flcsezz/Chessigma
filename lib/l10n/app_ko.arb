@@ -1385,7 +1385,7 @@
   "noConditionalPremoves": "조건적인 수가 없습니다",
   "playX": "{param} 를 둠",
   "challengeX": "{param}에게 도전하기",
-  "showUnreadLichessMessage": "Lichess로부터 비공개 메시지를 받았습니다.",
+  "showUnreadChessigmaMessage": "Lichess로부터 비공개 메시지를 받았습니다.",
   "clickHereToReadIt": "클릭하여 읽기",
   "sorry": "죄송합니다 :(",
   "weHadToTimeYouOutForAWhile": "짧은 시간동안 정지를 받으셨습니다.",

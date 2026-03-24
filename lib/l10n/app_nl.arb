@@ -1388,7 +1388,7 @@
   "noConditionalPremoves": "Geen voorwaardelijke zetten vooruit",
   "playX": "Speel {param}",
   "challengeX": "{param} uitdagen",
-  "showUnreadLichessMessage": "Je hebt een privébericht van Lichess ontvangen.",
+  "showUnreadChessigmaMessage": "Je hebt een privébericht van Lichess ontvangen.",
   "clickHereToReadIt": "Klik hier om het te bekijken",
   "sorry": "Sorry :(",
   "weHadToTimeYouOutForAWhile": "We moesten je voor een korte tijd een time-out geven.",

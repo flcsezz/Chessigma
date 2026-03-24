@@ -1,6 +1,6 @@
 import 'package:deep_pick/deep_pick.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lichess_mobile/src/model/game/game_status.dart';
+import 'package:chessigma_mobile/src/model/game/game_status.dart';
 
 void main() {
   test('can decode status name', () {

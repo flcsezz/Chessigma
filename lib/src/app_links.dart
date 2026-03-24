@@ -1,18 +1,16 @@
 import 'package:dartchess/dartchess.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_controller.dart';
-import 'package:lichess_mobile/src/model/common/id.dart';
-import 'package:lichess_mobile/src/model/puzzle/puzzle_angle.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
-import 'package:lichess_mobile/src/view/analysis/analysis_screen.dart';
-import 'package:lichess_mobile/src/view/broadcast/broadcast_game_screen.dart';
-import 'package:lichess_mobile/src/view/broadcast/broadcast_round_screen.dart';
-import 'package:lichess_mobile/src/view/puzzle/puzzle_screen.dart';
-import 'package:lichess_mobile/src/view/study/study_screen.dart';
-import 'package:lichess_mobile/src/view/tournament/tournament_screen.dart';
-import 'package:lichess_mobile/src/view/user/user_or_profile_screen.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_controller.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
+import 'package:chessigma_mobile/src/model/puzzle/puzzle_angle.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/view/analysis/analysis_screen.dart';
+import 'package:chessigma_mobile/src/view/puzzle/puzzle_screen.dart';
+import 'package:chessigma_mobile/src/view/study/study_screen.dart';
+import 'package:chessigma_mobile/src/view/tournament/tournament_screen.dart';
+import 'package:chessigma_mobile/src/view/user/user_or_profile_screen.dart';
 import 'package:linkify/linkify.dart';
 import 'package:logging/logging.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,22 +25,6 @@ List<Route<dynamic>>? resolveAppLinkUri(BuildContext context, Uri appLinkUri) {
     case 'study':
       final id = appLinkUri.pathSegments[1];
       return [StudyScreen.buildRoute(context, StudyId(id))];
-    case 'broadcast':
-      final roundId = BroadcastRoundId(appLinkUri.pathSegments[3]);
-      if (appLinkUri.pathSegments.length > 4) {
-        final gameId = BroadcastGameId(appLinkUri.pathSegments[4]);
-        return [
-          BroadcastRoundScreenLoading.buildRoute(
-            context,
-            roundId,
-            initialTab: BroadcastRoundTab.boards,
-          ),
-          BroadcastGameScreen.buildRoute(context, roundId: roundId, gameId: gameId),
-        ];
-      } else {
-        final tab = BroadcastRoundTab.tabOrNullFromString(appLinkUri.fragment);
-        return [BroadcastRoundScreenLoading.buildRoute(context, roundId, initialTab: tab)];
-      }
     case 'tournament':
       final tournamentId = TournamentId(appLinkUri.pathSegments[1]);
       return [TournamentScreen.buildRoute(context, tournamentId)];
@@ -85,7 +67,7 @@ void handleAppLink(BuildContext context, Uri uri) {
   }
 }
 
-const kLichessLinkifiers = [UrlLinkifier(), EmailLinkifier(), UserTagLinkifier()];
+const kChessigmaLinkifiers = [UrlLinkifier(), EmailLinkifier(), UserTagLinkifier()];
 
 /// Handles link clicks in Linkify widgets throughout the app.
 void onLinkifyOpen(BuildContext context, LinkableElement link) {

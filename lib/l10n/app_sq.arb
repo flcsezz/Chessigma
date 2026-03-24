@@ -1346,7 +1346,7 @@
   "noConditionalPremoves": "Nuk ka premove condicionale",
   "playX": "Luani {param}",
   "challengeX": "Sfidoni {param}",
-  "showUnreadLichessMessage": "Morët një mesazh privat nga Lichess.",
+  "showUnreadChessigmaMessage": "Morët një mesazh privat nga Lichess.",
   "clickHereToReadIt": "Klikoni këtu që ta lexoni",
   "sorry": "Na ndjeni :(",
   "weHadToTimeYouOutForAWhile": "Na u desh t’ju ndalnim për ca kohë.",

@@ -1,16 +1,16 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/model/puzzle/puzzle_angle.dart';
-import 'package:lichess_mobile/src/model/puzzle/puzzle_opening.dart';
-import 'package:lichess_mobile/src/model/puzzle/puzzle_providers.dart';
-import 'package:lichess_mobile/src/network/connectivity.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/navigation.dart';
-import 'package:lichess_mobile/src/view/puzzle/puzzle_screen.dart';
-import 'package:lichess_mobile/src/widgets/list.dart';
-import 'package:lichess_mobile/src/widgets/platform.dart';
+import 'package:chessigma_mobile/src/model/puzzle/puzzle_angle.dart';
+import 'package:chessigma_mobile/src/model/puzzle/puzzle_opening.dart';
+import 'package:chessigma_mobile/src/model/puzzle/puzzle_providers.dart';
+import 'package:chessigma_mobile/src/network/connectivity.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/navigation.dart';
+import 'package:chessigma_mobile/src/view/puzzle/puzzle_screen.dart';
+import 'package:chessigma_mobile/src/widgets/list.dart';
+import 'package:chessigma_mobile/src/widgets/platform.dart';
 
 final _openingsProvider =
     FutureProvider.autoDispose<(bool, IMap<String, int>, IList<PuzzleOpeningFamily>?)>((ref) async {

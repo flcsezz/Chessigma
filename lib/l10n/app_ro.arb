@@ -1388,7 +1388,7 @@
   "noConditionalPremoves": "Fără mutări anticipate condiționale",
   "playX": "Mută {param}",
   "challengeX": "Provocări: {param}",
-  "showUnreadLichessMessage": "Ați primit un mesaj privat de la Lichess.",
+  "showUnreadChessigmaMessage": "Ați primit un mesaj privat de la Lichess.",
   "clickHereToReadIt": "Click aici pentru a-l citi",
   "sorry": "Scuze :(",
   "weHadToTimeYouOutForAWhile": "Am fost nevoiți să suspendăm activitatea pentru puțin timp.",

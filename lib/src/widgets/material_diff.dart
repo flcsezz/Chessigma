@@ -1,11 +1,11 @@
 import 'package:dartchess/dartchess.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:lichess_mobile/src/model/game/material_diff.dart';
-import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/screen.dart';
+import 'package:chessigma_mobile/src/model/game/material_diff.dart';
+import 'package:chessigma_mobile/src/model/settings/board_preferences.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/screen.dart';
 
 class MaterialDifferenceDisplay extends StatelessWidget {
   const MaterialDifferenceDisplay({
@@ -17,12 +17,12 @@ class MaterialDifferenceDisplay extends StatelessWidget {
   final MaterialDifferenceFormat? materialDifferenceFormat;
 
   static const _iconByRole = {
-    Role.king: LichessIcons.chess_king,
-    Role.queen: LichessIcons.chess_queen,
-    Role.rook: LichessIcons.chess_rook,
-    Role.bishop: LichessIcons.chess_bishop,
-    Role.knight: LichessIcons.chess_knight,
-    Role.pawn: LichessIcons.chess_pawn,
+    Role.king: ChessigmaIcons.chess_king,
+    Role.queen: ChessigmaIcons.chess_queen,
+    Role.rook: ChessigmaIcons.chess_rook,
+    Role.bishop: ChessigmaIcons.chess_bishop,
+    Role.knight: ChessigmaIcons.chess_knight,
+    Role.pawn: ChessigmaIcons.chess_pawn,
   };
 
   @override

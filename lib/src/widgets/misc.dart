@@ -1,12 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class AppBarLichessTitle extends StatelessWidget {
-  const AppBarLichessTitle({super.key});
+class AppBarChessigmaTitle extends StatelessWidget {
+  const AppBarChessigmaTitle({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +15,9 @@ class AppBarLichessTitle extends StatelessWidget {
         children: [
           const WidgetSpan(
             alignment: PlaceholderAlignment.middle,
-            child: Icon(LichessIcons.logo_lichess, size: 24),
+            child: Icon(ChessigmaIcons.logo_lichess, size: 24),
           ),
-          const TextSpan(text: ' lichess'),
-          TextSpan(
-            text: '.org',
-            style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7)),
-          ),
+          const TextSpan(text: ' Chessigma'),
         ],
       ),
       maxLines: 1,
@@ -59,17 +55,17 @@ class AppBarTitleText extends StatelessWidget {
   }
 }
 
-class LichessMessage extends StatefulWidget {
-  const LichessMessage({super.key, this.style, this.textAlign = TextAlign.start});
+class ChessigmaMessage extends StatefulWidget {
+  const ChessigmaMessage({super.key, this.style, this.textAlign = TextAlign.start});
 
   final TextStyle? style;
   final TextAlign textAlign;
 
   @override
-  State<LichessMessage> createState() => _LichessMessageState();
+  State<ChessigmaMessage> createState() => _ChessigmaMessageState();
 }
 
-class _LichessMessageState extends State<LichessMessage> {
+class _ChessigmaMessageState extends State<ChessigmaMessage> {
   late TapGestureRecognizer _recognizer;
 
   @override
@@ -85,12 +81,12 @@ class _LichessMessageState extends State<LichessMessage> {
   }
 
   void _handleTap() {
-    launchUrl(Uri.parse('https://lichess.org/features'));
+    launchUrl(Uri.parse('https://chessigma.com/features'));
   }
 
   @override
   Widget build(BuildContext context) {
-    final trans = context.l10n.xIsAFreeYLibreOpenSourceChessServer('Lichess', context.l10n.really);
+    final trans = context.l10n.xIsAFreeYLibreOpenSourceChessServer('Chessigma', context.l10n.really);
     final regexp = RegExp(r'''^([^(]*\()([^)]*)(\).*)$''');
     final match = regexp.firstMatch(trans);
     final List<TextSpan> spans = [];

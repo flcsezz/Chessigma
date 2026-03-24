@@ -1255,7 +1255,7 @@
   "noConditionalPremoves": "Ne kondiĉaj antaŭmovoj",
   "playX": "Ludu {param}",
   "challengeX": "Defii {param}",
-  "showUnreadLichessMessage": "Vi ricevis privatan mesaĝon de Lichess.",
+  "showUnreadChessigmaMessage": "Vi ricevis privatan mesaĝon de Lichess.",
   "clickHereToReadIt": "Alklaku ĉi tie por legi ĝin",
   "sorry": "Bedaŭrinde :(",
   "weHadToTimeYouOutForAWhile": "Ni devis provizore suspendi vin.",

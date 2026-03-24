@@ -4636,7 +4636,7 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'আপনি Lichess থেকে একটি ব্যক্তিগত বার্তা পেয়েছেন.';
+  String get showUnreadChessigmaMessage => 'আপনি Lichess থেকে একটি ব্যক্তিগত বার্তা পেয়েছেন.';
 
   @override
   String get clickHereToReadIt => 'পড়তে এখানে ক্লিক করুন';

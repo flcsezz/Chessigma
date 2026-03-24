@@ -1257,7 +1257,7 @@
   "noConditionalPremoves": "אין מהלכים מותנים מראש",
   "playX": "שחקו {param}",
   "challengeX": "זימון {param} למשחק",
-  "showUnreadLichessMessage": "קיבלתם הודעה פרטית מ־Lichess.",
+  "showUnreadChessigmaMessage": "קיבלתם הודעה פרטית מ־Lichess.",
   "clickHereToReadIt": "לחצו כאן כדי לקרוא אותה",
   "sorry": "מצטערים :(",
   "weHadToTimeYouOutForAWhile": "נאלצנו להשעות אותך לזמן מה.",

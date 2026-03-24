@@ -1105,7 +1105,7 @@
   "playVariationToCreateConditionalPremoves": "Izspēlējiet variantu, lai izveidotu nosacījumu priekšgājienus",
   "noConditionalPremoves": "Nav nosacījumu priekšgājienu",
   "playX": "Spēlēt {param}",
-  "showUnreadLichessMessage": "Saņemta privāta ziņa no Lichess.",
+  "showUnreadChessigmaMessage": "Saņemta privāta ziņa no Lichess.",
   "clickHereToReadIt": "Klikšķini te, lai to lasītu",
   "sorry": "Lūdzu piedodiet :(",
   "weHadToTimeYouOutForAWhile": "Mums nācās jūs apturēt uz laiku.",

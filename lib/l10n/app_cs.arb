@@ -1314,7 +1314,7 @@
   "noConditionalPremoves": "Žádné podmíněné předtahy",
   "playX": "Hrajte {param}",
   "challengeX": "Vyzvat {param}",
-  "showUnreadLichessMessage": "Dostali jste soukromou zprávu od Lichess.",
+  "showUnreadChessigmaMessage": "Dostali jste soukromou zprávu od Lichess.",
   "clickHereToReadIt": "Pro přečtení klikněte zde",
   "sorry": "Omlouváme se :(",
   "weHadToTimeYouOutForAWhile": "Museli jsme tě odpojit na chvíli.",

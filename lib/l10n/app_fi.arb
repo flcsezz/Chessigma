@@ -1385,7 +1385,7 @@
   "noConditionalPremoves": "Ei ehdollisia esisiirtoja",
   "playX": "Siirrä {param}",
   "challengeX": "Haasta {param}",
-  "showUnreadLichessMessage": "Olet saanut henkilökohtaisen viestin Lichessiltä.",
+  "showUnreadChessigmaMessage": "Olet saanut henkilökohtaisen viestin Lichessiltä.",
   "clickHereToReadIt": "Lue se napsauttamalla tästä",
   "sorry": "Pahoittelumme :(",
   "weHadToTimeYouOutForAWhile": "Meidän täytyi komentaa sinut jäähylle hetkeksi.",

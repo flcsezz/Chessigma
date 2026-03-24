@@ -4608,7 +4608,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Bạn đã nhận được một tin nhắn riêng từ Lichess.';
+  String get showUnreadChessigmaMessage => 'Bạn đã nhận được một tin nhắn riêng từ Lichess.';
 
   @override
   String get clickHereToReadIt => 'Nhấn vào đây để đọc nó';

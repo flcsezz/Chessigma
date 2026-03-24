@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:lichess_mobile/l10n/l10n.dart';
-import 'package:lichess_mobile/src/app_links.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/user/profile.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/duration.dart';
-import 'package:lichess_mobile/src/utils/l10n.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/lichess_assets.dart';
-import 'package:lichess_mobile/src/view/user/countries.dart';
-import 'package:lichess_mobile/src/widgets/network_image.dart';
+import 'package:chessigma_mobile/l10n/l10n.dart';
+import 'package:chessigma_mobile/src/app_links.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/user/profile.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/duration.dart';
+import 'package:chessigma_mobile/src/utils/l10n.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/lichess_assets.dart';
+import 'package:chessigma_mobile/src/view/user/countries.dart';
+import 'package:chessigma_mobile/src/widgets/network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const _userNameStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w500);
@@ -46,13 +46,13 @@ class UserProfileWidget extends ConsumerWidget {
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Row(
                   children: [
-                    Icon(Icons.error, color: context.lichessColors.error),
+                    Icon(Icons.error, color: context.chessigmaColors.error),
                     const SizedBox(width: 5),
                     Flexible(
                       child: Text(
                         context.l10n.thisAccountViolatedTos,
                         style: TextStyle(
-                          color: context.lichessColors.error,
+                          color: context.chessigmaColors.error,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -65,7 +65,7 @@ class UserProfileWidget extends ConsumerWidget {
             if (user.profile?.bio != null)
               Linkify(
                 onOpen: (link) => onLinkifyOpen(context, link),
-                linkifiers: kLichessLinkifiers,
+                linkifiers: kChessigmaLinkifiers,
                 text: user.profile!.bio!,
                 maxLines: bioMaxLines,
                 style: bioStyle,

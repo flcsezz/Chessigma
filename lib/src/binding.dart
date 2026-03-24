@@ -3,14 +3,14 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lichess_mobile/firebase_options.dart';
+import 'package:chessigma_mobile/firebase_options.dart';
 import 'package:multistockfish/multistockfish.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// A singleton class that provides access to plugins and external APIs.
 ///
 /// Only one instance of this class will be created during the app's lifetime.
-/// See [AppLichessBinding] for the concrete implementation.
+/// See [AppChessigmaBinding] for the concrete implementation.
 ///
 /// Modeled after the Flutter framework's [WidgetsBinding] class.
 ///
@@ -19,14 +19,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// the behavior of the fake.
 /// However, if the plugin is used in a way that doesn't allow for easy mocking
 /// with riverpod, a test binding can be used to provide a fake implementation.
-abstract class LichessBinding {
-  LichessBinding() : assert(_instance == null) {
+abstract class ChessigmaBinding {
+  ChessigmaBinding() : assert(_instance == null) {
     initInstance();
   }
 
-  /// The single instance of [LichessBinding].
-  static LichessBinding get instance => checkInstance(_instance);
-  static LichessBinding? _instance;
+  /// The single instance of [ChessigmaBinding].
+  static ChessigmaBinding get instance => checkInstance(_instance);
+  static ChessigmaBinding? _instance;
 
   @protected
   @mustCallSuper
@@ -34,17 +34,17 @@ abstract class LichessBinding {
     _instance = this;
   }
 
-  static T checkInstance<T extends LichessBinding>(T? instance) {
+  static T checkInstance<T extends ChessigmaBinding>(T? instance) {
     assert(() {
       if (instance == null) {
         throw FlutterError.fromParts([
           ErrorSummary('Lichess binding has not yet been initialized.'),
           ErrorHint(
-            'In the app, this is done by the `AppLichessBinding.ensureInitialized()` call '
+            'In the app, this is done by the `AppChessigmaBinding.ensureInitialized()` call '
             'in the `void main()` method.',
           ),
           ErrorHint(
-            'In a test, one can call `TestLichessBinding.ensureInitialized()` as the '
+            'In a test, one can call `TestChessigmaBinding.ensureInitialized()` as the '
             "first line in the test's `main()` method to initialize the binding.",
           ),
         ]);
@@ -89,19 +89,19 @@ abstract class LichessBinding {
   Stockfish get stockfish;
 }
 
-/// A concrete implementation of [LichessBinding] for the app.
-class AppLichessBinding extends LichessBinding {
-  AppLichessBinding();
+/// A concrete implementation of [ChessigmaBinding] for the app.
+class AppChessigmaBinding extends ChessigmaBinding {
+  AppChessigmaBinding();
 
-  /// Returns an instance of the binding that implements [LichessBinding].
+  /// Returns an instance of the binding that implements [ChessigmaBinding].
   ///
-  /// If no binding has yet been initialized, the [AppLichessBinding] class is
+  /// If no binding has yet been initialized, the [AppChessigmaBinding] class is
   /// used to create and initialize one.
-  factory AppLichessBinding.ensureInitialized() {
-    if (LichessBinding._instance == null) {
-      AppLichessBinding();
+  factory AppChessigmaBinding.ensureInitialized() {
+    if (ChessigmaBinding._instance == null) {
+      AppChessigmaBinding();
     }
-    return LichessBinding.instance as AppLichessBinding;
+    return ChessigmaBinding.instance as AppChessigmaBinding;
   }
 
   late Future<SharedPreferencesWithCache> _sharedPreferencesWithCache;
@@ -113,11 +113,11 @@ class AppLichessBinding extends LichessBinding {
       throw FlutterError.fromParts([
         ErrorSummary('Shared preferences have not yet been preloaded.'),
         ErrorHint(
-          'In the app, this is done by the `await AppLichessBinding.preloadSharedPreferences()` call '
+          'In the app, this is done by the `await AppChessigmaBinding.preloadSharedPreferences()` call '
           'in the `Future<void> main()` method.',
         ),
         ErrorHint(
-          'In a test, one can call `TestLichessBinding.setInitialSharedPreferencesValues({})` as the '
+          'In a test, one can call `TestChessigmaBinding.setInitialSharedPreferencesValues({})` as the '
           "first line in the test's `main()` method.",
         ),
       ]);

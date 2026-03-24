@@ -1388,7 +1388,7 @@
   "noConditionalPremoves": "Безумовні ходи на випередження",
   "playX": "Зіграти {param}",
   "challengeX": "Кинути виклик {param}",
-  "showUnreadLichessMessage": "Ви отримали особисте повідомлення від Lichess.",
+  "showUnreadChessigmaMessage": "Ви отримали особисте повідомлення від Lichess.",
   "clickHereToReadIt": "Натисніть тут, щоб прочитати",
   "sorry": "Вибачте :(",
   "weHadToTimeYouOutForAWhile": "Нам довелося забанити вас на певний час.",

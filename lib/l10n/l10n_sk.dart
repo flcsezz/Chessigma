@@ -4692,7 +4692,7 @@ class AppLocalizationsSk extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Obdržali ste súkromnú správu od Lichess.';
+  String get showUnreadChessigmaMessage => 'Obdržali ste súkromnú správu od Lichess.';
 
   @override
   String get clickHereToReadIt => 'Kliknutím sem si ju môžete prečítať';

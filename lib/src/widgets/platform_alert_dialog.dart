@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lichess_mobile/src/widgets/platform.dart';
+import 'package:chessigma_mobile/src/widgets/platform.dart';
 
 /// Displays a [TextButton] for Android and a [CupertinoDialogAction] for iOS.
 ///

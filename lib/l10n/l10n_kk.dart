@@ -4636,7 +4636,7 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Сізге Личестен жеке хат келді.';
+  String get showUnreadChessigmaMessage => 'Сізге Личестен жеке хат келді.';
 
   @override
   String get clickHereToReadIt => 'Осында басып оқыңыз';

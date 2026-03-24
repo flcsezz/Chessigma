@@ -4636,7 +4636,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Recebestes uma mensagem privada do Lichess.';
+  String get showUnreadChessigmaMessage => 'Recebestes uma mensagem privada do Lichess.';
 
   @override
   String get clickHereToReadIt => 'Clica aqui para ler';
@@ -11189,7 +11189,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Você recebeu uma mensagem privada do Lichess.';
+  String get showUnreadChessigmaMessage => 'Você recebeu uma mensagem privada do Lichess.';
 
   @override
   String get clickHereToReadIt => 'Clique aqui para ler';

@@ -7,30 +7,30 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:lichess_mobile/l10n/l10n.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_controller.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/common/perf.dart';
-import 'package:lichess_mobile/src/model/game/game_filter.dart';
-import 'package:lichess_mobile/src/model/game/game_repository.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
-import 'package:lichess_mobile/src/model/user/user_repository_providers.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/duration.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/navigation.dart';
-import 'package:lichess_mobile/src/utils/string.dart';
-import 'package:lichess_mobile/src/view/analysis/analysis_screen.dart';
-import 'package:lichess_mobile/src/view/puzzle/dashboard_screen.dart';
-import 'package:lichess_mobile/src/view/user/game_history_screen.dart';
-import 'package:lichess_mobile/src/widgets/adaptive_action_sheet.dart';
-import 'package:lichess_mobile/src/widgets/feedback.dart';
-import 'package:lichess_mobile/src/widgets/list.dart';
-import 'package:lichess_mobile/src/widgets/progression_widget.dart';
-import 'package:lichess_mobile/src/widgets/rating.dart';
-import 'package:lichess_mobile/src/widgets/stat_card.dart';
-import 'package:lichess_mobile/src/widgets/user.dart';
+import 'package:chessigma_mobile/l10n/l10n.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_controller.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/common/perf.dart';
+import 'package:chessigma_mobile/src/model/game/game_filter.dart';
+import 'package:chessigma_mobile/src/model/game/game_repository.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/model/user/user_repository_providers.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/duration.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/navigation.dart';
+import 'package:chessigma_mobile/src/utils/string.dart';
+import 'package:chessigma_mobile/src/view/analysis/analysis_screen.dart';
+import 'package:chessigma_mobile/src/view/puzzle/dashboard_screen.dart';
+import 'package:chessigma_mobile/src/view/user/game_history_screen.dart';
+import 'package:chessigma_mobile/src/widgets/adaptive_action_sheet.dart';
+import 'package:chessigma_mobile/src/widgets/feedback.dart';
+import 'package:chessigma_mobile/src/widgets/list.dart';
+import 'package:chessigma_mobile/src/widgets/progression_widget.dart';
+import 'package:chessigma_mobile/src/widgets/rating.dart';
+import 'package:chessigma_mobile/src/widgets/stat_card.dart';
+import 'package:chessigma_mobile/src/widgets/user.dart';
 
 final _dateFormatter = DateFormat.yMMMd();
 
@@ -272,7 +272,7 @@ class _Body extends ConsumerWidget {
                           child: _RatingWidget(
                             data.highestRating,
                             data.highestRatingGame,
-                            context.lichessColors.good,
+                            context.chessigmaColors.good,
                           ),
                         ),
                         StatCard(
@@ -280,7 +280,7 @@ class _Body extends ConsumerWidget {
                           child: _RatingWidget(
                             data.lowestRating,
                             data.lowestRatingGame,
-                            context.lichessColors.error,
+                            context.chessigmaColors.error,
                           ),
                         ),
                       ]),
@@ -343,7 +343,7 @@ class _Body extends ConsumerWidget {
                           child: _PercentageValueWidget(
                             data.wonGames,
                             data.totalGames,
-                            color: context.lichessColors.good,
+                            color: context.chessigmaColors.good,
                           ),
                         ),
                         StatCard(
@@ -360,7 +360,7 @@ class _Body extends ConsumerWidget {
                           child: _PercentageValueWidget(
                             data.lostGames,
                             data.totalGames,
-                            color: context.lichessColors.error,
+                            color: context.chessigmaColors.error,
                           ),
                         ),
                       ]),
@@ -403,7 +403,7 @@ class _Body extends ConsumerWidget {
                           _StreakWidget(
                             data.maxWinStreak,
                             data.curWinStreak,
-                            color: context.lichessColors.good,
+                            color: context.chessigmaColors.good,
                           ),
                         ],
                       ),
@@ -413,7 +413,7 @@ class _Body extends ConsumerWidget {
                           _StreakWidget(
                             data.maxLossStreak,
                             data.curLossStreak,
-                            color: context.lichessColors.error,
+                            color: context.chessigmaColors.error,
                           ),
                         ],
                       ),

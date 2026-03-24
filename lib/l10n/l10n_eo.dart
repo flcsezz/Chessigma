@@ -4636,7 +4636,7 @@ class AppLocalizationsEo extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Vi ricevis privatan mesaĝon de Lichess.';
+  String get showUnreadChessigmaMessage => 'Vi ricevis privatan mesaĝon de Lichess.';
 
   @override
   String get clickHereToReadIt => 'Alklaku ĉi tie por legi ĝin';

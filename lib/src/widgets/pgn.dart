@@ -5,16 +5,16 @@ import 'package:dynamic_system_colors/dynamic_system_colors.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/model/account/account_preferences.dart';
-import 'package:lichess_mobile/src/model/common/node.dart';
-import 'package:lichess_mobile/src/model/common/uci.dart';
-import 'package:lichess_mobile/src/styles/lichess_colors.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/duration.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/rate_limit.dart';
-import 'package:lichess_mobile/src/widgets/adaptive_bottom_sheet.dart';
-import 'package:lichess_mobile/src/widgets/list.dart';
+import 'package:chessigma_mobile/src/model/account/account_preferences.dart';
+import 'package:chessigma_mobile/src/model/common/node.dart';
+import 'package:chessigma_mobile/src/model/common/uci.dart';
+import 'package:chessigma_mobile/src/styles/lichess_colors.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/duration.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/rate_limit.dart';
+import 'package:chessigma_mobile/src/widgets/adaptive_bottom_sheet.dart';
+import 'package:chessigma_mobile/src/widgets/list.dart';
 
 const innacuracyColor = LichessColors.cyan;
 const mistakeColor = Color(0xFFe69f00);
@@ -32,11 +32,11 @@ Color? _nagColor(BuildContext context, int nag) {
   final colorScheme = ColorScheme.of(context);
   return switch (nag) {
     1 => Colors.lightGreen.harmonizeWith(colorScheme.primary),
-    2 => context.lichessColors.brag,
+    2 => context.chessigmaColors.brag,
     3 => Colors.teal.harmonizeWith(colorScheme.primary),
-    4 => context.lichessColors.error,
-    5 => context.lichessColors.purple,
-    6 => context.lichessColors.cyan,
+    4 => context.chessigmaColors.error,
+    5 => context.chessigmaColors.purple,
+    6 => context.chessigmaColors.cyan,
     int() => null,
   };
 }

@@ -1078,7 +1078,7 @@
   "playVariationToCreateConditionalPremoves": "Одиграј варијацију да направиш условне предпотезе",
   "noConditionalPremoves": "Нема условних предпотеза",
   "playX": "Одиграј {param}",
-  "showUnreadLichessMessage": "Примио/ла си приватну поруку од Lichess-а.",
+  "showUnreadChessigmaMessage": "Примио/ла си приватну поруку од Lichess-а.",
   "sorry": "Извини :(",
   "weHadToTimeYouOutForAWhile": "Морали смо ти дати тајм-аут на неко време.",
   "why": "Зашто?",

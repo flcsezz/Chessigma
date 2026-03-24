@@ -4,26 +4,26 @@ import 'package:dartchess/dartchess.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/account/account_repository.dart';
-import 'package:lichess_mobile/src/model/common/service/sound_service.dart';
-import 'package:lichess_mobile/src/model/game/game.dart';
-import 'package:lichess_mobile/src/model/game/material_diff.dart';
-import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
-import 'package:lichess_mobile/src/styles/lichess_colors.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/lichess_assets.dart';
-import 'package:lichess_mobile/src/utils/screen.dart';
-import 'package:lichess_mobile/src/view/account/rating_pref_aware.dart';
-import 'package:lichess_mobile/src/view/user/user_or_profile_screen.dart';
-import 'package:lichess_mobile/src/widgets/buttons.dart';
-import 'package:lichess_mobile/src/widgets/material_diff.dart';
-import 'package:lichess_mobile/src/widgets/network_image.dart';
-import 'package:lichess_mobile/src/widgets/user.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/account/account_repository.dart';
+import 'package:chessigma_mobile/src/model/common/service/sound_service.dart';
+import 'package:chessigma_mobile/src/model/game/game.dart';
+import 'package:chessigma_mobile/src/model/game/material_diff.dart';
+import 'package:chessigma_mobile/src/model/settings/board_preferences.dart';
+import 'package:chessigma_mobile/src/styles/lichess_colors.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/lichess_assets.dart';
+import 'package:chessigma_mobile/src/utils/screen.dart';
+import 'package:chessigma_mobile/src/view/account/rating_pref_aware.dart';
+import 'package:chessigma_mobile/src/view/user/user_or_profile_screen.dart';
+import 'package:chessigma_mobile/src/widgets/buttons.dart';
+import 'package:chessigma_mobile/src/widgets/material_diff.dart';
+import 'package:chessigma_mobile/src/widgets/network_image.dart';
+import 'package:chessigma_mobile/src/widgets/user.dart';
 
-export 'package:lichess_mobile/src/widgets/material_diff.dart';
+export 'package:chessigma_mobile/src/widgets/material_diff.dart';
 
 /// A widget to display player information above/below the chess board.
 class GamePlayer extends StatelessWidget {
@@ -125,8 +125,8 @@ class GamePlayer extends StatelessWidget {
                     fontSize: playerFontSize,
                     fontWeight: player.user?.title == 'BOT' ? null : FontWeight.bold,
                     color: player.user?.title == 'BOT'
-                        ? context.lichessColors.fancy
-                        : context.lichessColors.brag,
+                        ? context.chessigmaColors.fancy
+                        : context.chessigmaColors.brag,
                   ),
                 ),
                 const SizedBox(width: 5),
@@ -159,10 +159,10 @@ class GamePlayer extends StatelessWidget {
                             text: ' ${player.ratingDiff! > 0 ? '+' : ''}${player.ratingDiff}',
                             style: TextStyle(
                               color: player.ratingDiff! > 0
-                                  ? context.lichessColors.good
+                                  ? context.chessigmaColors.good
                                   : player.ratingDiff! == 0
-                                  ? context.lichessColors.brag
-                                  : context.lichessColors.error,
+                                  ? context.chessigmaColors.brag
+                                  : context.chessigmaColors.error,
                             ),
                           ),
                       ],
@@ -174,7 +174,7 @@ class GamePlayer extends StatelessWidget {
               if (player.berserk == true) ...[
                 const SizedBox(width: 5),
                 Icon(
-                  LichessIcons.body_cut,
+                  ChessigmaIcons.body_cut,
                   color: LichessColors.brag,
                   size: playerFontSize,
                   semanticLabel: context.l10n.arenaBerserk,
@@ -253,7 +253,7 @@ class ConfirmMove extends StatelessWidget {
       children: [
         SemanticIconButton(
           icon: const Icon(CupertinoIcons.xmark_rectangle_fill),
-          color: context.lichessColors.error,
+          color: context.chessigmaColors.error,
           iconSize: 35,
           semanticsLabel: context.l10n.cancel,
           padding: const EdgeInsets.all(10),
@@ -269,7 +269,7 @@ class ConfirmMove extends StatelessWidget {
         ),
         SemanticIconButton(
           icon: const Icon(CupertinoIcons.checkmark_rectangle_fill),
-          color: context.lichessColors.good,
+          color: context.chessigmaColors.good,
           iconSize: 35,
           semanticsLabel: context.l10n.accept,
           padding: const EdgeInsets.all(10),
@@ -352,7 +352,7 @@ class _MoveExpirationState extends ConsumerState<MoveExpiration> {
     return secs <= 20
         ? Text(
             context.l10n.nbSecondsToPlayTheFirstMove(secs),
-            style: TextStyle(color: widget.mePlaying && emerg ? context.lichessColors.error : null),
+            style: TextStyle(color: widget.mePlaying && emerg ? context.chessigmaColors.error : null),
           )
         : const Text('');
   }

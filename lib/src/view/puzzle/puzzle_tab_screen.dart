@@ -5,34 +5,34 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/puzzle/puzzle.dart';
-import 'package:lichess_mobile/src/model/puzzle/puzzle_angle.dart';
-import 'package:lichess_mobile/src/model/puzzle/puzzle_opening.dart';
-import 'package:lichess_mobile/src/model/puzzle/puzzle_providers.dart';
-import 'package:lichess_mobile/src/model/puzzle/puzzle_service.dart';
-import 'package:lichess_mobile/src/model/puzzle/puzzle_theme.dart';
-import 'package:lichess_mobile/src/model/puzzle/streak_storage.dart';
-import 'package:lichess_mobile/src/network/connectivity.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/styles/puzzle_icons.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/tab_scaffold.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/screen.dart';
-import 'package:lichess_mobile/src/utils/string.dart';
-import 'package:lichess_mobile/src/view/account/account_drawer.dart';
-import 'package:lichess_mobile/src/view/puzzle/dashboard_screen.dart';
-import 'package:lichess_mobile/src/view/puzzle/puzzle_history_screen.dart';
-import 'package:lichess_mobile/src/view/puzzle/puzzle_screen.dart';
-import 'package:lichess_mobile/src/view/puzzle/puzzle_themes_screen.dart';
-import 'package:lichess_mobile/src/view/puzzle/storm_screen.dart';
-import 'package:lichess_mobile/src/view/puzzle/streak_screen.dart';
-import 'package:lichess_mobile/src/widgets/board_preview.dart';
-import 'package:lichess_mobile/src/widgets/buttons.dart';
-import 'package:lichess_mobile/src/widgets/list.dart';
-import 'package:lichess_mobile/src/widgets/platform.dart';
-import 'package:lichess_mobile/src/widgets/shimmer.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/puzzle/puzzle.dart';
+import 'package:chessigma_mobile/src/model/puzzle/puzzle_angle.dart';
+import 'package:chessigma_mobile/src/model/puzzle/puzzle_opening.dart';
+import 'package:chessigma_mobile/src/model/puzzle/puzzle_providers.dart';
+import 'package:chessigma_mobile/src/model/puzzle/puzzle_service.dart';
+import 'package:chessigma_mobile/src/model/puzzle/puzzle_theme.dart';
+import 'package:chessigma_mobile/src/model/puzzle/streak_storage.dart';
+import 'package:chessigma_mobile/src/network/connectivity.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/styles/puzzle_icons.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/tab_scaffold.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/screen.dart';
+import 'package:chessigma_mobile/src/utils/string.dart';
+import 'package:chessigma_mobile/src/view/account/account_drawer.dart';
+import 'package:chessigma_mobile/src/view/puzzle/dashboard_screen.dart';
+import 'package:chessigma_mobile/src/view/puzzle/puzzle_history_screen.dart';
+import 'package:chessigma_mobile/src/view/puzzle/puzzle_screen.dart';
+import 'package:chessigma_mobile/src/view/puzzle/puzzle_themes_screen.dart';
+import 'package:chessigma_mobile/src/view/puzzle/storm_screen.dart';
+import 'package:chessigma_mobile/src/view/puzzle/streak_screen.dart';
+import 'package:chessigma_mobile/src/widgets/board_preview.dart';
+import 'package:chessigma_mobile/src/widgets/buttons.dart';
+import 'package:chessigma_mobile/src/widgets/list.dart';
+import 'package:chessigma_mobile/src/widgets/platform.dart';
+import 'package:chessigma_mobile/src/widgets/shimmer.dart';
 
 const _kNumberOfHistoryItemsOnHandset = 8;
 const _kNumberOfHistoryItemsOnTablet = 16;
@@ -265,7 +265,7 @@ class _PuzzleMenu extends ConsumerWidget {
         ),
         _PuzzleMenuListTile(
           enabled: isOnline,
-          icon: LichessIcons.streak,
+          icon: ChessigmaIcons.streak,
           title: 'Puzzle Streak',
           badgeLabel: switch (ref.watch(savedStreakScoreProvider)) {
             AsyncData(:final value?) => value.toString(),
@@ -284,7 +284,7 @@ class _PuzzleMenu extends ConsumerWidget {
         ),
         _PuzzleMenuListTile(
           enabled: isOnline,
-          icon: LichessIcons.storm,
+          icon: ChessigmaIcons.storm,
           title: 'Puzzle Storm',
           subtitle: context.l10n.mobilePuzzleStormSubtitle,
           onTap: isOnline
@@ -453,7 +453,7 @@ class DailyPuzzle extends ConsumerWidget {
                   Icon(
                     Icons.today,
                     size: 32,
-                    color: context.lichessColors.brag.withValues(alpha: 0.7),
+                    color: context.chessigmaColors.brag.withValues(alpha: 0.7),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -536,7 +536,7 @@ class PuzzleAnglePreview extends ConsumerWidget {
                       }
                     },
                     spacing: 8.0,
-                    backgroundColor: context.lichessColors.error,
+                    backgroundColor: context.chessigmaColors.error,
                     foregroundColor: Colors.white,
                     label: context.l10n.delete,
                   ),

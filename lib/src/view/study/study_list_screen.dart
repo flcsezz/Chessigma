@@ -1,25 +1,25 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/study/study.dart';
-import 'package:lichess_mobile/src/model/study/study_filter.dart';
-import 'package:lichess_mobile/src/model/study/study_list_paginator.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/l10n.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/lichess_assets.dart';
-import 'package:lichess_mobile/src/utils/navigation.dart';
-import 'package:lichess_mobile/src/view/study/study_screen.dart';
-import 'package:lichess_mobile/src/widgets/adaptive_bottom_sheet.dart';
-import 'package:lichess_mobile/src/widgets/feedback.dart';
-import 'package:lichess_mobile/src/widgets/list.dart';
-import 'package:lichess_mobile/src/widgets/network_image.dart';
-import 'package:lichess_mobile/src/widgets/platform.dart';
-import 'package:lichess_mobile/src/widgets/platform_context_menu_button.dart';
-import 'package:lichess_mobile/src/widgets/platform_search_bar.dart';
-import 'package:lichess_mobile/src/widgets/user.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/study/study.dart';
+import 'package:chessigma_mobile/src/model/study/study_filter.dart';
+import 'package:chessigma_mobile/src/model/study/study_list_paginator.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/l10n.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/lichess_assets.dart';
+import 'package:chessigma_mobile/src/utils/navigation.dart';
+import 'package:chessigma_mobile/src/view/study/study_screen.dart';
+import 'package:chessigma_mobile/src/widgets/adaptive_bottom_sheet.dart';
+import 'package:chessigma_mobile/src/widgets/feedback.dart';
+import 'package:chessigma_mobile/src/widgets/list.dart';
+import 'package:chessigma_mobile/src/widgets/network_image.dart';
+import 'package:chessigma_mobile/src/widgets/platform.dart';
+import 'package:chessigma_mobile/src/widgets/platform_context_menu_button.dart';
+import 'package:chessigma_mobile/src/widgets/platform_search_bar.dart';
+import 'package:chessigma_mobile/src/widgets/user.dart';
 
 /// A screen that displays a paginated list of studies
 class StudyListScreen extends ConsumerStatefulWidget {
@@ -342,7 +342,7 @@ class _StudyMembers extends StatelessWidget {
           (member) => ListTile(
             dense: true,
             leading: Icon(
-              member.role == 'w' ? LichessIcons.radio_tower_lichess : Icons.remove_red_eye,
+              member.role == 'w' ? ChessigmaIcons.radio_tower_lichess : Icons.remove_red_eye,
             ),
             title: UserFullNameWidget(user: member.user, showFlair: false),
           ),
@@ -361,7 +361,7 @@ class StudyFlair extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconIfNoFlair = Icon(LichessIcons.study, size: size);
+    final iconIfNoFlair = Icon(ChessigmaIcons.study, size: size);
 
     return (flair != null)
         ? HttpNetworkImageWidget(

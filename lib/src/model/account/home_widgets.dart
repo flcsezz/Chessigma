@@ -1,13 +1,11 @@
-import 'package:lichess_mobile/l10n/l10n.dart';
+import 'package:chessigma_mobile/l10n/l10n.dart';
 
 /// Enum representing the editable widgets on the home screen.
 enum HomeEditableWidget {
   hello(false),
   perfCards(false),
   ongoingGames(true),
-  blogCarousel(false),
   quickPairing(false),
-  featuredTournaments(false),
   recentGames(false);
 
   String label(AppLocalizations l10n) => switch (this) {
@@ -15,9 +13,7 @@ enum HomeEditableWidget {
     HomeEditableWidget.hello => 'Hello',
     HomeEditableWidget.perfCards => 'Performance Cards',
     HomeEditableWidget.quickPairing => l10n.quickPairing,
-    HomeEditableWidget.featuredTournaments => l10n.openTournaments,
     HomeEditableWidget.recentGames => l10n.recentGames,
-    HomeEditableWidget.blogCarousel => l10n.blog,
   };
 
   const HomeEditableWidget(this.alwaysEnabled);

@@ -7,44 +7,43 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/experimental/mutation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/account/account_repository.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_controller.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/common/id.dart';
-import 'package:lichess_mobile/src/model/game/game_history.dart';
-import 'package:lichess_mobile/src/model/game/game_status.dart';
-import 'package:lichess_mobile/src/model/tournament/tournament.dart';
-import 'package:lichess_mobile/src/model/tournament/tournament_controller.dart';
-import 'package:lichess_mobile/src/model/tournament/tournament_providers.dart';
-import 'package:lichess_mobile/src/model/tournament/tournament_repository.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
-import 'package:lichess_mobile/src/network/http.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/tab_scaffold.dart';
-import 'package:lichess_mobile/src/theme.dart';
-import 'package:lichess_mobile/src/utils/duration.dart';
-import 'package:lichess_mobile/src/utils/focus_detector.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/lichess_assets.dart';
-import 'package:lichess_mobile/src/utils/navigation.dart';
-import 'package:lichess_mobile/src/utils/share.dart';
-import 'package:lichess_mobile/src/view/analysis/analysis_screen.dart';
-import 'package:lichess_mobile/src/view/chat/chat_screen.dart';
-import 'package:lichess_mobile/src/view/game/game_screen.dart';
-import 'package:lichess_mobile/src/view/game/game_screen_providers.dart';
-import 'package:lichess_mobile/src/view/user/user_or_profile_screen.dart';
-import 'package:lichess_mobile/src/view/watch/tv_screen.dart';
-import 'package:lichess_mobile/src/widgets/board_thumbnail.dart';
-import 'package:lichess_mobile/src/widgets/bottom_bar.dart';
-import 'package:lichess_mobile/src/widgets/buttons.dart';
-import 'package:lichess_mobile/src/widgets/clock.dart';
-import 'package:lichess_mobile/src/widgets/feedback.dart';
-import 'package:lichess_mobile/src/widgets/misc.dart';
-import 'package:lichess_mobile/src/widgets/network_image.dart';
-import 'package:lichess_mobile/src/widgets/platform.dart';
-import 'package:lichess_mobile/src/widgets/user.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/account/account_repository.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_controller.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
+import 'package:chessigma_mobile/src/model/game/game_history.dart';
+import 'package:chessigma_mobile/src/model/game/game_status.dart';
+import 'package:chessigma_mobile/src/model/tournament/tournament.dart';
+import 'package:chessigma_mobile/src/model/tournament/tournament_controller.dart';
+import 'package:chessigma_mobile/src/model/tournament/tournament_providers.dart';
+import 'package:chessigma_mobile/src/model/tournament/tournament_repository.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/tab_scaffold.dart';
+import 'package:chessigma_mobile/src/theme.dart';
+import 'package:chessigma_mobile/src/utils/duration.dart';
+import 'package:chessigma_mobile/src/utils/focus_detector.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/lichess_assets.dart';
+import 'package:chessigma_mobile/src/utils/navigation.dart';
+import 'package:chessigma_mobile/src/utils/share.dart';
+import 'package:chessigma_mobile/src/view/analysis/analysis_screen.dart';
+import 'package:chessigma_mobile/src/view/chat/chat_screen.dart';
+import 'package:chessigma_mobile/src/view/game/game_screen.dart';
+import 'package:chessigma_mobile/src/view/game/game_screen_providers.dart';
+import 'package:chessigma_mobile/src/view/user/user_or_profile_screen.dart';
+import 'package:chessigma_mobile/src/widgets/board_thumbnail.dart';
+import 'package:chessigma_mobile/src/widgets/bottom_bar.dart';
+import 'package:chessigma_mobile/src/widgets/buttons.dart';
+import 'package:chessigma_mobile/src/widgets/clock.dart';
+import 'package:chessigma_mobile/src/widgets/feedback.dart';
+import 'package:chessigma_mobile/src/widgets/misc.dart';
+import 'package:chessigma_mobile/src/widgets/network_image.dart';
+import 'package:chessigma_mobile/src/widgets/platform.dart';
+import 'package:chessigma_mobile/src/widgets/user.dart';
 import 'package:path_provider/path_provider.dart' show getTemporaryDirectory;
 import 'package:share_plus/share_plus.dart';
 
@@ -203,7 +202,7 @@ class _Body extends ConsumerWidget {
                         Text.rich(
                           TextSpan(
                             children: [
-                              const WidgetSpan(child: Icon(LichessIcons.body_cut, size: 16)),
+                              const WidgetSpan(child: Icon(ChessigmaIcons.body_cut, size: 16)),
                               TextSpan(text: ' ${context.l10n.arenaNoBerserkAllowed}'),
                             ],
                           ),
@@ -236,8 +235,8 @@ class _Body extends ConsumerWidget {
                   height: 35,
                   width: double.infinity,
                   color: state.tournament.pairingsClosed
-                      ? context.lichessColors.primary
-                      : context.lichessColors.good,
+                      ? context.chessigmaColors.primary
+                      : context.chessigmaColors.good,
                   child: Padding(
                     padding: Styles.horizontalBodyPadding,
                     child: Center(
@@ -479,7 +478,7 @@ class _TeamStanding extends ConsumerWidget {
               title: Text(
                 context.l10n.arenaViewAllXTeams(totalTeams),
                 textAlign: .center,
-                style: TextStyle(color: context.lichessColors.primary),
+                style: TextStyle(color: context.chessigmaColors.primary),
               ),
               onTap: () {
                 Navigator.of(
@@ -621,7 +620,7 @@ class _StandingPlayer extends ConsumerWidget {
         children: [
           Visibility.maintain(
             visible: player.sheet.fire,
-            child: Icon(LichessIcons.blitz, size: 15, color: context.lichessColors.brag),
+            child: Icon(ChessigmaIcons.blitz, size: 15, color: context.chessigmaColors.brag),
           ),
           Text(
             player.score.toString().padLeft(2),
@@ -651,9 +650,9 @@ class _Scores extends StatelessWidget {
               '$score',
               style: TextStyle(
                 color: score >= 4
-                    ? context.lichessColors.brag
+                    ? context.chessigmaColors.brag
                     : score > 1
-                    ? context.lichessColors.good
+                    ? context.chessigmaColors.good
                     : textShade(context, 0.5),
                 letterSpacing: 0.5,
                 fontFeatures: const [FontFeature.tabularFigures()],
@@ -786,8 +785,8 @@ class _Verdicts extends ConsumerWidget {
           isLoggedIn && verdicts.accepted ? Icons.check : Icons.lock,
           color: isLoggedIn
               ? verdicts.accepted
-                    ? context.lichessColors.good
-                    : context.lichessColors.error
+                    ? context.chessigmaColors.good
+                    : context.chessigmaColors.error
               : null,
           size: 30.0,
         ),
@@ -802,8 +801,8 @@ class _Verdicts extends ConsumerWidget {
                   style: TextStyle(
                     color: isLoggedIn
                         ? verdict.ok
-                              ? context.lichessColors.good
-                              : context.lichessColors.error
+                              ? context.chessigmaColors.good
+                              : context.chessigmaColors.error
                         : null,
                   ),
                 ),
@@ -1334,7 +1333,7 @@ class _TournamentPlayerDetails extends ConsumerWidget {
                         label: context.l10n.stormScore,
                         value: '${player.score}',
                         prefix: player.fire
-                            ? Icon(LichessIcons.blitz, size: 15, color: context.lichessColors.brag)
+                            ? Icon(ChessigmaIcons.blitz, size: 15, color: context.chessigmaColors.brag)
                             : null,
                       ),
                       if (player.performance != null)
@@ -1441,13 +1440,13 @@ class _PairingTile extends ConsumerWidget {
     final tournamentState = ref.watch(tournamentControllerProvider(tournamentId));
 
     final resultColor = pairing.score != null && pairing.score! >= 4
-        ? context.lichessColors.brag
+        ? context.chessigmaColors.brag
         : pairing.win == true
-        ? context.lichessColors.good
+        ? context.chessigmaColors.good
         : pairing.status == GameStatus.draw ||
               pairing.status == GameStatus.insufficientMaterialClaim
         ? null
-        : context.lichessColors.error;
+        : context.chessigmaColors.error;
 
     return ListTile(
       contentPadding: const EdgeInsetsDirectional.only(start: 16.0, end: 16.0),
@@ -1466,16 +1465,6 @@ class _PairingTile extends ConsumerWidget {
                     ),
                   ),
                 );
-              } else {
-                // If game is still in progress, go to TV view
-                Navigator.of(context, rootNavigator: true).push(
-                  TvScreen.buildRoute(
-                    context,
-                    gameId: pairing.gameId,
-                    orientation: pairing.color,
-                    user: player,
-                  ),
-                );
               }
             }
           : null,
@@ -1490,7 +1479,7 @@ class _PairingTile extends ConsumerWidget {
           if (pairing.berserk)
             const Padding(
               padding: EdgeInsets.only(right: 8.0),
-              child: Icon(LichessIcons.body_cut, size: 20),
+              child: Icon(ChessigmaIcons.body_cut, size: 20),
             ),
           Icon(pairing.color == Side.white ? Icons.circle_outlined : Icons.circle, size: 20),
           SizedBox(
@@ -1684,7 +1673,7 @@ class _TeamPlayerTile extends ConsumerWidget {
           if (nbLeaders != null && index < nbLeaders!)
             Padding(
               padding: const EdgeInsets.only(right: 4.0),
-              child: Icon(LichessIcons.crown, size: 16, color: context.lichessColors.brag),
+              child: Icon(ChessigmaIcons.crown, size: 16, color: context.chessigmaColors.brag),
             ),
           Flexible(
             child: UserFullNameWidget(
@@ -1701,7 +1690,7 @@ class _TeamPlayerTile extends ConsumerWidget {
           if (player.fire)
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Icon(LichessIcons.blitz, size: 15, color: context.lichessColors.brag),
+              child: Icon(ChessigmaIcons.blitz, size: 15, color: context.chessigmaColors.brag),
             ),
           Text(
             player.score.toString().padLeft(2),

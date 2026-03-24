@@ -21,13 +21,13 @@ import 'package:http/http.dart'
         StreamedResponse;
 import 'package:http/io_client.dart';
 import 'package:http/retry.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/auth/bearer.dart';
-import 'package:lichess_mobile/src/model/common/preloaded_data.dart';
-import 'package:lichess_mobile/src/model/log/http_log_storage.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
-import 'package:lichess_mobile/src/network/aggregator.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/auth/bearer.dart';
+import 'package:chessigma_mobile/src/model/common/preloaded_data.dart';
+import 'package:chessigma_mobile/src/model/log/http_log_storage.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/network/aggregator.dart';
 import 'package:logging/logging.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -36,7 +36,7 @@ final _logger = Logger('HttpClient');
 const _maxCacheSize = 2 * 1024 * 1024;
 
 /// Creates a Uri pointing to lichess server with the given unencoded path and query parameters.
-Uri lichessUri(String unencodedPath, [Map<String, dynamic>? queryParameters]) =>
+Uri chessigmaUri(String unencodedPath, [Map<String, dynamic>? queryParameters]) =>
     kLichessHost.startsWith('localhost') ||
         kLichessHost.startsWith('10.') ||
         kLichessHost.startsWith('192.168.')
@@ -147,8 +147,8 @@ final defaultClientProvider = Provider<DefaultClient>((Ref ref) {
 /// The http client configured to make requests to the lichess API.
 ///
 /// Only one instance of this client is created and kept alive for the whole app.
-final lichessClientProvider = Provider<LichessClient>((Ref ref) {
-  final client = LichessClient(
+final lichessClientProvider = Provider<ChessigmaClient>((Ref ref) {
+  final client = ChessigmaClient(
     // Retry just once, after 500ms, on 429 Too Many Requests.
     RetryClient(
       ref.read(httpClientFactoryProvider)(),
@@ -329,8 +329,8 @@ class _RegisterCallbackClient extends BaseClient {
 /// * Logs all requests and responses with status code >= 400.
 /// * When a response has the 401 status, checks if the authUser token is still valid,
 /// and deletes the authUser if it's not.
-class LichessClient implements Client {
-  LichessClient(this._inner, this._ref);
+class ChessigmaClient implements Client {
+  ChessigmaClient(this._inner, this._ref);
 
   static const defaultRequestTimeout = Duration(seconds: 15);
 
@@ -446,7 +446,7 @@ class LichessClient implements Client {
   ]) async {
     final request = Request(
       method,
-      url.host.isNotEmpty ? url : lichessUri(url.path, url.hasQuery ? url.queryParameters : null),
+      url.host.isNotEmpty ? url : chessigmaUri(url.path, url.hasQuery ? url.queryParameters : null),
     );
 
     if (headers != null) request.headers.addAll(headers);
@@ -834,27 +834,27 @@ extension ClientExtension on Client {
 }
 
 extension ClientWidgetRefExtension on WidgetRef {
-  /// Runs [fn] with a [LichessClient].
-  Future<T> withClient<T>(Future<T> Function(LichessClient) fn) async {
+  /// Runs [fn] with a [ChessigmaClient].
+  Future<T> withClient<T>(Future<T> Function(ChessigmaClient) fn) async {
     final client = read(lichessClientProvider);
     return await fn(client);
   }
 }
 
 extension ClientRefExtension on Ref {
-  /// Runs [fn] with a [LichessClient].
-  Future<T> withClient<T>(Future<T> Function(LichessClient) fn) async {
+  /// Runs [fn] with a [ChessigmaClient].
+  Future<T> withClient<T>(Future<T> Function(ChessigmaClient) fn) async {
     final client = read(lichessClientProvider);
     return await fn(client);
   }
 
-  /// Runs [fn] with a [LichessClient] and keeps the provider alive for [duration].
+  /// Runs [fn] with a [ChessigmaClient] and keeps the provider alive for [duration].
   ///
   /// This is primarily used for caching network requests in a [FutureProvider].
   ///
   /// If [fn] throws with a [ServerException], the provider is kept alive as we don't want to retry
   /// server errors immediately.
-  Future<U> withClientCacheFor<U>(Future<U> Function(LichessClient) fn, Duration duration) async {
+  Future<U> withClientCacheFor<U>(Future<U> Function(ChessigmaClient) fn, Duration duration) async {
     final link = keepAlive();
     final timer = Timer(duration, link.close);
     final client = read(lichessClientProvider);
@@ -878,7 +878,7 @@ extension ClientRefExtension on Ref {
   /// If [fn] throws with a [ServerException], the provider is kept alive as we don't want to retry
   /// server errors immediately.
   Future<U> withAggregatorCacheFor<U>(
-    Future<U> Function(LichessClient, Aggregator) fn,
+    Future<U> Function(ChessigmaClient, Aggregator) fn,
     Duration duration,
   ) async {
     final link = keepAlive();

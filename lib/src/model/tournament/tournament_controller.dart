@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:lichess_mobile/src/model/chat/chat_controller.dart';
-import 'package:lichess_mobile/src/model/common/id.dart';
-import 'package:lichess_mobile/src/model/common/socket.dart';
-import 'package:lichess_mobile/src/model/tournament/tournament.dart';
-import 'package:lichess_mobile/src/model/tournament/tournament_repository.dart';
-import 'package:lichess_mobile/src/model/tv/tv_socket_events.dart';
-import 'package:lichess_mobile/src/network/socket.dart';
+import 'package:chessigma_mobile/src/model/chat/chat_controller.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
+import 'package:chessigma_mobile/src/model/common/socket.dart';
+import 'package:chessigma_mobile/src/model/tournament/tournament.dart';
+import 'package:chessigma_mobile/src/model/tournament/tournament_repository.dart';
+import 'package:chessigma_mobile/src/model/common/socket_events.dart';
+import 'package:chessigma_mobile/src/network/socket.dart';
 import 'package:logging/logging.dart';
 
 part 'tournament_controller.freezed.dart';

@@ -1387,7 +1387,7 @@
   "noConditionalPremoves": "Keine bedingten Vorauszüge",
   "playX": "Spiele {param}",
   "challengeX": "Fordere {param} heraus",
-  "showUnreadLichessMessage": "Du hast eine private Nachricht von Lichess erhalten.",
+  "showUnreadChessigmaMessage": "Du hast eine private Nachricht von Lichess erhalten.",
   "clickHereToReadIt": "Hier klicken zum Lesen",
   "sorry": "Entschuldigung :(",
   "weHadToTimeYouOutForAWhile": "Wir haben dich mit einer vorübergehenden Spielsperre belegt.",

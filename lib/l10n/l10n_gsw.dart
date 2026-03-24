@@ -4636,7 +4636,7 @@ class AppLocalizationsGsw extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Lichess hät dir e privati Nachricht g\'schickt.';
+  String get showUnreadChessigmaMessage => 'Lichess hät dir e privati Nachricht g\'schickt.';
 
   @override
   String get clickHereToReadIt => 'Klick da zum läse';

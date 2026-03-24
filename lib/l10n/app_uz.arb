@@ -1388,7 +1388,7 @@
   "noConditionalPremoves": "Shartli oldindan yurishlar yoʻq",
   "playX": "{param} yurish",
   "challengeX": "{param}ʼni chorlash",
-  "showUnreadLichessMessage": "Sizga Lichessdan shaxsiy xabar keldi.",
+  "showUnreadChessigmaMessage": "Sizga Lichessdan shaxsiy xabar keldi.",
   "clickHereToReadIt": "Uni oʻqish uchun shu yerga bosing",
   "sorry": "Kechirasiz :(",
   "weHadToTimeYouOutForAWhile": "Biz sizni oʻyinlardan vaqtinchalik chetlashtirishga majbur boʻldik.",

@@ -1068,7 +1068,7 @@
   "playVariationToCreateConditionalPremoves": "শর্তাধীন পুনারয় চাল তৈরির জন্য একটি ভিন্ন খেলুন",
   "noConditionalPremoves": "পুনারয়চাল শর্তাধীন নেই",
   "playX": "খেলা {param}",
-  "showUnreadLichessMessage": "আপনি Lichess থেকে একটি ব্যক্তিগত বার্তা পেয়েছেন.",
+  "showUnreadChessigmaMessage": "আপনি Lichess থেকে একটি ব্যক্তিগত বার্তা পেয়েছেন.",
   "clickHereToReadIt": "পড়তে এখানে ক্লিক করুন",
   "sorry": "দুঃখিত :(",
   "weHadToTimeYouOutForAWhile": "আমাদের কিছুক্ষণের জন্য আপনাকে বিরতি হল।",

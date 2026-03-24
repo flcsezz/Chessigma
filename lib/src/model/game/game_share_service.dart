@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:dartchess/dartchess.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' show Response;
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/common/id.dart';
-import 'package:lichess_mobile/src/model/game/exported_game.dart';
-import 'package:lichess_mobile/src/model/game/game_repository.dart';
-import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
-import 'package:lichess_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
+import 'package:chessigma_mobile/src/model/game/exported_game.dart';
+import 'package:chessigma_mobile/src/model/game/game_repository.dart';
+import 'package:chessigma_mobile/src/model/settings/board_preferences.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
 import 'package:share_plus/share_plus.dart';
 
 /// A provider for [GameShareService].
@@ -110,7 +110,7 @@ class GameShareService {
     final resp = await _ref
         .read(lichessClientProvider)
         .get(
-          lichessUri('/study/$id/$chapterId.gif', {
+          chessigmaUri('/study/$id/$chapterId.gif', {
             'theme': boardTheme.gifApiName,
             'piece': pieceTheme.name,
           }),

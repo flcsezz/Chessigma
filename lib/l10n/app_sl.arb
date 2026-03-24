@@ -1382,7 +1382,7 @@
   "noConditionalPremoves": "Ni pogojnih predpotez",
   "playX": "Odigrajte {param}",
   "challengeX": "Izziv {param}",
-  "showUnreadLichessMessage": "Prejeli ste zasebno sporočilo od Lichess.",
+  "showUnreadChessigmaMessage": "Prejeli ste zasebno sporočilo od Lichess.",
   "clickHereToReadIt": "Kliknite tukaj, če ga želite prebrati",
   "sorry": "Oprostite :(",
   "weHadToTimeYouOutForAWhile": "Morali smo vas za nekaj časa onemogočiti.",

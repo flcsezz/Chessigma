@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/puzzle/storm_controller.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/widgets/clock.dart' show ClockStyle;
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/puzzle/storm_controller.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/widgets/clock.dart' show ClockStyle;
 
 const _kClockFontSize = 26.0;
 
@@ -98,7 +98,7 @@ class _ClockState extends State<StormClockWidget> with SingleTickerProviderState
     final effectiveClockStyle = ClockStyle.defaultStyle(
       brightness,
       colorScheme,
-      context.lichessColors,
+      context.chessigmaColors,
     );
 
     final minutes = time.inMinutes.remainder(60).toString().padLeft(2, '0');
@@ -126,8 +126,8 @@ class _ClockState extends State<StormClockWidget> with SingleTickerProviderState
                       '${currentBonusSeconds! > 0 ? '+' : ''}$currentBonusSeconds',
                       style: TextStyle(
                         color: currentBonusSeconds! < 0
-                            ? context.lichessColors.error
-                            : context.lichessColors.good,
+                            ? context.chessigmaColors.error
+                            : context.chessigmaColors.good,
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                         fontFeatures: const [FontFeature.tabularFigures()],
@@ -150,8 +150,8 @@ class _ClockState extends State<StormClockWidget> with SingleTickerProviderState
                     '$minutes:$seconds',
                     style: TextStyle(
                       color: currentBonusSeconds! < 0
-                          ? context.lichessColors.error
-                          : context.lichessColors.good,
+                          ? context.chessigmaColors.error
+                          : context.chessigmaColors.good,
                       fontSize: _kClockFontSize,
                       fontFeatures: const [FontFeature.tabularFigures()],
                     ),

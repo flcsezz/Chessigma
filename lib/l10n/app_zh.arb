@@ -1388,7 +1388,7 @@
   "noConditionalPremoves": "无条件预走棋",
   "playX": "走 {param}",
   "challengeX": "挑战 {param}",
-  "showUnreadLichessMessage": "您收到了一条来自 Lichess 的私信。",
+  "showUnreadChessigmaMessage": "您收到了一条来自 Lichess 的私信。",
   "clickHereToReadIt": "点击此处阅读",
   "sorry": "抱歉 :(",
   "weHadToTimeYouOutForAWhile": "我们不得不暂时将您封禁一段时间。",

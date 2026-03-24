@@ -1384,7 +1384,7 @@
   "noConditionalPremoves": "Ingen betingede forhåndstræk",
   "playX": "Spil {param}",
   "challengeX": "Udfordr {param}",
-  "showUnreadLichessMessage": "Du har modtaget en privat besked fra Lichess.",
+  "showUnreadChessigmaMessage": "Du har modtaget en privat besked fra Lichess.",
   "clickHereToReadIt": "Klik her for at læse den",
   "sorry": "Beklager :(",
   "weHadToTimeYouOutForAWhile": "Vi måtte give dig en timeout.",

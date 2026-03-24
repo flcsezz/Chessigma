@@ -1157,7 +1157,7 @@
   "playVariationToCreateConditionalPremoves": "Speel 'n variasie om voorwaardige voorafskuiwe te skep",
   "noConditionalPremoves": "Geen voorwaardelike voorafskuiwe",
   "playX": "Speel {param}",
-  "showUnreadLichessMessage": "Jy het 'n privaatboodskap van Lichess ontvang.",
+  "showUnreadChessigmaMessage": "Jy het 'n privaatboodskap van Lichess ontvang.",
   "clickHereToReadIt": "Klik hier om dit te lees",
   "sorry": "Skies :(",
   "weHadToTimeYouOutForAWhile": "Jy moet vir 'n rukkie in die hoek sit.",

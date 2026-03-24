@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_controller.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_preferences.dart';
-import 'package:lichess_mobile/src/model/analysis/server_analysis_service.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/widgets/acpl_chart.dart';
-import 'package:lichess_mobile/src/widgets/feedback.dart';
-import 'package:lichess_mobile/src/widgets/game_summary_table.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_controller.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_preferences.dart';
+import 'package:chessigma_mobile/src/model/analysis/server_analysis_service.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/widgets/acpl_chart.dart';
+import 'package:chessigma_mobile/src/widgets/feedback.dart';
+import 'package:chessigma_mobile/src/widgets/game_summary_table.dart';
 
 class ServerAnalysisSummary extends ConsumerWidget {
   const ServerAnalysisSummary(this.options, {super.key});

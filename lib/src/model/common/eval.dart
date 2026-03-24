@@ -7,8 +7,8 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:lichess_mobile/src/binding.dart';
-import 'package:lichess_mobile/src/model/common/chess.dart';
+import 'package:chessigma_mobile/src/binding.dart';
+import 'package:chessigma_mobile/src/model/common/chess.dart';
 import 'package:logging/logging.dart';
 
 part 'eval.freezed.dart';
@@ -190,7 +190,7 @@ sealed class PvData with _$PvData {
       final move = Move.parse(uciMove);
       final movesString = moves.join(' ');
       if (move == null) {
-        LichessBinding.instance.firebaseCrashlytics.recordError(
+        ChessigmaBinding.instance.firebaseCrashlytics.recordError(
           'Invalid UCI move: "$uciMove" in PV: $movesString for position: ${pos.fen} rule: ${pos.rule}',
           null,
           reason: 'Failed to parse UCI move from PV',

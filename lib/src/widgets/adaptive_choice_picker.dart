@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
 
 /// Shows a platform adaptive choice picker dialog
 ///

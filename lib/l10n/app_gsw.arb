@@ -1388,7 +1388,7 @@
   "noConditionalPremoves": "Kei bedingti Voruszüg",
   "playX": "Schpill {param}",
   "challengeX": "Gforderet wird: {param}",
-  "showUnreadLichessMessage": "Lichess hät dir e privati Nachricht g'schickt.",
+  "showUnreadChessigmaMessage": "Lichess hät dir e privati Nachricht g'schickt.",
   "clickHereToReadIt": "Klick da zum läse",
   "sorry": "Äxgüsi :(",
   "weHadToTimeYouOutForAWhile": "Mir händ dich für es Zitli müesse schperre.",

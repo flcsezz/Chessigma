@@ -1387,7 +1387,7 @@
   "noConditionalPremoves": "コンディショナルムーブなし",
   "playX": "指し手は {param}",
   "challengeX": "{param} に挑戦",
-  "showUnreadLichessMessage": "Lichess からプライベートメッセージが来ました。",
+  "showUnreadChessigmaMessage": "Lichess からプライベートメッセージが来ました。",
   "clickHereToReadIt": "ここをクリックして読む",
   "sorry": "残念です :(",
   "weHadToTimeYouOutForAWhile": "しばらく対局を禁止します。",

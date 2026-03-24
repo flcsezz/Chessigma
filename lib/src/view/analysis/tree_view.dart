@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_controller.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_preferences.dart';
-import 'package:lichess_mobile/src/view/game/game_result_dialog.dart';
-import 'package:lichess_mobile/src/widgets/pgn.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_controller.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_preferences.dart';
+import 'package:chessigma_mobile/src/view/game/game_result_dialog.dart';
+import 'package:chessigma_mobile/src/widgets/pgn.dart';
 
 const kOpeningHeaderHeight = 32.0;
 

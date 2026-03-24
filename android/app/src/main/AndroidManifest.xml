@@ -73,9 +73,6 @@
                 <data android:pathPattern="/study/........" />
                 <data android:pathPattern="/tournament/........" />
 
-                <data android:pathPattern="/broadcast/.*/.*/........" />
-                <data android:pathPattern="/broadcast/.*/.*/......../........" />
-
                 <!-- Game with pov -->
                 <data android:pathPattern="/......../black" />
                 <data android:pathPattern="/......../white" />

@@ -1388,7 +1388,7 @@
   "noConditionalPremoves": "Sen premovementos condicionais",
   "playX": "Xogar {param}",
   "challengeX": "Desafiar a {param}",
-  "showUnreadLichessMessage": "Recibiches unha mensaxe privada de Lichess.",
+  "showUnreadChessigmaMessage": "Recibiches unha mensaxe privada de Lichess.",
   "clickHereToReadIt": "Fai clic aquí para lela",
   "sorry": "Sentímolo :(",
   "weHadToTimeYouOutForAWhile": "Tivemos que suspenderte temporalmente.",

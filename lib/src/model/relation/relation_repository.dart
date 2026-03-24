@@ -1,12 +1,12 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:lichess_mobile/src/model/common/id.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
-import 'package:lichess_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
 
 class RelationRepository {
   const RelationRepository(this.client);
 
-  final LichessClient client;
+  final ChessigmaClient client;
 
   Future<IList<User>> getFollowing() {
     return client.readNdJsonList(

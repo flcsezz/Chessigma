@@ -4636,7 +4636,7 @@ class AppLocalizationsEu extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Lichessek bidalitako mezu pribatu bat jaso duzu.';
+  String get showUnreadChessigmaMessage => 'Lichessek bidalitako mezu pribatu bat jaso duzu.';
 
   @override
   String get clickHereToReadIt => 'Egin klik hemen irakurtzeko';

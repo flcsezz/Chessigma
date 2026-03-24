@@ -1,9 +1,9 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:lichess_mobile/src/model/account/home_widgets.dart';
-import 'package:lichess_mobile/src/model/settings/preferences_storage.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/model/account/home_widgets.dart';
+import 'package:chessigma_mobile/src/model/settings/preferences_storage.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
 
 part 'home_preferences.freezed.dart';
 part 'home_preferences.g.dart';
@@ -58,4 +58,4 @@ sealed class HomePrefs with _$HomePrefs implements Serializable {
   }
 }
 
-const _defaultList = IListConst<HomeEditableWidget>([HomeEditableWidget.quickPairing]);
+const _defaultList = IListConst<HomeEditableWidget>([]);

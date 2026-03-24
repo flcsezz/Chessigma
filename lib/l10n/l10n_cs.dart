@@ -4690,7 +4690,7 @@ class AppLocalizationsCs extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Dostali jste soukromou zprávu od Lichess.';
+  String get showUnreadChessigmaMessage => 'Dostali jste soukromou zprávu od Lichess.';
 
   @override
   String get clickHereToReadIt => 'Pro přečtení klikněte zde';

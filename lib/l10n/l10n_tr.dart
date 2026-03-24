@@ -4636,7 +4636,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Lichess size bir özel mesaj gönderdi.';
+  String get showUnreadChessigmaMessage => 'Lichess size bir özel mesaj gönderdi.';
 
   @override
   String get clickHereToReadIt => 'Okumak için buraya tıklayın';

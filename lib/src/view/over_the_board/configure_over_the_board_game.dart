@@ -2,21 +2,21 @@ import 'package:chessground/chessground.dart';
 import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/model/common/chess.dart';
-import 'package:lichess_mobile/src/model/common/time_increment.dart';
-import 'package:lichess_mobile/src/model/lobby/game_setup_preferences.dart';
-import 'package:lichess_mobile/src/model/over_the_board/over_the_board_clock.dart';
-import 'package:lichess_mobile/src/model/over_the_board/over_the_board_game_controller.dart';
-import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
-import 'package:lichess_mobile/src/model/settings/over_the_board_preferences.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/widgets/adaptive_bottom_sheet.dart';
-import 'package:lichess_mobile/src/widgets/adaptive_choice_picker.dart';
-import 'package:lichess_mobile/src/widgets/list.dart';
-import 'package:lichess_mobile/src/widgets/non_linear_slider.dart';
-import 'package:lichess_mobile/src/widgets/settings.dart';
-import 'package:lichess_mobile/src/widgets/variant_app_bar_title.dart';
+import 'package:chessigma_mobile/src/model/common/chess.dart';
+import 'package:chessigma_mobile/src/model/common/time_increment.dart';
+import 'package:chessigma_mobile/src/model/lobby/game_setup_preferences.dart';
+import 'package:chessigma_mobile/src/model/over_the_board/over_the_board_clock.dart';
+import 'package:chessigma_mobile/src/model/over_the_board/over_the_board_game_controller.dart';
+import 'package:chessigma_mobile/src/model/settings/board_preferences.dart';
+import 'package:chessigma_mobile/src/model/settings/over_the_board_preferences.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/widgets/adaptive_bottom_sheet.dart';
+import 'package:chessigma_mobile/src/widgets/adaptive_choice_picker.dart';
+import 'package:chessigma_mobile/src/widgets/list.dart';
+import 'package:chessigma_mobile/src/widgets/non_linear_slider.dart';
+import 'package:chessigma_mobile/src/widgets/settings.dart';
+import 'package:chessigma_mobile/src/widgets/variant_app_bar_title.dart';
 
 void showConfigureGameSheet(
   BuildContext context, {

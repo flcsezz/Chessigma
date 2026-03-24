@@ -1,13 +1,13 @@
 import 'package:dartchess/dartchess.dart' show Side;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:lichess_mobile/src/model/challenge/challenge.dart';
-import 'package:lichess_mobile/src/model/common/id.dart';
-import 'package:lichess_mobile/src/model/game/game.dart';
-import 'package:lichess_mobile/src/model/game/game_controller.dart';
-import 'package:lichess_mobile/src/model/lobby/create_game_service.dart';
-import 'package:lichess_mobile/src/model/lobby/game_seek.dart';
-import 'package:lichess_mobile/src/view/game/game_screen.dart';
+import 'package:chessigma_mobile/src/model/challenge/challenge.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
+import 'package:chessigma_mobile/src/model/game/game.dart';
+import 'package:chessigma_mobile/src/model/game/game_controller.dart';
+import 'package:chessigma_mobile/src/model/lobby/create_game_service.dart';
+import 'package:chessigma_mobile/src/model/lobby/game_seek.dart';
+import 'package:chessigma_mobile/src/view/game/game_screen.dart';
 
 part 'game_screen_providers.freezed.dart';
 

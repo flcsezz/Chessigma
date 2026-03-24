@@ -4636,7 +4636,7 @@ class AppLocalizationsHu extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Üzeneted jött Lichesstől!';
+  String get showUnreadChessigmaMessage => 'Üzeneted jött Lichesstől!';
 
   @override
   String get clickHereToReadIt => 'Kattints ide az olvasáshoz';

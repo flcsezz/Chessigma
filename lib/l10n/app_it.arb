@@ -1328,7 +1328,7 @@
   "noConditionalPremoves": "Nessuna premossa condizionale",
   "playX": "Gioca {param}",
   "challengeX": "Sfida {param}",
-  "showUnreadLichessMessage": "Hai ricevuto un messaggio privato da Lichess.",
+  "showUnreadChessigmaMessage": "Hai ricevuto un messaggio privato da Lichess.",
   "clickHereToReadIt": "Clicca qui per leggerlo",
   "sorry": "Ci dispiace :(",
   "weHadToTimeYouOutForAWhile": "Abbiamo dovuto bloccarti per un po' di tempo.",

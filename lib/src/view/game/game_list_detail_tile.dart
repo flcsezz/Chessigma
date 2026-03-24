@@ -3,17 +3,17 @@ import 'package:dartchess/dartchess.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/model/account/account_preferences.dart';
-import 'package:lichess_mobile/src/model/game/exported_game.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/l10n.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/screen.dart';
-import 'package:lichess_mobile/src/view/game/game_common_widgets.dart';
-import 'package:lichess_mobile/src/view/game/game_list_tile.dart';
-import 'package:lichess_mobile/src/view/game/status_l10n.dart';
-import 'package:lichess_mobile/src/widgets/board_thumbnail.dart';
-import 'package:lichess_mobile/src/widgets/user.dart';
+import 'package:chessigma_mobile/src/model/account/account_preferences.dart';
+import 'package:chessigma_mobile/src/model/game/exported_game.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/l10n.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/screen.dart';
+import 'package:chessigma_mobile/src/view/game/game_common_widgets.dart';
+import 'package:chessigma_mobile/src/view/game/game_list_tile.dart';
+import 'package:chessigma_mobile/src/view/game/status_l10n.dart';
+import 'package:chessigma_mobile/src/widgets/board_thumbnail.dart';
+import 'package:chessigma_mobile/src/widgets/user.dart';
 
 /// A list tile that shows more detailed game info than [GameListTile].
 class GameListDetailTile extends StatelessWidget {
@@ -158,10 +158,10 @@ class GameListDetailTile extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: subtitleFontSize,
                                       color: game.winner == null
-                                          ? context.lichessColors.brag
+                                          ? context.chessigmaColors.brag
                                           : game.winner == mySide
-                                          ? context.lichessColors.good
-                                          : context.lichessColors.error,
+                                          ? context.chessigmaColors.good
+                                          : context.chessigmaColors.error,
                                     ),
                                     children: [
                                       if (me.ratingDiff != null)

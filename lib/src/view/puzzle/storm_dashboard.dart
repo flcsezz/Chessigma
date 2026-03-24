@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:lichess_mobile/src/model/puzzle/puzzle_providers.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
-import 'package:lichess_mobile/src/styles/lichess_colors.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/navigation.dart';
-import 'package:lichess_mobile/src/widgets/list.dart';
-import 'package:lichess_mobile/src/widgets/shimmer.dart';
-import 'package:lichess_mobile/src/widgets/stat_card.dart';
+import 'package:chessigma_mobile/src/model/puzzle/puzzle_providers.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/styles/lichess_colors.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/navigation.dart';
+import 'package:chessigma_mobile/src/widgets/list.dart';
+import 'package:chessigma_mobile/src/widgets/shimmer.dart';
+import 'package:chessigma_mobile/src/widgets/stat_card.dart';
 
 class StormDashboardModal extends StatelessWidget {
   const StormDashboardModal({super.key, required this.user});
@@ -28,7 +28,7 @@ class StormDashboardModal extends StatelessWidget {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(LichessIcons.storm, size: 20),
+            const Icon(ChessigmaIcons.storm, size: 20),
             const SizedBox(width: 8.0),
             Text(context.l10n.stormHighscores),
           ],
@@ -146,7 +146,7 @@ class _Body extends ConsumerWidget {
                                 textAlign: TextAlign.center,
                                 data.dayHighscores[entryIndex].score.toString(),
                                 style: TextStyle(
-                                  color: context.lichessColors.brag,
+                                  color: context.chessigmaColors.brag,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

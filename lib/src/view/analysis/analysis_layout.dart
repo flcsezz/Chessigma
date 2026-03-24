@@ -1,16 +1,16 @@
 import 'package:chessground/chessground.dart';
 import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
-import 'package:lichess_mobile/l10n/l10n.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/screen.dart';
-import 'package:lichess_mobile/src/view/engine/engine_gauge.dart';
-import 'package:lichess_mobile/src/widgets/adaptive_action_sheet.dart';
-import 'package:lichess_mobile/src/widgets/buttons.dart';
-import 'package:lichess_mobile/src/widgets/pockets.dart';
+import 'package:chessigma_mobile/l10n/l10n.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/screen.dart';
+import 'package:chessigma_mobile/src/view/engine/engine_gauge.dart';
+import 'package:chessigma_mobile/src/widgets/adaptive_action_sheet.dart';
+import 'package:chessigma_mobile/src/widgets/buttons.dart';
+import 'package:chessigma_mobile/src/widgets/pockets.dart';
 
 /// The height of the board header or footer in the analysis layout.
 const kAnalysisBoardHeaderOrFooterHeight = 26.0;
@@ -25,7 +25,7 @@ typedef EngineGaugeBuilder = Widget Function(BuildContext context);
 
 enum AnalysisTab {
   explorer(Icons.explore),
-  moves(LichessIcons.flow_cascade),
+  moves(ChessigmaIcons.flow_cascade),
   summary(Icons.area_chart),
   // TODO add hint dialog on new install to show this tab
   conditionalPremoves(Icons.save);

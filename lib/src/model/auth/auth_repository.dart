@@ -5,12 +5,12 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/auth/bearer.dart';
-import 'package:lichess_mobile/src/model/auth/oauth_callback.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
-import 'package:lichess_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/auth/bearer.dart';
+import 'package:chessigma_mobile/src/model/auth/oauth_callback.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
 import 'package:logging/logging.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -30,7 +30,7 @@ class AuthRepository {
   final Logger _log = Logger('AuthRepository');
   final _random = Random.secure();
 
-  LichessClient get _client => _ref.read(lichessClientProvider);
+  ChessigmaClient get _client => _ref.read(lichessClientProvider);
 
   /// Sign in with Lichess using OAuth 2.0 PKCE.
   ///
@@ -43,10 +43,10 @@ class AuthRepository {
     final codeChallenge = _generateCodeChallenge(codeVerifier);
     final state = _generateState();
 
-    final authUrl = lichessUri('/oauth').replace(
+    final authUrl = chessigmaUri('/oauth').replace(
       queryParameters: {
         'response_type': 'code',
-        'client_id': kLichessClientId,
+        'client_id': kChessigmaClientId,
         'redirect_uri': kOAuthRedirectUri,
         'scope': oauthScopes.join(' '),
         'code_challenge': codeChallenge,
@@ -126,7 +126,7 @@ class AuthRepository {
         'code': code,
         'code_verifier': codeVerifier,
         'redirect_uri': kOAuthRedirectUri,
-        'client_id': kLichessClientId,
+        'client_id': kChessigmaClientId,
       },
       mapper: (json) => json,
     );
@@ -155,7 +155,7 @@ class AuthRepository {
   Future<bool> checkToken(AuthUser authUser) async {
     final defaultClient = _ref.read(defaultClientProvider);
     final data = await defaultClient
-        .postReadJson(lichessUri('/api/token/test'), mapper: (json) => json, body: authUser.token)
+        .postReadJson(chessigmaUri('/api/token/test'), mapper: (json) => json, body: authUser.token)
         .timeout(const Duration(seconds: 5));
     return data[authUser.token] != null;
   }

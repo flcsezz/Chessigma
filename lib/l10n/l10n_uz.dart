@@ -4636,7 +4636,7 @@ class AppLocalizationsUz extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Sizga Lichessdan shaxsiy xabar keldi.';
+  String get showUnreadChessigmaMessage => 'Sizga Lichessdan shaxsiy xabar keldi.';
 
   @override
   String get clickHereToReadIt => 'Uni oʻqish uchun shu yerga bosing';

@@ -1384,7 +1384,7 @@
   "noConditionalPremoves": "Безусловные предходы",
   "playX": "Сыграть {param}",
   "challengeX": "Бросить вызов {param}",
-  "showUnreadLichessMessage": "Вы получили личное сообщение от Lichess.",
+  "showUnreadChessigmaMessage": "Вы получили личное сообщение от Lichess.",
   "clickHereToReadIt": "Нажмите здесь, чтобы прочитать его",
   "sorry": "Извините :(",
   "weHadToTimeYouOutForAWhile": "Мы вынуждены прервать вас на время.",

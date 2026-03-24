@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:lichess_mobile/src/model/clock/clock_tool_controller.dart';
-import 'package:lichess_mobile/src/model/common/time_increment.dart';
-import 'package:lichess_mobile/src/model/lobby/game_setup_preferences.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/widgets/adaptive_bottom_sheet.dart';
-import 'package:lichess_mobile/src/widgets/list.dart';
-import 'package:lichess_mobile/src/widgets/non_linear_slider.dart';
+import 'package:chessigma_mobile/src/model/clock/clock_tool_controller.dart';
+import 'package:chessigma_mobile/src/model/common/time_increment.dart';
+import 'package:chessigma_mobile/src/model/lobby/game_setup_preferences.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/widgets/adaptive_bottom_sheet.dart';
+import 'package:chessigma_mobile/src/widgets/list.dart';
+import 'package:chessigma_mobile/src/widgets/non_linear_slider.dart';
 
 class CustomClockSettings extends StatefulWidget {
   const CustomClockSettings({required this.onSubmit, required this.player, required this.clock});

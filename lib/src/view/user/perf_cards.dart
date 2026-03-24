@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/common/perf.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/view/account/rating_pref_aware.dart';
-import 'package:lichess_mobile/src/view/puzzle/storm_dashboard.dart';
-import 'package:lichess_mobile/src/view/user/perf_stats_screen.dart';
-import 'package:lichess_mobile/src/widgets/rating.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/common/perf.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/view/account/rating_pref_aware.dart';
+import 'package:chessigma_mobile/src/view/puzzle/storm_dashboard.dart';
+import 'package:chessigma_mobile/src/view/user/perf_stats_screen.dart';
+import 'package:chessigma_mobile/src/widgets/rating.dart';
 
 /// A widget that displays the performance cards of a user.
 class PerfCards extends StatelessWidget {
@@ -105,11 +105,11 @@ class PerfCards extends StatelessWidget {
                                 if (userPerf.progression != 0) ...[
                                   Icon(
                                     userPerf.progression > 0
-                                        ? LichessIcons.arrow_full_upperright
-                                        : LichessIcons.arrow_full_lowerright,
+                                        ? ChessigmaIcons.arrow_full_upperright
+                                        : ChessigmaIcons.arrow_full_lowerright,
                                     color: userPerf.progression > 0
-                                        ? context.lichessColors.good
-                                        : context.lichessColors.error,
+                                        ? context.chessigmaColors.good
+                                        : context.chessigmaColors.error,
                                     size: 12,
                                   ),
                                   Flexible(
@@ -119,8 +119,8 @@ class PerfCards extends StatelessWidget {
                                       maxLines: 1,
                                       style: TextStyle(
                                         color: userPerf.progression > 0
-                                            ? context.lichessColors.good
-                                            : context.lichessColors.error,
+                                            ? context.chessigmaColors.good
+                                            : context.chessigmaColors.error,
                                         fontSize: 11,
                                       ),
                                     ),

@@ -1388,7 +1388,7 @@
   "noConditionalPremoves": "Không có nước đi trước có điều kiện nào",
   "playX": "Chơi {param}",
   "challengeX": "Thách đấu {param}",
-  "showUnreadLichessMessage": "Bạn đã nhận được một tin nhắn riêng từ Lichess.",
+  "showUnreadChessigmaMessage": "Bạn đã nhận được một tin nhắn riêng từ Lichess.",
   "clickHereToReadIt": "Nhấn vào đây để đọc nó",
   "sorry": "Rất tiếc :(",
   "weHadToTimeYouOutForAWhile": "Chúng tôi phải ngừng bạn lại một thời gian.",

@@ -1,5 +1,5 @@
-import 'package:lichess_mobile/src/model/analysis/opening_service.dart';
-import 'package:lichess_mobile/src/model/common/chess.dart';
+import 'package:chessigma_mobile/src/model/analysis/opening_service.dart';
+import 'package:chessigma_mobile/src/model/common/chess.dart';
 
 class FakeOpeningService implements OpeningService {
   @override

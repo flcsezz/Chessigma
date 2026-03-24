@@ -1,36 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' show ClientException;
-import 'package:lichess_mobile/src/model/account/account_repository.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/common/id.dart';
-import 'package:lichess_mobile/src/model/game/game_filter.dart';
-import 'package:lichess_mobile/src/model/relation/relation_repository.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
-import 'package:lichess_mobile/src/model/user/user_repository.dart';
-import 'package:lichess_mobile/src/network/connectivity.dart';
-import 'package:lichess_mobile/src/network/http.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/navigation.dart';
-import 'package:lichess_mobile/src/utils/share.dart';
-import 'package:lichess_mobile/src/view/message/conversation_screen.dart';
-import 'package:lichess_mobile/src/view/play/challenge_odd_bots_screen.dart';
-import 'package:lichess_mobile/src/view/play/create_challenge_bottom_sheet.dart';
-import 'package:lichess_mobile/src/view/user/game_history_screen.dart';
-import 'package:lichess_mobile/src/view/user/perf_cards.dart';
-import 'package:lichess_mobile/src/view/user/recent_games.dart';
-import 'package:lichess_mobile/src/view/user/user_activity.dart';
-import 'package:lichess_mobile/src/view/user/user_profile.dart';
-import 'package:lichess_mobile/src/view/watch/tv_screen.dart';
-import 'package:lichess_mobile/src/widgets/buttons.dart';
-import 'package:lichess_mobile/src/widgets/feedback.dart';
-import 'package:lichess_mobile/src/widgets/haptic_refresh_indicator.dart';
-import 'package:lichess_mobile/src/widgets/list.dart';
-import 'package:lichess_mobile/src/widgets/platform.dart';
-import 'package:lichess_mobile/src/widgets/text_badge.dart';
-import 'package:lichess_mobile/src/widgets/user.dart';
+import 'package:chessigma_mobile/src/model/account/account_repository.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
+import 'package:chessigma_mobile/src/model/game/game_filter.dart';
+import 'package:chessigma_mobile/src/model/relation/relation_repository.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/model/user/user_repository.dart';
+import 'package:chessigma_mobile/src/network/connectivity.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/navigation.dart';
+import 'package:chessigma_mobile/src/utils/share.dart';
+import 'package:chessigma_mobile/src/view/message/conversation_screen.dart';
+import 'package:chessigma_mobile/src/view/user/game_history_screen.dart';
+import 'package:chessigma_mobile/src/view/user/perf_cards.dart';
+import 'package:chessigma_mobile/src/view/user/recent_games.dart';
+import 'package:chessigma_mobile/src/view/user/user_activity.dart';
+import 'package:chessigma_mobile/src/view/user/user_profile.dart';
+import 'package:chessigma_mobile/src/widgets/buttons.dart';
+import 'package:chessigma_mobile/src/widgets/feedback.dart';
+import 'package:chessigma_mobile/src/widgets/haptic_refresh_indicator.dart';
+import 'package:chessigma_mobile/src/widgets/list.dart';
+import 'package:chessigma_mobile/src/widgets/platform.dart';
+import 'package:chessigma_mobile/src/widgets/user.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -46,31 +42,6 @@ class UserScreen extends ConsumerStatefulWidget {
 
   static Route<dynamic> buildRoute(BuildContext context, LightUser user) {
     return buildScreenRoute(context, screen: UserScreen(user: user));
-  }
-
-  static void challengeUser(User user, {required BuildContext context, required WidgetRef ref}) {
-    final authUser = ref.read(authControllerProvider);
-    if (authUser == null) {
-      showSnackBar(
-        context,
-        context.l10n.challengeRegisterToSendChallenges,
-        type: SnackBarType.error,
-      );
-      return;
-    }
-    final isOddBot = oddBots.contains(user.lightUser.name.toLowerCase());
-    if (isOddBot) {
-      Navigator.of(context).push(ChallengeOddBotsScreen.buildRoute(context, user.lightUser));
-    } else {
-      showModalBottomSheet<void>(
-        context: context,
-        isScrollControlled: true,
-        useRootNavigator: true,
-        builder: (context) {
-          return CreateChallengeBottomSheet(user.lightUser);
-        },
-      );
-    }
   }
 
   @override
@@ -107,7 +78,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
             icon: const PlatformShareIcon(),
             semanticsLabel: 'Share profile',
             onPressed: () =>
-                launchShareDialog(context, ShareParams(uri: lichessUri('/@/${widget.user.name}'))),
+                launchShareDialog(context, ShareParams(uri: chessigmaUri('/@/${widget.user.name}'))),
           ),
         ],
       ),
@@ -173,7 +144,7 @@ class _UserProfileListView extends ConsumerWidget {
       return Center(child: Text(context.l10n.settingsThisAccountIsClosed, style: Styles.bold));
     }
 
-    Future<void> userAction(Future<void> Function(LichessClient client) action) async {
+    Future<void> userAction(Future<void> Function(ChessigmaClient client) action) async {
       setIsLoading(true);
       try {
         await ref.withClient(action).then((_) => ref.invalidate(_userScreenDataProvider(user.id)));
@@ -220,25 +191,7 @@ class _UserProfileListView extends ConsumerWidget {
                   );
                 }(),
               ],
-              ListTile(
-                title: Text(context.l10n.watchGames),
-                leading: const Icon(Icons.live_tv_outlined),
-                trailing: isPlayingLive == true ? const TextBadge(text: 'LIVE') : null,
-                onTap: () {
-                  Navigator.of(
-                    context,
-                    rootNavigator: true,
-                  ).push(TvScreen.buildRoute(context, user: user.lightUser));
-                },
-              ),
               if (authUser != null) ...[
-                if (user.canChallenge == true)
-                  ListTile(
-                    title: Text(context.l10n.challengeChallengeToPlay),
-                    leading: const Icon(LichessIcons.crossed_swords),
-                    onTap: () => UserScreen.challengeUser(user, context: context, ref: ref),
-                  ),
-
                 if (user.blocking != true && !user.isBot && kidMode.value == false)
                   ListTile(
                     leading: const Icon(Icons.chat_bubble_outline),
@@ -288,7 +241,7 @@ class _UserProfileListView extends ConsumerWidget {
                   title: Text(context.l10n.reportXToModerators(user.username)),
                   onTap: () {
                     launchUrl(
-                      lichessUri('/report', {'username': user.id, 'login': authUser.user.id}),
+                      chessigmaUri('/report', {'username': user.id, 'login': authUser.user.id}),
                     );
                   },
                 ),

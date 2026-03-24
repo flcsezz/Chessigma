@@ -4660,7 +4660,7 @@ class AppLocalizationsLv extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Saņemta privāta ziņa no Lichess.';
+  String get showUnreadChessigmaMessage => 'Saņemta privāta ziņa no Lichess.';
 
   @override
   String get clickHereToReadIt => 'Klikšķini te, lai to lasītu';

@@ -5,25 +5,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/experimental/mutation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/model/account/account_repository.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/common/preloaded_data.dart';
-import 'package:lichess_mobile/src/model/message/message_repository.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
-import 'package:lichess_mobile/src/network/connectivity.dart';
-import 'package:lichess_mobile/src/network/http.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/http_network_image.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/lichess_assets.dart';
-import 'package:lichess_mobile/src/utils/navigation.dart';
-import 'package:lichess_mobile/src/view/account/profile_screen.dart';
-import 'package:lichess_mobile/src/view/message/contacts_screen.dart';
-import 'package:lichess_mobile/src/view/settings/settings_screen.dart';
-import 'package:lichess_mobile/src/widgets/adaptive_action_sheet.dart';
-import 'package:lichess_mobile/src/widgets/feedback.dart';
-import 'package:lichess_mobile/src/widgets/list.dart';
+import 'package:chessigma_mobile/src/model/account/account_repository.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/common/preloaded_data.dart';
+import 'package:chessigma_mobile/src/model/message/message_repository.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/network/connectivity.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/http_network_image.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/lichess_assets.dart';
+import 'package:chessigma_mobile/src/utils/navigation.dart';
+import 'package:chessigma_mobile/src/view/account/profile_screen.dart';
+import 'package:chessigma_mobile/src/view/message/contacts_screen.dart';
+import 'package:chessigma_mobile/src/view/settings/settings_screen.dart';
+import 'package:chessigma_mobile/src/widgets/adaptive_action_sheet.dart';
+import 'package:chessigma_mobile/src/widgets/feedback.dart';
+import 'package:chessigma_mobile/src/widgets/list.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -163,7 +163,7 @@ class _AccountDrawerState extends ConsumerState<AccountDrawer> {
                 leading: const Icon(Symbols.sentiment_satisfied, weight: 600),
                 title: Text(context.l10n.kidModeIsEnabled),
                 onTap: () {
-                  launchUrl(lichessUri('/account/kid')).then((_) {
+                  launchUrl(chessigmaUri('/account/kid')).then((_) {
                     ref.invalidate(accountProvider);
                   });
                 },
@@ -234,7 +234,7 @@ class _AccountDrawerState extends ConsumerState<AccountDrawer> {
           ],
           if (Theme.of(context).platform == TargetPlatform.android)
             ListTile(
-              leading: Icon(LichessIcons.patron, semanticLabel: context.l10n.patronLichessPatron),
+              leading: Icon(ChessigmaIcons.patron, semanticLabel: context.l10n.patronLichessPatron),
               title: Text(context.l10n.patronDonate),
               enabled: isOnline,
               onTap: () {
@@ -333,7 +333,7 @@ class AboutScreen extends ConsumerWidget {
             children: [
               ListTile(
                 leading: const Icon(Icons.info_outlined),
-                title: Text(context.l10n.aboutX('Lichess')),
+                title: Text(context.l10n.aboutX('Chessigma')),
                 trailing: Theme.of(context).platform == TargetPlatform.iOS
                     ? const CupertinoListTileChevron()
                     : null,
@@ -430,9 +430,9 @@ class AboutScreen extends ConsumerWidget {
                 onTap: () {
                   showLicensePage(
                     context: context,
-                    applicationName: 'Lichess',
+                    applicationName: 'Chessigma',
                     applicationVersion: packageInfo.version,
-                    applicationIcon: const Icon(LichessIcons.logo_lichess),
+                    applicationIcon: const Icon(ChessigmaIcons.logo_lichess),
                   );
                 },
               ),

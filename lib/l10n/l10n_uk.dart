@@ -4692,7 +4692,7 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Ви отримали особисте повідомлення від Lichess.';
+  String get showUnreadChessigmaMessage => 'Ви отримали особисте повідомлення від Lichess.';
 
   @override
   String get clickHereToReadIt => 'Натисніть тут, щоб прочитати';

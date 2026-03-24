@@ -1388,7 +1388,7 @@
   "noConditionalPremoves": "Pas de précoups conditionnels",
   "playX": "Jouer {param}",
   "challengeX": "Défier {param}",
-  "showUnreadLichessMessage": "Vous avez reçu un message privé de Lichess.",
+  "showUnreadChessigmaMessage": "Vous avez reçu un message privé de Lichess.",
   "clickHereToReadIt": "Cliquez ici pour le lire.",
   "sorry": "Désolé :(",
   "weHadToTimeYouOutForAWhile": "Nous avons dû temporairement vous suspendre.",

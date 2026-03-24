@@ -3,15 +3,15 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/model/user/leaderboard.dart';
-import 'package:lichess_mobile/src/model/user/user_repository_providers.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/navigation.dart';
-import 'package:lichess_mobile/src/view/user/user_or_profile_screen.dart';
-import 'package:lichess_mobile/src/widgets/list.dart';
-import 'package:lichess_mobile/src/widgets/user.dart';
+import 'package:chessigma_mobile/src/model/user/leaderboard.dart';
+import 'package:chessigma_mobile/src/model/user/user_repository_providers.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/navigation.dart';
+import 'package:chessigma_mobile/src/view/user/user_or_profile_screen.dart';
+import 'package:chessigma_mobile/src/widgets/list.dart';
+import 'package:chessigma_mobile/src/widgets/user.dart';
 
 /// Create a Screen with Top 10 players for each Lichess Variant
 class LeaderboardScreen extends StatelessWidget {
@@ -40,19 +40,19 @@ class _Body extends ConsumerWidget {
     return leaderboard.when(
       data: (data) {
         final List<Widget> list = [
-          _Leaderboard(data.bullet, LichessIcons.bullet, 'BULLET'),
-          _Leaderboard(data.blitz, LichessIcons.blitz, 'BLITZ'),
-          _Leaderboard(data.rapid, LichessIcons.rapid, 'RAPID'),
-          _Leaderboard(data.classical, LichessIcons.classical, 'CLASSICAL'),
-          _Leaderboard(data.ultrabullet, LichessIcons.ultrabullet, 'ULTRA BULLET'),
-          _Leaderboard(data.crazyhouse, LichessIcons.h_square, 'CRAZYHOUSE'),
-          _Leaderboard(data.chess960, LichessIcons.die_six, 'CHESS 960'),
-          _Leaderboard(data.kingOfThehill, LichessIcons.bullet, 'KING OF THE HILL'),
-          _Leaderboard(data.threeCheck, LichessIcons.three_check, 'THREE CHECK'),
-          _Leaderboard(data.atomic, LichessIcons.atom, 'ATOMIC'),
-          _Leaderboard(data.horde, LichessIcons.horde, 'HORDE'),
-          _Leaderboard(data.antichess, LichessIcons.antichess, 'ANTICHESS'),
-          _Leaderboard(data.racingKings, LichessIcons.racing_kings, 'RACING KINGS'),
+          _Leaderboard(data.bullet, ChessigmaIcons.bullet, 'BULLET'),
+          _Leaderboard(data.blitz, ChessigmaIcons.blitz, 'BLITZ'),
+          _Leaderboard(data.rapid, ChessigmaIcons.rapid, 'RAPID'),
+          _Leaderboard(data.classical, ChessigmaIcons.classical, 'CLASSICAL'),
+          _Leaderboard(data.ultrabullet, ChessigmaIcons.ultrabullet, 'ULTRA BULLET'),
+          _Leaderboard(data.crazyhouse, ChessigmaIcons.h_square, 'CRAZYHOUSE'),
+          _Leaderboard(data.chess960, ChessigmaIcons.die_six, 'CHESS 960'),
+          _Leaderboard(data.kingOfThehill, ChessigmaIcons.bullet, 'KING OF THE HILL'),
+          _Leaderboard(data.threeCheck, ChessigmaIcons.three_check, 'THREE CHECK'),
+          _Leaderboard(data.atomic, ChessigmaIcons.atom, 'ATOMIC'),
+          _Leaderboard(data.horde, ChessigmaIcons.horde, 'HORDE'),
+          _Leaderboard(data.antichess, ChessigmaIcons.antichess, 'ANTICHESS'),
+          _Leaderboard(data.racingKings, ChessigmaIcons.racing_kings, 'RACING KINGS'),
         ];
 
         return SafeArea(
@@ -119,9 +119,9 @@ class _Progress extends StatelessWidget {
         Text(rating.toString(), maxLines: 1),
         const SizedBox(width: 5),
         Icon(
-          progress > 0 ? LichessIcons.arrow_full_upperright : LichessIcons.arrow_full_lowerright,
+          progress > 0 ? ChessigmaIcons.arrow_full_upperright : ChessigmaIcons.arrow_full_lowerright,
           size: 16,
-          color: progress > 0 ? context.lichessColors.good : context.lichessColors.error,
+          color: progress > 0 ? context.chessigmaColors.good : context.chessigmaColors.error,
         ),
         Text(
           progress.abs().toString().padRight(2),
@@ -129,7 +129,7 @@ class _Progress extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontFeatures: const [FontFeature.tabularFigures()],
-            color: progress > 0 ? context.lichessColors.good : context.lichessColors.error,
+            color: progress > 0 ? context.chessigmaColors.good : context.chessigmaColors.error,
           ),
         ),
       ],
@@ -151,7 +151,7 @@ class _Leaderboard extends StatelessWidget {
         hasLeading: false,
         header: Row(
           children: [
-            Icon(iconData, color: context.lichessColors.brag),
+            Icon(iconData, color: context.chessigmaColors.brag),
             const SizedBox(width: 10.0),
             Text(title),
           ],

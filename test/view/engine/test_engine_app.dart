@@ -4,21 +4,18 @@ import 'dart:math' show max;
 import 'package:dartchess/dartchess.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/testing.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_controller.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_preferences.dart';
-import 'package:lichess_mobile/src/model/broadcast/broadcast_preferences.dart';
-import 'package:lichess_mobile/src/model/common/chess.dart';
-import 'package:lichess_mobile/src/model/common/id.dart';
-import 'package:lichess_mobile/src/model/engine/evaluation_preferences.dart';
-import 'package:lichess_mobile/src/model/settings/preferences_storage.dart';
-import 'package:lichess_mobile/src/network/http.dart';
-import 'package:lichess_mobile/src/network/socket.dart';
-import 'package:lichess_mobile/src/view/analysis/analysis_screen.dart';
-import 'package:lichess_mobile/src/view/broadcast/broadcast_game_screen.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_controller.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_preferences.dart';
+import 'package:chessigma_mobile/src/model/common/chess.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
+import 'package:chessigma_mobile/src/model/engine/evaluation_preferences.dart';
+import 'package:chessigma_mobile/src/model/settings/preferences_storage.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/network/socket.dart';
+import 'package:chessigma_mobile/src/view/analysis/analysis_screen.dart';
 import 'package:multistockfish/multistockfish.dart';
 
 import '../../binding.dart';
-import '../../model/broadcast/example_data.dart';
 import '../../model/engine/fake_stockfish.dart';
 import '../../network/fake_websocket_channel.dart';
 import '../../test_helpers.dart';
@@ -29,7 +26,6 @@ Future<void> makeEngineTestApp(
   WidgetTester tester, {
   GameId? gameId,
   String? pgn,
-  (BroadcastTournamentId, BroadcastRoundId, BroadcastGameId)? broadcastGame,
   int numEvalLines = 1,
 
   /// Whether the computer analysis is allowed (only for analysis screen)
@@ -45,7 +41,7 @@ Future<void> makeEngineTestApp(
   Stockfish? stockfish,
 }) async {
   // Ensure the binding is initialized before accessing it
-  final binding = TestLichessBinding.ensureInitialized();
+  final binding = TestChessigmaBinding.ensureInitialized();
 
   // Set custom stockfish if provided
   if (stockfish != null) {
@@ -72,14 +68,6 @@ Future<void> makeEngineTestApp(
             )
             .toJson(),
       ),
-      PrefCategory.broadcast.storageKey: jsonEncode(
-        BroadcastPrefs.defaults
-            .copyWith(
-              enableServerAnalysis: isServerAnalysisEnabled,
-              showBestMoveArrow: showBestMoveArrow,
-            )
-            .toJson(),
-      ),
     },
     overrides: {
       if (gameId != null)
@@ -91,29 +79,7 @@ Future<void> makeEngineTestApp(
             return mockResponse('', 404);
           });
 
-          return LichessClient(client, ref);
-        })
-      else if (broadcastGame != null)
-        lichessClientProvider: lichessClientProvider.overrideWith((ref) {
-          final client = MockClient((request) {
-            if (request.url.path == '/api/broadcast/-/-/${broadcastGame.$2}') {
-              return mockResponse(
-                broadcastRoundMockResponses[(broadcastGame.$1, broadcastGame.$2)]!,
-                200,
-                headers: {'content-type': 'application/json; charset=utf-8'},
-              );
-            }
-            if (request.url.path == '/api/study/${broadcastGame.$2}/${broadcastGame.$3}.pgn') {
-              return mockResponse(
-                broadcastGamePgnResponses[broadcastGame.$3]!,
-                200,
-                headers: {'content-type': 'application/x-chess-pgn'},
-              );
-            }
-            return mockResponse('', 404);
-          });
-
-          return LichessClient(client, ref);
+          return ChessigmaClient(client, ref);
         }),
       webSocketChannelFactoryProvider: webSocketChannelFactoryProvider.overrideWith(
         (_) => FakeWebSocketChannelFactory(
@@ -143,33 +109,20 @@ Future<void> makeEngineTestApp(
         ),
       ),
     },
-    home: broadcastGame != null
-        ? BroadcastGameScreen(
-            tournamentId: broadcastGame.$1,
-            roundId: broadcastGame.$2,
-            gameId: broadcastGame.$3,
-          )
-        : AnalysisScreen(
-            options: gameId != null
-                ? AnalysisOptions.archivedGame(orientation: Side.white, gameId: gameId)
-                : AnalysisOptions.pgn(
-                    id: const StringId('standalone'),
-                    orientation: Side.white,
-                    pgn: pgn ?? '',
-                    isComputerAnalysisAllowed: isComputerAnalysisAllowed,
-                    variant: Variant.standard,
-                  ),
-          ),
+    home: AnalysisScreen(
+      options: gameId != null
+          ? AnalysisOptions.archivedGame(orientation: Side.white, gameId: gameId)
+          : AnalysisOptions.pgn(
+              id: const StringId('standalone'),
+              orientation: Side.white,
+              pgn: pgn ?? '',
+              isComputerAnalysisAllowed: isComputerAnalysisAllowed,
+              variant: Variant.standard,
+            ),
+    ),
   );
 
   await tester.pumpWidget(app);
-
-  if (broadcastGame != null) {
-    // Load the broadcast analysis controller
-    await tester.pump();
-    // Load the broadcast round game provider
-    await tester.pump();
-  }
 }
 
 const Map<GameId, String> gameResponses = {

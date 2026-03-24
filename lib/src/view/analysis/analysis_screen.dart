@@ -2,57 +2,57 @@ import 'package:dartchess/dartchess.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_controller.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_player.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_preferences.dart';
-import 'package:lichess_mobile/src/model/analysis/opening_service.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/common/chess.dart';
-import 'package:lichess_mobile/src/model/engine/evaluation_preferences.dart';
-import 'package:lichess_mobile/src/model/game/player.dart';
-import 'package:lichess_mobile/src/model/settings/general_preferences.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/duration.dart';
-import 'package:lichess_mobile/src/utils/focus_detector.dart';
-import 'package:lichess_mobile/src/utils/immersive_mode.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/navigation.dart';
-import 'package:lichess_mobile/src/utils/share.dart';
-import 'package:lichess_mobile/src/view/analysis/analysis_layout.dart';
-import 'package:lichess_mobile/src/view/analysis/analysis_settings_screen.dart';
-import 'package:lichess_mobile/src/view/analysis/analysis_share_screen.dart';
-import 'package:lichess_mobile/src/view/analysis/conditional_premoves.dart';
-import 'package:lichess_mobile/src/view/analysis/game_analysis_board.dart';
-import 'package:lichess_mobile/src/view/analysis/retro_screen.dart';
-import 'package:lichess_mobile/src/view/analysis/server_analysis.dart';
-import 'package:lichess_mobile/src/view/analysis/tree_view.dart';
-import 'package:lichess_mobile/src/view/board_editor/board_editor_screen.dart';
-import 'package:lichess_mobile/src/view/engine/engine_button.dart';
-import 'package:lichess_mobile/src/view/engine/engine_gauge.dart';
-import 'package:lichess_mobile/src/view/engine/engine_lines.dart';
-import 'package:lichess_mobile/src/view/explorer/explorer_view.dart';
-import 'package:lichess_mobile/src/view/game/game_common_widgets.dart';
-import 'package:lichess_mobile/src/view/offline_computer/offline_computer_game_screen.dart';
-import 'package:lichess_mobile/src/view/over_the_board/over_the_board_screen.dart';
-import 'package:lichess_mobile/src/view/settings/toggle_sound_button.dart';
-import 'package:lichess_mobile/src/view/user/user_or_profile_screen.dart';
-import 'package:lichess_mobile/src/widgets/adaptive_action_sheet.dart';
-import 'package:lichess_mobile/src/widgets/adaptive_choice_picker.dart';
-import 'package:lichess_mobile/src/widgets/bottom_bar.dart';
-import 'package:lichess_mobile/src/widgets/buttons.dart';
-import 'package:lichess_mobile/src/widgets/feedback.dart';
-import 'package:lichess_mobile/src/widgets/platform_context_menu_button.dart';
-import 'package:lichess_mobile/src/widgets/user.dart';
-import 'package:lichess_mobile/src/widgets/variant_app_bar_title.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_controller.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_player.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_preferences.dart';
+import 'package:chessigma_mobile/src/model/analysis/opening_service.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/common/chess.dart';
+import 'package:chessigma_mobile/src/model/engine/evaluation_preferences.dart';
+import 'package:chessigma_mobile/src/model/game/player.dart';
+import 'package:chessigma_mobile/src/model/settings/general_preferences.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/duration.dart';
+import 'package:chessigma_mobile/src/utils/focus_detector.dart';
+import 'package:chessigma_mobile/src/utils/immersive_mode.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/navigation.dart';
+import 'package:chessigma_mobile/src/utils/share.dart';
+import 'package:chessigma_mobile/src/view/analysis/analysis_layout.dart';
+import 'package:chessigma_mobile/src/view/analysis/analysis_settings_screen.dart';
+import 'package:chessigma_mobile/src/view/analysis/analysis_share_screen.dart';
+import 'package:chessigma_mobile/src/view/analysis/conditional_premoves.dart';
+import 'package:chessigma_mobile/src/view/analysis/game_analysis_board.dart';
+import 'package:chessigma_mobile/src/view/analysis/retro_screen.dart';
+import 'package:chessigma_mobile/src/view/analysis/server_analysis.dart';
+import 'package:chessigma_mobile/src/view/analysis/tree_view.dart';
+import 'package:chessigma_mobile/src/view/board_editor/board_editor_screen.dart';
+import 'package:chessigma_mobile/src/view/engine/engine_button.dart';
+import 'package:chessigma_mobile/src/view/engine/engine_gauge.dart';
+import 'package:chessigma_mobile/src/view/engine/engine_lines.dart';
+import 'package:chessigma_mobile/src/view/explorer/explorer_view.dart';
+import 'package:chessigma_mobile/src/view/game/game_common_widgets.dart';
+import 'package:chessigma_mobile/src/view/offline_computer/offline_computer_game_screen.dart';
+import 'package:chessigma_mobile/src/view/over_the_board/over_the_board_screen.dart';
+import 'package:chessigma_mobile/src/view/settings/toggle_sound_button.dart';
+import 'package:chessigma_mobile/src/view/user/user_or_profile_screen.dart';
+import 'package:chessigma_mobile/src/widgets/adaptive_action_sheet.dart';
+import 'package:chessigma_mobile/src/widgets/adaptive_choice_picker.dart';
+import 'package:chessigma_mobile/src/widgets/bottom_bar.dart';
+import 'package:chessigma_mobile/src/widgets/buttons.dart';
+import 'package:chessigma_mobile/src/widgets/feedback.dart';
+import 'package:chessigma_mobile/src/widgets/platform_context_menu_button.dart';
+import 'package:chessigma_mobile/src/widgets/user.dart';
+import 'package:chessigma_mobile/src/widgets/variant_app_bar_title.dart';
 import 'package:logging/logging.dart';
 import 'package:share_plus/share_plus.dart';
 
 extension _AnalysisGameResultColor on AnalysisGameResult {
   Color? colorFor(Side side, BuildContext context) => switch (this) {
     AnalysisGameResult.whiteWins =>
-      side == Side.white ? context.lichessColors.good : context.lichessColors.error,
+      side == Side.white ? context.chessigmaColors.good : context.chessigmaColors.error,
     AnalysisGameResult.blackWins =>
-      side == Side.white ? context.lichessColors.error : context.lichessColors.good,
+      side == Side.white ? context.chessigmaColors.error : context.chessigmaColors.good,
     _ => null,
   };
 }
@@ -703,8 +703,8 @@ class _AnalysisPlayerWidget extends StatelessWidget {
               player.title!,
               style: TextStyle(
                 color: (player.title == 'BOT')
-                    ? context.lichessColors.fancy
-                    : context.lichessColors.brag,
+                    ? context.chessigmaColors.fancy
+                    : context.chessigmaColors.brag,
                 fontWeight: .bold,
               ),
             ),

@@ -4612,7 +4612,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Anda telah menerima pesan pribadi dari Lichess.';
+  String get showUnreadChessigmaMessage => 'Anda telah menerima pesan pribadi dari Lichess.';
 
   @override
   String get clickHereToReadIt => 'Klik di sini untuk membaca';

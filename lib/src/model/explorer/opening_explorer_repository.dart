@@ -4,12 +4,12 @@ import 'package:dartchess/dartchess.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/common/speed.dart';
-import 'package:lichess_mobile/src/model/explorer/opening_explorer.dart';
-import 'package:lichess_mobile/src/model/explorer/opening_explorer_preferences.dart';
-import 'package:lichess_mobile/src/network/http.dart';
-import 'package:lichess_mobile/src/utils/riverpod.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/common/speed.dart';
+import 'package:chessigma_mobile/src/model/explorer/opening_explorer.dart';
+import 'package:chessigma_mobile/src/model/explorer/opening_explorer_preferences.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/utils/riverpod.dart';
 
 final openingExplorerProvider = AsyncNotifierProvider.autoDispose
     .family<OpeningExplorer, ({OpeningExplorerEntry entry, bool isIndexing})?, String>(

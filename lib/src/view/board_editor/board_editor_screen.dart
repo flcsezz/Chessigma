@@ -4,32 +4,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_controller.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/board_editor/board_editor_controller.dart';
-import 'package:lichess_mobile/src/model/common/chess.dart';
-import 'package:lichess_mobile/src/model/common/id.dart';
-import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/navigation.dart';
-import 'package:lichess_mobile/src/utils/screen.dart';
-import 'package:lichess_mobile/src/utils/share.dart';
-import 'package:lichess_mobile/src/view/analysis/analysis_screen.dart';
-import 'package:lichess_mobile/src/view/board_editor/board_editor_filters.dart';
-import 'package:lichess_mobile/src/view/board_editor/board_editor_positions.dart';
-import 'package:lichess_mobile/src/view/offline_computer/offline_computer_game_screen.dart';
-import 'package:lichess_mobile/src/view/over_the_board/over_the_board_screen.dart';
-import 'package:lichess_mobile/src/view/play/create_challenge_bottom_sheet.dart';
-import 'package:lichess_mobile/src/view/user/search_screen.dart';
-import 'package:lichess_mobile/src/widgets/adaptive_action_sheet.dart';
-import 'package:lichess_mobile/src/widgets/adaptive_choice_picker.dart';
-import 'package:lichess_mobile/src/widgets/bottom_bar.dart';
-import 'package:lichess_mobile/src/widgets/buttons.dart';
-import 'package:lichess_mobile/src/widgets/feedback.dart';
-import 'package:lichess_mobile/src/widgets/platform.dart';
-import 'package:lichess_mobile/src/widgets/variant_app_bar_title.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_controller.dart';
+import 'package:chessigma_mobile/src/model/board_editor/board_editor_controller.dart';
+import 'package:chessigma_mobile/src/model/common/chess.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
+import 'package:chessigma_mobile/src/model/settings/board_preferences.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/navigation.dart';
+import 'package:chessigma_mobile/src/utils/screen.dart';
+import 'package:chessigma_mobile/src/utils/share.dart';
+import 'package:chessigma_mobile/src/view/analysis/analysis_screen.dart';
+import 'package:chessigma_mobile/src/view/board_editor/board_editor_filters.dart';
+import 'package:chessigma_mobile/src/view/board_editor/board_editor_positions.dart';
+import 'package:chessigma_mobile/src/view/offline_computer/offline_computer_game_screen.dart';
+import 'package:chessigma_mobile/src/view/over_the_board/over_the_board_screen.dart';
+import 'package:chessigma_mobile/src/widgets/adaptive_action_sheet.dart';
+import 'package:chessigma_mobile/src/widgets/adaptive_choice_picker.dart';
+import 'package:chessigma_mobile/src/widgets/bottom_bar.dart';
+import 'package:chessigma_mobile/src/widgets/buttons.dart';
+import 'package:chessigma_mobile/src/widgets/feedback.dart';
+import 'package:chessigma_mobile/src/widgets/platform.dart';
+import 'package:chessigma_mobile/src/widgets/variant_app_bar_title.dart';
 import 'package:share_plus/share_plus.dart';
 
 class BoardEditorScreen extends ConsumerWidget {
@@ -209,7 +206,7 @@ class _PieceMenuState extends ConsumerState<_PieceMenu> {
               child: ColoredBox(
                 key: Key('drag-button-${widget.side.name}'),
                 color: editorState.editorPointerMode == EditorPointerMode.drag
-                    ? context.lichessColors.good
+                    ? context.chessigmaColors.good
                     : Colors.transparent,
                 child: GestureDetector(
                   onTap: () =>
@@ -256,7 +253,7 @@ class _PieceMenuState extends ConsumerState<_PieceMenu> {
               height: squareSize,
               child: ColoredBox(
                 color: editorState.deletePiecesActive
-                    ? context.lichessColors.error
+                    ? context.chessigmaColors.error
                     : Colors.transparent,
                 child: GestureDetector(
                   onTap: () => {
@@ -316,49 +313,10 @@ class _BottomBar extends ConsumerWidget {
                     ),
                   );
                 },
-              ),
-              if (editorState.variant == Variant.standard)
-                BottomSheetAction(
-                  // TODO: l10n
-                  makeLabel: (context) => const Text('Challenge from position'),
-                  onPressed: () {
-                    final authUser = ref.read(authControllerProvider);
-                    if (authUser == null) {
-                      showSnackBar(
-                        context,
-                        context.l10n.challengeRegisterToSendChallenges,
-                        type: SnackBarType.error,
-                      );
-                      return;
-                    }
-                    Navigator.of(context).push(
-                      SearchScreen.buildRoute(
-                        context,
-                        onUserTap: (user) {
-                          if (user.id == authUser.user.id) {
-                            showSnackBar(
-                              context,
-                              'You cannot challenge yourself',
-                              type: SnackBarType.error,
-                            );
-                          }
-                          showModalBottomSheet<void>(
-                            context: context,
-                            isScrollControlled: true,
-                            useRootNavigator: true,
-                            builder: (context) {
-                              return CreateChallengeBottomSheet(user, positionFen: editorState.fen);
-                            },
-                          );
-                        },
-                        // TODO: l10n
-                        title: const Text('Challenge from position'),
-                      ),
-                    );
-                  },
                 ),
-              BottomSheetAction(
+                BottomSheetAction(
                 makeLabel: (context) => Text(context.l10n.variant),
+
                 onPressed: () => showChoicePicker<Variant>(
                   context,
                   choices: readSupportedVariants

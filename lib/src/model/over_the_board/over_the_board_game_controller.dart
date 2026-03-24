@@ -4,17 +4,17 @@ import 'package:dartchess/dartchess.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:lichess_mobile/src/model/common/chess.dart';
-import 'package:lichess_mobile/src/model/common/chess960.dart';
-import 'package:lichess_mobile/src/model/common/id.dart';
-import 'package:lichess_mobile/src/model/common/perf.dart';
-import 'package:lichess_mobile/src/model/common/service/move_feedback.dart';
-import 'package:lichess_mobile/src/model/common/speed.dart';
-import 'package:lichess_mobile/src/model/common/time_increment.dart';
-import 'package:lichess_mobile/src/model/game/game.dart';
-import 'package:lichess_mobile/src/model/game/game_status.dart';
-import 'package:lichess_mobile/src/model/game/material_diff.dart';
-import 'package:lichess_mobile/src/model/game/over_the_board_game.dart';
+import 'package:chessigma_mobile/src/model/common/chess.dart';
+import 'package:chessigma_mobile/src/model/common/chess960.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
+import 'package:chessigma_mobile/src/model/common/perf.dart';
+import 'package:chessigma_mobile/src/model/common/service/move_feedback.dart';
+import 'package:chessigma_mobile/src/model/common/speed.dart';
+import 'package:chessigma_mobile/src/model/common/time_increment.dart';
+import 'package:chessigma_mobile/src/model/game/game.dart';
+import 'package:chessigma_mobile/src/model/game/game_status.dart';
+import 'package:chessigma_mobile/src/model/game/material_diff.dart';
+import 'package:chessigma_mobile/src/model/game/over_the_board_game.dart';
 
 part 'over_the_board_game_controller.freezed.dart';
 

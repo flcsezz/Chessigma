@@ -1215,7 +1215,7 @@
   "playVariationToCreateConditionalPremoves": "Odigraj varijantu da stvoriš uvjetni predpotez",
   "noConditionalPremoves": "Nema uvjetnih predpoteza",
   "playX": "Igraj {param}",
-  "showUnreadLichessMessage": "Primili ste privatnu poruku od Lichess-a",
+  "showUnreadChessigmaMessage": "Primili ste privatnu poruku od Lichess-a",
   "clickHereToReadIt": "Klikni ovdje da pročitaš",
   "sorry": "Oprosti :(",
   "weHadToTimeYouOutForAWhile": "Trebali smo te na neko vrijeme izbaciti.",

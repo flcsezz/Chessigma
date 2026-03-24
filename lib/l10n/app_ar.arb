@@ -1288,7 +1288,7 @@
   "playVariationToCreateConditionalPremoves": "إلعب تفريع لإنشاء نقلة مسبقة مشروطة",
   "noConditionalPremoves": "لا توجد نقلات استباقية مشروطة",
   "playX": "إلعب {param}",
-  "showUnreadLichessMessage": "تسلّمتَ رسالة خاصة من ليتشيس.",
+  "showUnreadChessigmaMessage": "تسلّمتَ رسالة خاصة من ليتشيس.",
   "clickHereToReadIt": "اضغط هنا بمتابعة القراءة",
   "sorry": "نأسف :(",
   "weHadToTimeYouOutForAWhile": "اضطررنا إلى حظرك لفترة قصيرة.",

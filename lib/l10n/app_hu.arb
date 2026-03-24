@@ -1316,7 +1316,7 @@
   "noConditionalPremoves": "Nincs feltételes előre megadott lépés",
   "playX": "{param} megjátszása",
   "challengeX": "{param} kihívása",
-  "showUnreadLichessMessage": "Üzeneted jött Lichesstől!",
+  "showUnreadChessigmaMessage": "Üzeneted jött Lichesstől!",
   "clickHereToReadIt": "Kattints ide az olvasáshoz",
   "sorry": "Sajnáljuk",
   "weHadToTimeYouOutForAWhile": "Kénytelenek vagyunk egy kis időre kizárni.",

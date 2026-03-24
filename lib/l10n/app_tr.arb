@@ -1388,7 +1388,7 @@
   "noConditionalPremoves": "Koşullu ön hamle yok",
   "playX": "{param} oyna",
   "challengeX": "Meydan Oku {param}",
-  "showUnreadLichessMessage": "Lichess size bir özel mesaj gönderdi.",
+  "showUnreadChessigmaMessage": "Lichess size bir özel mesaj gönderdi.",
   "clickHereToReadIt": "Okumak için buraya tıklayın",
   "sorry": "Üzgünüz :(",
   "weHadToTimeYouOutForAWhile": "Sizi bir süreliğine oyunlardan men etmek zorunda kaldık.",

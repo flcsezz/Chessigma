@@ -4608,7 +4608,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Lichess로부터 비공개 메시지를 받았습니다.';
+  String get showUnreadChessigmaMessage => 'Lichess로부터 비공개 메시지를 받았습니다.';
 
   @override
   String get clickHereToReadIt => '클릭하여 읽기';

@@ -8,27 +8,27 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/misc.dart' show Override, ProviderOrFamily;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/testing.dart';
-import 'package:lichess_mobile/src/model/account/account_preferences.dart';
-import 'package:lichess_mobile/src/model/common/chess.dart';
-import 'package:lichess_mobile/src/model/common/id.dart';
-import 'package:lichess_mobile/src/model/common/service/sound_service.dart';
-import 'package:lichess_mobile/src/model/common/socket.dart';
-import 'package:lichess_mobile/src/model/game/game.dart';
-import 'package:lichess_mobile/src/model/game/game_controller.dart';
-import 'package:lichess_mobile/src/model/game/game_socket_events.dart';
-import 'package:lichess_mobile/src/model/game/game_status.dart';
-import 'package:lichess_mobile/src/model/lobby/game_seek.dart';
-import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
-import 'package:lichess_mobile/src/model/settings/preferences_storage.dart';
-import 'package:lichess_mobile/src/network/http.dart';
-import 'package:lichess_mobile/src/network/socket.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/view/chat/chat_screen.dart';
-import 'package:lichess_mobile/src/view/game/game_screen.dart';
-import 'package:lichess_mobile/src/view/game/game_screen_providers.dart';
-import 'package:lichess_mobile/src/widgets/bottom_bar.dart';
-import 'package:lichess_mobile/src/widgets/clock.dart';
-import 'package:lichess_mobile/src/widgets/pockets.dart';
+import 'package:chessigma_mobile/src/model/account/account_preferences.dart';
+import 'package:chessigma_mobile/src/model/common/chess.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
+import 'package:chessigma_mobile/src/model/common/service/sound_service.dart';
+import 'package:chessigma_mobile/src/model/common/socket.dart';
+import 'package:chessigma_mobile/src/model/game/game.dart';
+import 'package:chessigma_mobile/src/model/game/game_controller.dart';
+import 'package:chessigma_mobile/src/model/game/game_socket_events.dart';
+import 'package:chessigma_mobile/src/model/game/game_status.dart';
+import 'package:chessigma_mobile/src/model/lobby/game_seek.dart';
+import 'package:chessigma_mobile/src/model/settings/board_preferences.dart';
+import 'package:chessigma_mobile/src/model/settings/preferences_storage.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/network/socket.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/view/chat/chat_screen.dart';
+import 'package:chessigma_mobile/src/view/game/game_screen.dart';
+import 'package:chessigma_mobile/src/view/game/game_screen_providers.dart';
+import 'package:chessigma_mobile/src/widgets/bottom_bar.dart';
+import 'package:chessigma_mobile/src/widgets/clock.dart';
+import 'package:chessigma_mobile/src/widgets/pockets.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:wakelock_plus_platform_interface/messages.g.dart';
 
@@ -66,7 +66,7 @@ void main() {
         home: const GameScreen(source: ExistingGameSource(testGameFullId)),
         overrides: {
           lichessClientProvider: lichessClientProvider.overrideWith(
-            (ref) => LichessClient(client, ref),
+            (ref) => ChessigmaClient(client, ref),
           ),
         },
       );
@@ -121,7 +121,7 @@ void main() {
         ),
         overrides: {
           lichessClientProvider: lichessClientProvider.overrideWith(
-            (ref) => LichessClient(client, ref),
+            (ref) => ChessigmaClient(client, ref),
           ),
         },
       );
@@ -563,7 +563,7 @@ void main() {
         home: const GameScreen(source: ExistingGameSource(GameFullId('qVChCOTcHSeW'))),
         overrides: {
           lichessClientProvider: lichessClientProvider.overrideWith(
-            (ref) => LichessClient(client, ref),
+            (ref) => ChessigmaClient(client, ref),
           ),
         },
       );
@@ -589,7 +589,7 @@ void main() {
         home: const GameScreen(source: ExistingGameSource(GameFullId('qVChCOTcHSeW'))),
         overrides: {
           lichessClientProvider: lichessClientProvider.overrideWith(
-            (ref) => LichessClient(client, ref),
+            (ref) => ChessigmaClient(client, ref),
           ),
         },
       );
@@ -603,14 +603,14 @@ void main() {
 
       // Nobody has berserked yet.
       // The widget we're finding is our own berserk button.
-      expect(find.byIcon(LichessIcons.body_cut), findsOneWidget);
+      expect(find.byIcon(ChessigmaIcons.body_cut), findsOneWidget);
 
       // we berserk
-      await tester.tap(find.byIcon(LichessIcons.body_cut));
+      await tester.tap(find.byIcon(ChessigmaIcons.body_cut));
       await tester.pump(const Duration(milliseconds: 10));
 
       // No server response yet, so should not yet show the berserk icon next to our name.
-      expect(find.byIcon(LichessIcons.body_cut), findsOneWidget);
+      expect(find.byIcon(ChessigmaIcons.body_cut), findsOneWidget);
 
       sendServerSocketMessages(GameController.socketUri(testGameFullId), [
         '''{"t": "berserk", "d": "white"}''',
@@ -620,7 +620,7 @@ void main() {
 
       // We have berserked, which caused the berserk icon appear next to our name.
       // Also, the berserk button is still there (but disabled).
-      expect(find.byIcon(LichessIcons.body_cut), findsNWidgets(2));
+      expect(find.byIcon(ChessigmaIcons.body_cut), findsNWidgets(2));
 
       // opponent berserks
       sendServerSocketMessages(GameController.socketUri(testGameFullId), [
@@ -629,7 +629,7 @@ void main() {
       // wait for socket message handling
       await tester.pump();
 
-      expect(find.byIcon(LichessIcons.body_cut), findsNWidgets(3));
+      expect(find.byIcon(ChessigmaIcons.body_cut), findsNWidgets(3));
     });
   });
 
@@ -929,7 +929,7 @@ void main() {
         home: const GameScreen(source: ExistingGameSource(gameFullId)),
         overrides: {
           lichessClientProvider: lichessClientProvider.overrideWith(
-            (ref) => LichessClient(mockClient, ref),
+            (ref) => ChessigmaClient(mockClient, ref),
           ),
         },
       );
@@ -956,7 +956,7 @@ void main() {
       expect(find.byKey(const Key('d3-whitebishop')), findsOneWidget);
       expect(find.byKey(const Key('b5-lastMove')), findsOneWidget);
       expect(find.byKey(const Key('d3-lastMove')), findsOneWidget);
-      await tester.tap(find.byIcon(LichessIcons.flow_cascade));
+      await tester.tap(find.byIcon(ChessigmaIcons.flow_cascade));
       await tester.pumpAndSettle(); // wait for the moves tab menu to open
       expect(find.text('Moves played'), findsOneWidget);
       // computer analysis is not available when game is not finished
@@ -980,7 +980,7 @@ void main() {
       expect(find.byKey(const Key('e6-whitequeen')), findsOneWidget);
       expect(find.byKey(const Key('d5-lastMove')), findsOneWidget);
       expect(find.byKey(const Key('e6-lastMove')), findsOneWidget);
-      await tester.tap(find.byIcon(LichessIcons.flow_cascade));
+      await tester.tap(find.byIcon(ChessigmaIcons.flow_cascade));
       await tester.pumpAndSettle(); // wait for the moves tab menu to open
       expect(find.text('Moves played'), findsOneWidget);
       expect(find.text('Computer analysis'), findsOneWidget); // computer analysis is available
@@ -1246,7 +1246,7 @@ Future<void> createTestGame(
     defaultPreferences: defaultPreferences,
     overrides: {
       lichessClientProvider: lichessClientProvider.overrideWith(
-        (ref) => LichessClient(client, ref),
+        (ref) => ChessigmaClient(client, ref),
       ),
       if (socketFactory != null)
         webSocketChannelFactoryProvider: webSocketChannelFactoryProvider.overrideWith((ref) {
@@ -1291,7 +1291,7 @@ Future<void> loadFinishedTestGame(
     home: GameScreen(source: ExistingGameSource(gameFullId)),
     overrides: {
       lichessClientProvider: lichessClientProvider.overrideWith(
-        (ref) => LichessClient(client, ref),
+        (ref) => ChessigmaClient(client, ref),
       ),
       ...?overrides,
     },

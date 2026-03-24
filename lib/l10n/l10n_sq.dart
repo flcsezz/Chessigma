@@ -4636,7 +4636,7 @@ class AppLocalizationsSq extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Morët një mesazh privat nga Lichess.';
+  String get showUnreadChessigmaMessage => 'Morët një mesazh privat nga Lichess.';
 
   @override
   String get clickHereToReadIt => 'Klikoni këtu që ta lexoni';

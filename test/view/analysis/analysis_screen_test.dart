@@ -8,27 +8,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/testing.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_controller.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_preferences.dart';
-import 'package:lichess_mobile/src/model/common/chess.dart';
-import 'package:lichess_mobile/src/model/common/id.dart';
-import 'package:lichess_mobile/src/model/engine/evaluation_mixin.dart';
-import 'package:lichess_mobile/src/model/engine/evaluation_preferences.dart';
-import 'package:lichess_mobile/src/model/engine/evaluation_service.dart';
-import 'package:lichess_mobile/src/model/game/game.dart';
-import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
-import 'package:lichess_mobile/src/model/settings/preferences_storage.dart';
-import 'package:lichess_mobile/src/network/http.dart';
-import 'package:lichess_mobile/src/network/socket.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/view/analysis/analysis_screen.dart';
-import 'package:lichess_mobile/src/view/engine/engine_button.dart';
-import 'package:lichess_mobile/src/view/engine/engine_gauge.dart';
-import 'package:lichess_mobile/src/view/engine/engine_lines.dart';
-import 'package:lichess_mobile/src/view/more/more_tab_screen.dart';
-import 'package:lichess_mobile/src/widgets/bottom_bar.dart';
-import 'package:lichess_mobile/src/widgets/pgn.dart';
-import 'package:lichess_mobile/src/widgets/pockets.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_controller.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_preferences.dart';
+import 'package:chessigma_mobile/src/model/common/chess.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
+import 'package:chessigma_mobile/src/model/engine/evaluation_mixin.dart';
+import 'package:chessigma_mobile/src/model/engine/evaluation_preferences.dart';
+import 'package:chessigma_mobile/src/model/engine/evaluation_service.dart';
+import 'package:chessigma_mobile/src/model/game/game.dart';
+import 'package:chessigma_mobile/src/model/settings/board_preferences.dart';
+import 'package:chessigma_mobile/src/model/settings/preferences_storage.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/network/socket.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/view/analysis/analysis_screen.dart';
+import 'package:chessigma_mobile/src/view/engine/engine_button.dart';
+import 'package:chessigma_mobile/src/view/engine/engine_gauge.dart';
+import 'package:chessigma_mobile/src/view/engine/engine_lines.dart';
+import 'package:chessigma_mobile/src/view/more/more_tab_screen.dart';
+import 'package:chessigma_mobile/src/widgets/bottom_bar.dart';
+import 'package:chessigma_mobile/src/widgets/pgn.dart';
+import 'package:chessigma_mobile/src/widgets/pockets.dart';
 import 'package:multistockfish/multistockfish.dart';
 
 import '../../binding.dart';
@@ -312,7 +312,7 @@ void main() {
         overrides: {
           if (mockClient != null)
             lichessClientProvider: lichessClientProvider.overrideWith((ref) {
-              return LichessClient(mockClient, ref);
+              return ChessigmaClient(mockClient, ref);
             }),
         },
       );
@@ -947,7 +947,7 @@ void main() {
       });
 
       testWidgets('can be tapped to play a drop move in crazyhouse', (tester) async {
-        final binding = TestLichessBinding.ensureInitialized();
+        final binding = TestChessigmaBinding.ensureInitialized();
         final stockfish = FakeCrazyhouseDropMoveStockfish();
         binding.stockfish = stockfish;
         addTearDown(() => binding.stockfish = FakeStockfish());
@@ -1447,8 +1447,8 @@ void main() {
 
       await tester.pumpWidget(app);
 
-      expect(find.byIcon(LichessIcons.flow_cascade), findsOneWidget);
-      await tester.tap(find.byIcon(LichessIcons.flow_cascade));
+      expect(find.byIcon(ChessigmaIcons.flow_cascade), findsOneWidget);
+      await tester.tap(find.byIcon(ChessigmaIcons.flow_cascade));
 
       // Wait for menu to open
       await tester.pumpAndSettle();
@@ -1458,8 +1458,8 @@ void main() {
     });
 
     Future<void> switchToPremoveTab(WidgetTester tester) async {
-      expect(find.byIcon(LichessIcons.flow_cascade), findsOneWidget);
-      await tester.tap(find.byIcon(LichessIcons.flow_cascade));
+      expect(find.byIcon(ChessigmaIcons.flow_cascade), findsOneWidget);
+      await tester.tap(find.byIcon(ChessigmaIcons.flow_cascade));
 
       // Wait for menu to open
       await tester.pumpAndSettle();
@@ -1551,7 +1551,7 @@ void main() {
         ),
         overrides: {
           lichessClientProvider: lichessClientProvider.overrideWith((ref) {
-            return LichessClient(mockClient, ref);
+            return ChessigmaClient(mockClient, ref);
           }),
         },
       );
@@ -1642,7 +1642,7 @@ void main() {
         ),
         overrides: {
           lichessClientProvider: lichessClientProvider.overrideWith((ref) {
-            return LichessClient(mockClient, ref);
+            return ChessigmaClient(mockClient, ref);
           }),
         },
       );
@@ -1785,7 +1785,7 @@ void main() {
         ),
         overrides: {
           lichessClientProvider: lichessClientProvider.overrideWith((ref) {
-            return LichessClient(mockClient, ref);
+            return ChessigmaClient(mockClient, ref);
           }),
         },
       );
@@ -1853,7 +1853,7 @@ void main() {
         ),
         overrides: {
           lichessClientProvider: lichessClientProvider.overrideWith((ref) {
-            return LichessClient(mockClient, ref);
+            return ChessigmaClient(mockClient, ref);
           }),
         },
       );

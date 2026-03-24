@@ -4608,7 +4608,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => '您收到了一条来自 Lichess 的私信。';
+  String get showUnreadChessigmaMessage => '您收到了一条来自 Lichess 的私信。';
 
   @override
   String get clickHereToReadIt => '点击此处阅读';
@@ -10712,7 +10712,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   }
 
   @override
-  String get showUnreadLichessMessage => '你收到一個來自 Lichess 的私訊。';
+  String get showUnreadChessigmaMessage => '你收到一個來自 Lichess 的私訊。';
 
   @override
   String get clickHereToReadIt => '點擊以閱讀';

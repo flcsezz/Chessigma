@@ -1315,7 +1315,7 @@
   "noConditionalPremoves": "Nema uslovnih poteza unaprijed",
   "playX": "Igraj {param}",
   "challengeX": "Izazov {param}",
-  "showUnreadLichessMessage": "Primili ste privatnu poruku od Lichess-a.",
+  "showUnreadChessigmaMessage": "Primili ste privatnu poruku od Lichess-a.",
   "clickHereToReadIt": "Kliknite ovdje da pročitate",
   "sorry": "Izvinjavamo se :(",
   "weHadToTimeYouOutForAWhile": "Morali smo Vam staviti privremenu zabranu na igranje.",

@@ -1388,7 +1388,7 @@
   "noConditionalPremoves": "Ez dago baldintzadun aurrejokaldirik",
   "playX": "{param} jokatu",
   "challengeX": "Jo erronda {param} erabiltzaileari",
-  "showUnreadLichessMessage": "Lichessek bidalitako mezu pribatu bat jaso duzu.",
+  "showUnreadChessigmaMessage": "Lichessek bidalitako mezu pribatu bat jaso duzu.",
   "clickHereToReadIt": "Egin klik hemen irakurtzeko",
   "sorry": "Barkatu :(",
   "weHadToTimeYouOutForAWhile": "Denbora tarte baterako bota egin behar izan zaitugu.",

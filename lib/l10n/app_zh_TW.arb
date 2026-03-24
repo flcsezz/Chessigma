@@ -1279,7 +1279,7 @@
   "playVariationToCreateConditionalPremoves": "走一種變種以建立棋譜",
   "noConditionalPremoves": "無預設棋譜",
   "playX": "移動至{param}",
-  "showUnreadLichessMessage": "你收到一個來自 Lichess 的私訊。",
+  "showUnreadChessigmaMessage": "你收到一個來自 Lichess 的私訊。",
   "clickHereToReadIt": "點擊以閱讀",
   "sorry": "抱歉：（",
   "weHadToTimeYouOutForAWhile": "我們必須將您暫時封鎖",

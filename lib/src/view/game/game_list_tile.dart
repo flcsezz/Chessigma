@@ -3,28 +3,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_controller.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/game/exported_game.dart';
-import 'package:lichess_mobile/src/model/game/game_share_service.dart';
-import 'package:lichess_mobile/src/model/game/game_status.dart';
-import 'package:lichess_mobile/src/model/game/gif_export.dart';
-import 'package:lichess_mobile/src/network/http.dart';
-import 'package:lichess_mobile/src/styles/lichess_colors.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/l10n.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/screen.dart';
-import 'package:lichess_mobile/src/utils/share.dart';
-import 'package:lichess_mobile/src/view/analysis/analysis_screen.dart';
-import 'package:lichess_mobile/src/view/game/game_common_widgets.dart';
-import 'package:lichess_mobile/src/view/game/gif_export_dialog.dart';
-import 'package:lichess_mobile/src/view/game/status_l10n.dart';
-import 'package:lichess_mobile/src/widgets/adaptive_bottom_sheet.dart';
-import 'package:lichess_mobile/src/widgets/board_thumbnail.dart';
-import 'package:lichess_mobile/src/widgets/feedback.dart';
-import 'package:lichess_mobile/src/widgets/list.dart';
-import 'package:lichess_mobile/src/widgets/user.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_controller.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/game/exported_game.dart';
+import 'package:chessigma_mobile/src/model/game/game_share_service.dart';
+import 'package:chessigma_mobile/src/model/game/game_status.dart';
+import 'package:chessigma_mobile/src/model/game/gif_export.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/styles/lichess_colors.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/l10n.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/screen.dart';
+import 'package:chessigma_mobile/src/utils/share.dart';
+import 'package:chessigma_mobile/src/view/analysis/analysis_screen.dart';
+import 'package:chessigma_mobile/src/view/game/game_common_widgets.dart';
+import 'package:chessigma_mobile/src/view/game/gif_export_dialog.dart';
+import 'package:chessigma_mobile/src/view/game/status_l10n.dart';
+import 'package:chessigma_mobile/src/widgets/adaptive_bottom_sheet.dart';
+import 'package:chessigma_mobile/src/widgets/board_thumbnail.dart';
+import 'package:chessigma_mobile/src/widgets/feedback.dart';
+import 'package:chessigma_mobile/src/widgets/list.dart';
+import 'package:chessigma_mobile/src/widgets/user.dart';
 import 'package:share_plus/share_plus.dart';
 
 final _dateFormatter = DateFormat.yMMMd().add_Hm();
@@ -48,10 +48,10 @@ class GameListTile extends StatelessWidget {
         return const Icon(CupertinoIcons.xmark_square_fill, color: LichessColors.grey);
       } else {
         return game.winner == null
-            ? Icon(CupertinoIcons.equal_square_fill, color: context.lichessColors.brag)
+            ? Icon(CupertinoIcons.equal_square_fill, color: context.chessigmaColors.brag)
             : game.winner == mySide
-            ? Icon(CupertinoIcons.plus_square_fill, color: context.lichessColors.good)
-            : Icon(CupertinoIcons.minus_square_fill, color: context.lichessColors.error);
+            ? Icon(CupertinoIcons.plus_square_fill, color: context.chessigmaColors.good)
+            : Icon(CupertinoIcons.minus_square_fill, color: context.chessigmaColors.error);
       }
     }
 
@@ -187,10 +187,10 @@ class GameContextMenu extends ConsumerWidget {
                                 ),
                                 style: TextStyle(
                                   color: game.winner == null
-                                      ? context.lichessColors.brag
+                                      ? context.chessigmaColors.brag
                                       : game.winner == mySide
-                                      ? context.lichessColors.good
-                                      : context.lichessColors.error,
+                                      ? context.chessigmaColors.good
+                                      : context.chessigmaColors.error,
                                 ),
                               ),
                             if (game.opening != null)
@@ -253,7 +253,7 @@ class GameContextMenu extends ConsumerWidget {
                 onPressed: () {
                   launchShareDialog(
                     context,
-                    ShareParams(uri: lichessUri('/${game.id}/${orientation.name}')),
+                    ShareParams(uri: chessigmaUri('/${game.id}/${orientation.name}')),
                   );
                 },
                 icon: Theme.of(context).platform == TargetPlatform.iOS

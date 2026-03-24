@@ -5,11 +5,11 @@ import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:lichess_mobile/src/model/auth/auth_controller.dart';
-import 'package:lichess_mobile/src/model/auth/bearer.dart';
-import 'package:lichess_mobile/src/model/common/id.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
-import 'package:lichess_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
+import 'package:chessigma_mobile/src/model/auth/bearer.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
 
 import '../test_container.dart';
 import 'fake_http_client_factory.dart';
@@ -19,7 +19,7 @@ void main() {
     FakeClient.reset();
   });
 
-  group('LichessClient', () {
+  group('ChessigmaClient', () {
     test('sends requests to lichess host when only path is provided', () async {
       final container = await makeContainer(
         overrides: {

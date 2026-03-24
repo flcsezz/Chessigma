@@ -3,18 +3,18 @@ import 'dart:async';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lichess_mobile/src/binding.dart';
+import 'package:chessigma_mobile/src/binding.dart';
 import 'package:multistockfish/multistockfish.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model/engine/fake_stockfish.dart';
 
 /// The binding instance used in tests.
-TestLichessBinding get testBinding => TestLichessBinding.instance;
+TestChessigmaBinding get testBinding => TestChessigmaBinding.instance;
 
 /// Lichess binding for testing.
-class TestLichessBinding extends LichessBinding {
-  TestLichessBinding() {
+class TestChessigmaBinding extends ChessigmaBinding {
+  TestChessigmaBinding() {
     // Logger.root.level = Level.ALL;
     // Logger.root.onRecord.listen((record) {
     //   // ignore: avoid_print
@@ -24,20 +24,20 @@ class TestLichessBinding extends LichessBinding {
     // });
   }
 
-  /// Initialize the binding if necessary, and ensure it is a [TestLichessBinding].
+  /// Initialize the binding if necessary, and ensure it is a [TestChessigmaBinding].
   ///
-  /// If there is an existing binding but it is not a [TestLichessBinding],
+  /// If there is an existing binding but it is not a [TestChessigmaBinding],
   /// this method throws an error.
-  factory TestLichessBinding.ensureInitialized() {
+  factory TestChessigmaBinding.ensureInitialized() {
     if (_instance == null) {
-      TestLichessBinding();
+      TestChessigmaBinding();
     }
     return instance;
   }
 
   /// The single instance of the binding.
-  static TestLichessBinding get instance => LichessBinding.checkInstance(_instance);
-  static TestLichessBinding? _instance;
+  static TestChessigmaBinding get instance => ChessigmaBinding.checkInstance(_instance);
+  static TestChessigmaBinding? _instance;
 
   @override
   void initInstance() {

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lichess_mobile/src/model/common/time_increment.dart';
+import 'package:chessigma_mobile/src/model/common/time_increment.dart';
 
 void main() {
   group('TimeIncrement Tests', () {

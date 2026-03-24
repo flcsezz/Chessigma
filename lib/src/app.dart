@@ -6,28 +6,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n_esperanto/l10n_esperanto.dart';
-import 'package:lichess_mobile/l10n/l10n.dart';
-import 'package:lichess_mobile/src/app_links.dart';
-import 'package:lichess_mobile/src/model/account/account_service.dart';
-import 'package:lichess_mobile/src/model/account/ongoing_game.dart';
-import 'package:lichess_mobile/src/model/announce/announce_service.dart';
-import 'package:lichess_mobile/src/model/auth/auth_repository.dart';
-import 'package:lichess_mobile/src/model/auth/oauth_callback.dart';
-import 'package:lichess_mobile/src/model/challenge/challenge_service.dart';
-import 'package:lichess_mobile/src/model/common/preloaded_data.dart';
-import 'package:lichess_mobile/src/model/correspondence/correspondence_service.dart';
-import 'package:lichess_mobile/src/model/log/app_log_service.dart';
-import 'package:lichess_mobile/src/model/message/message_service.dart';
-import 'package:lichess_mobile/src/model/notifications/notification_service.dart';
-import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
-import 'package:lichess_mobile/src/model/settings/general_preferences.dart';
-import 'package:lichess_mobile/src/network/connectivity.dart';
-import 'package:lichess_mobile/src/network/socket.dart';
-import 'package:lichess_mobile/src/quick_actions.dart';
-import 'package:lichess_mobile/src/tab_scaffold.dart';
-import 'package:lichess_mobile/src/theme.dart';
-import 'package:lichess_mobile/src/utils/screen.dart';
-import 'package:lichess_mobile/src/view/more/import_pgn_screen.dart';
+import 'package:chessigma_mobile/l10n/l10n.dart';
+import 'package:chessigma_mobile/src/app_links.dart';
+import 'package:chessigma_mobile/src/model/account/account_service.dart';
+import 'package:chessigma_mobile/src/model/account/ongoing_game.dart';
+import 'package:chessigma_mobile/src/model/announce/announce_service.dart';
+import 'package:chessigma_mobile/src/model/auth/auth_repository.dart';
+import 'package:chessigma_mobile/src/model/auth/oauth_callback.dart';
+import 'package:chessigma_mobile/src/model/challenge/challenge_service.dart';
+import 'package:chessigma_mobile/src/model/common/preloaded_data.dart';
+import 'package:chessigma_mobile/src/model/correspondence/correspondence_service.dart';
+import 'package:chessigma_mobile/src/model/log/app_log_service.dart';
+import 'package:chessigma_mobile/src/model/message/message_service.dart';
+import 'package:chessigma_mobile/src/model/notifications/notification_service.dart';
+import 'package:chessigma_mobile/src/model/settings/board_preferences.dart';
+import 'package:chessigma_mobile/src/model/settings/general_preferences.dart';
+import 'package:chessigma_mobile/src/network/connectivity.dart';
+import 'package:chessigma_mobile/src/network/socket.dart';
+import 'package:chessigma_mobile/src/quick_actions.dart';
+import 'package:chessigma_mobile/src/tab_scaffold.dart';
+import 'package:chessigma_mobile/src/theme.dart';
+import 'package:chessigma_mobile/src/utils/screen.dart';
+import 'package:chessigma_mobile/src/view/more/import_pgn_screen.dart';
+import 'package:chessigma_mobile/src/view/splash/splash_screen.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
 /// Application initialization and main entry point.
@@ -42,16 +43,17 @@ class AppInitializationScreen extends ConsumerWidget {
       }
     });
 
-    switch (ref.watch(preloadedDataProvider)) {
-      case AsyncData():
-        return const Application();
-      case AsyncError(:final error, :final stackTrace):
-        debugPrint('SEVERE: [App] could not initialize app; $error\n$stackTrace');
-        return const SizedBox.shrink();
-      case _:
-        // loading screen is handled by the native splash screen
-        return const SizedBox.shrink();
+    final dataState = ref.watch(preloadedDataProvider);
+    final isReady = dataState.hasValue;
+
+    if (dataState case AsyncError(:final error, :final stackTrace)) {
+      debugPrint('SEVERE: [App] could not initialize app; $error\n$stackTrace');
     }
+
+    return ChessigmaSplashScreen(
+      isReady: isReady,
+      child: isReady ? const Application() : const SizedBox.expand(),
+    );
   }
 }
 
@@ -144,7 +146,7 @@ class _AppState extends ConsumerState<Application> {
         CupertinoLocalizationsEo.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      title: 'lichess.org',
+      title: 'Chessigma',
       locale: generalPrefs.locale,
       theme: theme.copyWith(
         navigationBarTheme: isIOS

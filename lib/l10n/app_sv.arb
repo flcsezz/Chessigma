@@ -1263,7 +1263,7 @@
   "playVariationToCreateConditionalPremoves": "Spela en variant för att skapa villkorade förhandsdrag",
   "noConditionalPremoves": "Inga villkorade förhandsdrag",
   "playX": "Spela {param}",
-  "showUnreadLichessMessage": "Du har fått ett privat meddelande från Lichess.",
+  "showUnreadChessigmaMessage": "Du har fått ett privat meddelande från Lichess.",
   "clickHereToReadIt": "Klicka här för att läsa den",
   "sorry": "Beklagar :(",
   "weHadToTimeYouOutForAWhile": "Vi är tvugna att stänga av dig en stund.",

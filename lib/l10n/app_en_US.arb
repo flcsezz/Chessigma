@@ -1384,7 +1384,7 @@
   "noConditionalPremoves": "No conditional premoves",
   "playX": "Play {param}",
   "challengeX": "Challenge {param}",
-  "showUnreadLichessMessage": "You have received a private message from Lichess.",
+  "showUnreadChessigmaMessage": "You have received a private message from Lichess.",
   "clickHereToReadIt": "Click here to read it",
   "sorry": "Sorry :(",
   "weHadToTimeYouOutForAWhile": "We had to time you out for a while.",

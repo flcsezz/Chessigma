@@ -4608,7 +4608,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get showUnreadLichessMessage => 'Lichess からプライベートメッセージが来ました。';
+  String get showUnreadChessigmaMessage => 'Lichess からプライベートメッセージが来ました。';
 
   @override
   String get clickHereToReadIt => 'ここをクリックして読む';

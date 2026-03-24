@@ -1385,7 +1385,7 @@
   "noConditionalPremoves": "Brak ruchów warunkowych",
   "playX": "Zagraj {param}",
   "challengeX": "Rzuć wyzwanie {param}",
-  "showUnreadLichessMessage": "Otrzymałeś prywatną wiadomość od Lichess.",
+  "showUnreadChessigmaMessage": "Otrzymałeś prywatną wiadomość od Lichess.",
   "clickHereToReadIt": "Kliknij tutaj, aby ją odczytać",
   "sorry": "Przykro nam :(",
   "weHadToTimeYouOutForAWhile": "Na pewien czas musieliśmy wykluczyć Cię z gry.",

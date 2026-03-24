@@ -8530,11 +8530,11 @@ abstract class AppLocalizations {
   /// **'Challenge {param}'**
   String challengeX(String param);
 
-  /// No description provided for @showUnreadLichessMessage.
+  /// No description provided for @showUnreadChessigmaMessage.
   ///
   /// In en, this message translates to:
   /// **'You have received a private message from Lichess.'**
-  String get showUnreadLichessMessage;
+  String get showUnreadChessigmaMessage;
 
   /// No description provided for @clickHereToReadIt.
   ///

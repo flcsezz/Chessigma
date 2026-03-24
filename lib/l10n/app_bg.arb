@@ -1340,7 +1340,7 @@
   "noConditionalPremoves": "Без предварителни ходове под условие",
   "playX": "Играй {param}",
   "challengeX": "Предизвикай {param}",
-  "showUnreadLichessMessage": "Получихте лично съобщение от Lichess.",
+  "showUnreadChessigmaMessage": "Получихте лично съобщение от Lichess.",
   "clickHereToReadIt": "Щракнете тук, за да го прочетете",
   "sorry": "Съжалявам :(",
   "weHadToTimeYouOutForAWhile": "Наложи се да Ви сложим в принудителна почивка за известно време.",

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/model/account/account_preferences.dart';
-import 'package:lichess_mobile/src/model/user/user.dart';
-import 'package:lichess_mobile/src/styles/lichess_icons.dart';
-import 'package:lichess_mobile/src/styles/styles.dart';
-import 'package:lichess_mobile/src/utils/l10n_context.dart';
-import 'package:lichess_mobile/src/utils/lichess_assets.dart';
-import 'package:lichess_mobile/src/widgets/network_image.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/model/account/account_preferences.dart';
+import 'package:chessigma_mobile/src/model/user/user.dart';
+import 'package:chessigma_mobile/src/styles/lichess_icons.dart';
+import 'package:chessigma_mobile/src/styles/styles.dart';
+import 'package:chessigma_mobile/src/utils/l10n_context.dart';
+import 'package:chessigma_mobile/src/utils/lichess_assets.dart';
+import 'package:chessigma_mobile/src/widgets/network_image.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 /// A Wifi icon representing that the user is currently connected (online) or not.
@@ -54,7 +54,7 @@ class PatronIcon extends StatelessWidget {
     final textStyle = DefaultTextStyle.of(context).style;
     final brightness = Theme.of(context).brightness;
     return Icon(
-      LichessIcons.patron,
+      ChessigmaIcons.patron,
       color: color != null
           ? brightness == Brightness.dark
                 ? patronColorsDark[(color! - 1)]
@@ -178,8 +178,8 @@ class UserFullNameWidget extends ConsumerWidget {
             user!.title!,
             style: (style ?? const TextStyle()).copyWith(
               color: user?.title == 'BOT'
-                  ? context.lichessColors.fancy
-                  : context.lichessColors.brag,
+                  ? context.chessigmaColors.fancy
+                  : context.chessigmaColors.brag,
               fontWeight: user?.title == 'BOT' ? null : FontWeight.bold,
             ),
           ),

@@ -1388,7 +1388,7 @@
   "noConditionalPremoves": "Sense moviments anticipats condicionals",
   "playX": "Jugar {param}",
   "challengeX": "Desafia {param}",
-  "showUnreadLichessMessage": "Has rebut un missatge privat de Lichess.",
+  "showUnreadChessigmaMessage": "Has rebut un missatge privat de Lichess.",
   "clickHereToReadIt": "Fes clic aquí per llegir-lo",
   "sorry": "Ho sentim :(",
   "weHadToTimeYouOutForAWhile": "Hem hagut de penalitzar-te una estona.",

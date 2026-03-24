@@ -5,21 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:lichess_mobile/l10n/l10n.dart';
-import 'package:lichess_mobile/src/binding.dart';
-import 'package:lichess_mobile/src/constants.dart';
-import 'package:lichess_mobile/src/db/secure_storage.dart';
-import 'package:lichess_mobile/src/model/analysis/analysis_preferences.dart';
-import 'package:lichess_mobile/src/model/broadcast/broadcast_preferences.dart';
-import 'package:lichess_mobile/src/model/notifications/notification_service.dart';
-import 'package:lichess_mobile/src/model/notifications/notifications.dart';
-import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
-import 'package:lichess_mobile/src/model/settings/preferences_storage.dart';
-import 'package:lichess_mobile/src/model/study/study_preferences.dart';
-import 'package:lichess_mobile/src/utils/chessboard.dart';
-import 'package:lichess_mobile/src/utils/color_palette.dart';
-import 'package:lichess_mobile/src/utils/screen.dart';
-import 'package:lichess_mobile/src/utils/string.dart';
+import 'package:chessigma_mobile/l10n/l10n.dart';
+import 'package:chessigma_mobile/src/binding.dart';
+import 'package:chessigma_mobile/src/constants.dart';
+import 'package:chessigma_mobile/src/db/secure_storage.dart';
+import 'package:chessigma_mobile/src/model/analysis/analysis_preferences.dart';
+import 'package:chessigma_mobile/src/model/notifications/notification_service.dart';
+import 'package:chessigma_mobile/src/model/notifications/notifications.dart';
+import 'package:chessigma_mobile/src/model/settings/board_preferences.dart';
+import 'package:chessigma_mobile/src/model/settings/preferences_storage.dart';
+import 'package:chessigma_mobile/src/model/study/study_preferences.dart';
+import 'package:chessigma_mobile/src/utils/chessboard.dart';
+import 'package:chessigma_mobile/src/utils/color_palette.dart';
+import 'package:chessigma_mobile/src/utils/screen.dart';
+import 'package:chessigma_mobile/src/utils/string.dart';
 import 'package:logging/logging.dart';
 import 'package:material_color_utilities/palettes/core_palette.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -29,7 +28,7 @@ final _logger = Logger('Init');
 
 /// Run initialization tasks only once on first app launch or after an update.
 Future<void> initializeApp() async {
-  final prefs = LichessBinding.instance.sharedPreferences;
+  final prefs = ChessigmaBinding.instance.sharedPreferences;
 
   try {
     final pInfo = await PackageInfo.fromPlatform();
@@ -61,7 +60,7 @@ Future<void> initializeApp() async {
     }
   } catch (e, st) {
     _logger.severe('Error during app initialization: $e');
-    LichessBinding.instance.firebaseCrashlytics.recordError(
+    ChessigmaBinding.instance.firebaseCrashlytics.recordError(
       e,
       st,
       reason: 'Error during app initialization',
@@ -92,7 +91,7 @@ Future<void> initializeLocalNotifications(Locale locale) async {
 }
 
 Future<void> preloadPieceImages() async {
-  final prefs = LichessBinding.instance.sharedPreferences;
+  final prefs = ChessigmaBinding.instance.sharedPreferences;
   final storedPrefs = prefs.getString(PrefCategory.board.storageKey);
   BoardPrefs boardPrefs = BoardPrefs.defaults;
   if (storedPrefs != null) {
@@ -165,7 +164,7 @@ Future<void> androidDisplayInitialization(WidgetsBinding widgetsBinding) async {
 
 // Adjusts some settings for small screens based on the MediaQuery data.
 Future<void> _screenSizeBasedInitialization() async {
-  final prefs = LichessBinding.instance.sharedPreferences;
+  final prefs = ChessigmaBinding.instance.sharedPreferences;
   final mediaQueryData = MediaQueryData.fromView(
     WidgetsBinding.instance.platformDispatcher.views.first,
   );
@@ -175,6 +174,4 @@ Future<void> _screenSizeBasedInitialization() async {
   await prefs.setString(PrefCategory.analysis.storageKey, jsonEncode(analysisPrefs.toJson()));
   final studyPrefs = StudyPrefs.defaults.copyWith(showEngineLines: !isSmallScreen);
   await prefs.setString(PrefCategory.study.storageKey, jsonEncode(studyPrefs.toJson()));
-  final broadcastPrefs = BroadcastPrefs.defaults.copyWith(showEngineLines: !isSmallScreen);
-  await prefs.setString(PrefCategory.broadcast.storageKey, jsonEncode(broadcastPrefs.toJson()));
 }
