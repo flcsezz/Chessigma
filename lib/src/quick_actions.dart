@@ -38,6 +38,8 @@ class QuickActionService {
   TargetPlatform get platform => defaultTargetPlatform;
 
   void start() {
+    if (platform != TargetPlatform.android && platform != TargetPlatform.iOS) return;
+
     final recentSeeks = ref.read(recentGameSeekProvider).seeks;
     quickActions.initialize((String shortcutType) {
       final context = ref.read(currentNavigatorKeyProvider).currentContext;
@@ -67,6 +69,8 @@ class QuickActionService {
   }
 
   void setQuickActions(IList<GameSeek> recentSeeks) {
+    if (platform != TargetPlatform.android && platform != TargetPlatform.iOS) return;
+
     quickActions.setShortcutItems(<ShortcutItem>[
       ShortcutItem(
         type: 'play_puzzles',

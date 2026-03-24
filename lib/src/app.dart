@@ -178,6 +178,9 @@ class _AppState extends ConsumerState<Application> {
   }
 
   void _initSharingIntent() {
+    final platform = Theme.of(context).platform;
+    if (platform != TargetPlatform.android && platform != TargetPlatform.iOS) return;
+
     // Warm start
     _intentSub = ReceiveSharingIntent.instance.getMediaStream().listen((
       List<SharedMediaFile> value,
