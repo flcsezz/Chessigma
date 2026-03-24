@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:chessigma_mobile/firebase_stubs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -95,6 +95,8 @@ class NotificationService {
   /// This method should be called once the app is ready to receive notifications,
   /// and after [ChessigmaBinding.initializeNotifications] has been called.
   Future<void> start() async {
+    if (defaultTargetPlatform == TargetPlatform.linux) return;
+
     // Listen for incoming messages while the app is in the foreground.
     ChessigmaBinding.instance.firebaseMessagingOnMessage.listen((RemoteMessage message) {
       _processFcmMessage(message, fromBackground: false);

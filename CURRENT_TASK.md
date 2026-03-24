@@ -5,10 +5,11 @@
 - **Next Phase:** Phase 2 - External History Integration
 
 ## Active Task
-- Status: in_progress
+- Status: completed
 - Task ID: `P2-T03`
 - Owner: OpenCode Agent
 - Started: 2026-03-24
+- Completed: 2026-03-24
 - Description: Implement Lichess public-history fetcher using normalized external history model
 
 ## Task Completion Notes

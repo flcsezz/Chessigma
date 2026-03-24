@@ -25,8 +25,41 @@ class DefaultFirebaseOptions {
 
 typedef BackgroundMessageHandler = Future<void> Function(RemoteMessage message);
 
+enum AuthorizationStatus {
+  notDetermined,
+  denied,
+  authorized,
+  provisional,
+  ephemeral,
+}
+
+class NotificationSettings {
+  final AuthorizationStatus authorizationStatus;
+  const NotificationSettings({required this.authorizationStatus});
+}
+
 class FirebaseMessaging {
   static FirebaseMessaging instance = FirebaseMessaging();
+
+  Stream<String> get onTokenRefresh => const Stream.empty();
+
+  Future<NotificationSettings> requestPermission({
+    bool alert = true,
+    bool announcement = false,
+    bool badge = true,
+    bool carPlay = false,
+    bool criticalAlert = false,
+    bool provisional = false,
+    bool sound = true,
+  }) async {
+    return const NotificationSettings(authorizationStatus: AuthorizationStatus.authorized);
+  }
+
+  Future<String?> getAPNSToken() async => null;
+  Future<String?> getToken({String? vapidKey}) async => null;
+  Future<NotificationSettings> getNotificationSettings() async =>
+      const NotificationSettings(authorizationStatus: AuthorizationStatus.authorized);
+  Future<RemoteMessage?> getInitialMessage() async => null;
 
   static Stream<RemoteMessage> get onMessage => const Stream.empty();
 

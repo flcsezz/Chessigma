@@ -674,7 +674,7 @@ class OfflineComputerGameController extends Notifier<OfflineComputerGameState> {
       // Unexpected engine error occurred.
       _logger.warning('Failed to play engine move!', e, s);
     } finally {
-      if (state.game.playable || state.game.finished) {
+      if (ref.mounted && (state.game.playable || state.game.finished)) {
         state = state.copyWith(isEngineThinking: false);
       }
     }
