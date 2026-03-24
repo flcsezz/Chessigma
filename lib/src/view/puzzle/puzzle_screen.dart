@@ -733,7 +733,7 @@ class _BottomBarState extends ConsumerState<_BottomBar> {
             onLongPress: puzzleState.canGoBack ? () => _moveBackward(ref) : null,
             child: BottomBarButton(
               onTap: puzzleState.canGoBack ? () => _moveBackward(ref) : null,
-              label: 'Previous',
+              label: context.l10n.mobilePreviousPage,
               icon: CupertinoIcons.chevron_back,
               showTooltip: false,
             ),
