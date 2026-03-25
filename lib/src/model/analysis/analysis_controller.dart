@@ -301,6 +301,8 @@ class AnalysisController extends AsyncNotifier<AnalysisState>
 
     final currentPath = switch (options) {
       Standalone() when _savedStandalone != null => _savedStandalone!.path,
+      Standalone() => UciPath.empty,
+      Pgn() => options.initialMoveCursor == null ? UciPath.empty : path,
       _ => options.initialMoveCursor == null ? _root.mainlinePath : path,
     };
     final currentNode = _root.nodeAt(currentPath);
@@ -1092,5 +1094,13 @@ sealed class AnalysisCurrentNode
             depth: pgnEval.depth,
           )
         : null;
+  }
+
+  /// The text comments of this node.
+  Iterable<String> get textComments {
+    return [
+      ...lichessAnalysisComments ?? IList(const []),
+      ...comments ?? IList(const []),
+    ].where((t) => t.text?.isNotEmpty == true).map((c) => c.text!);
   }
 }

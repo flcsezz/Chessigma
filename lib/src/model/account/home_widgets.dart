@@ -6,7 +6,8 @@ enum HomeEditableWidget {
   perfCards(false),
   ongoingGames(true),
   quickPairing(false),
-  recentGames(false);
+  recentGames(false),
+  externalFetch(false);
 
   String label(AppLocalizations l10n) => switch (this) {
     HomeEditableWidget.ongoingGames => 'Ongoing Games',
@@ -14,6 +15,7 @@ enum HomeEditableWidget {
     HomeEditableWidget.perfCards => 'Performance Cards',
     HomeEditableWidget.quickPairing => l10n.quickPairing,
     HomeEditableWidget.recentGames => l10n.recentGames,
+    HomeEditableWidget.externalFetch => 'Fetch External Games',
   };
 
   const HomeEditableWidget(this.alwaysEnabled);

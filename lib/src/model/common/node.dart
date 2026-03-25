@@ -724,10 +724,8 @@ sealed class ViewBranch extends ViewNode with _$ViewBranch {
   }
 
   /// The evaluation from the PGN comments.
-  ///
-  /// For now we only trust the eval coming from lichess analysis.
   ExternalEval? get serverEval {
-    final pgnEval = lichessAnalysisComments?.firstWhereOrNull((c) => c.eval != null)?.eval;
+    final pgnEval = (lichessAnalysisComments ?? comments)?.firstWhereOrNull((c) => c.eval != null)?.eval;
     return pgnEval != null ? ExternalEval.fromPgnEval(pgnEval) : null;
   }
 

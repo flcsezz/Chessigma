@@ -1,15 +1,18 @@
+import 'dart:convert';
+
 import 'package:dartchess/dartchess.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' show Client;
+
 import 'package:chessigma_mobile/src/model/common/chess.dart';
+import 'package:chessigma_mobile/src/model/common/id.dart';
 import 'package:chessigma_mobile/src/model/common/perf.dart';
-import 'package:chesssigma_mobile/src/model/common/speed.dart';
-import 'package:chesssigma_mobile/src/model/external_history/external_history.dart';
-import 'package:chesssigma_mobile/src/model/common/id.dart';
-import 'package:chesssigma_mobile/src/model/game/game_status.dart';
-import 'package:chesssigma_mobile/src/network/http.dart';
-import 'package:chesssigma_mobile/src/utils/riverpod.dart';
+import 'package:chessigma_mobile/src/model/common/speed.dart';
+import 'package:chessigma_mobile/src/model/external_history/external_history.dart';
+import 'package:chessigma_mobile/src/model/game/game_status.dart';
+import 'package:chessigma_mobile/src/network/http.dart';
+import 'package:chessigma_mobile/src/utils/riverpod.dart';
 
 ExternalGameHistoryItem _convertPgnGameToExternalItemStatic(
   PgnGame game,
@@ -55,7 +58,7 @@ ExternalGameHistoryItem _convertPgnGameToExternalItemStatic(
           int.parse(dateParts[2]),
           int.parse(dateParts[1]),
           int.parse(dateParts[0]),
-          timeParts.length > 0 ? int.parse(timeParts[0]) : 0,
+          timeParts.isNotEmpty ? int.parse(timeParts[0]) : 0,
           timeParts.length > 1 ? int.parse(timeParts[1]) : 0,
           timeParts.length > 2 ? int.parse(timeParts[2]) : 0,
         );
@@ -122,7 +125,7 @@ String _extractGamePgnStatic(String fullPgnText, int gameIndex) {
   if (gameIndex < games.length) {
     String gamePgn = games[gameIndex].trim();
     if (!gamePgn.startsWith('[') && gameIndex > 0) {
-      gamePgn = '[' + gamePgn;
+      gamePgn = '[$gamePgn';
     }
     return gamePgn;
   }
@@ -219,13 +222,13 @@ class ExternalUserHistoryNotifier extends AsyncNotifier<IList<ExternalGameHistor
       _hasMore = games.length == _nbPerPage;
 
       return _games.toIList();
-    } catch (e, st) {
+    } catch (_) {
       _hasError = true;
       rethrow;
     }
   }
 
-  Future<List<ExternalGameHistoryItem>> _fetchGames({int? max, int? untilGameIndex}) async {
+  Future<List<ExternalGameHistoryItem>> _fetchGames({int? max, int? untilGameIndex}) {
     switch (params.source) {
       case ExternalSource.lichess:
         return _fetchLichessGames(params.username, max: max, untilGameIndex: untilGameIndex);
@@ -312,18 +315,103 @@ class ExternalUserHistoryNotifier extends AsyncNotifier<IList<ExternalGameHistor
     int? max,
     int? untilGameIndex,
   }) async {
-    return [];
+    final client = ref.read(defaultClientProvider);
+    
+    // Chess.com archives API
+    final archivesUri = Uri.https('api.chess.com', '/pub/player/$username/games/archives');
+    final archivesResponse = await client.get(archivesUri);
+    
+    if (archivesResponse.statusCode == 404) {
+      throw Exception('User not found: $username');
+    }
+    
+    if (archivesResponse.statusCode != 200) {
+      throw Exception('Failed to fetch archives: ${archivesResponse.statusCode}');
+    }
+    
+    final archivesData = jsonDecode(archivesResponse.body) as Map<String, dynamic>;
+    final archives = List<String>.from(archivesData['archives'] as Iterable? ?? []);
+    
+    if (archives.isEmpty) {
+      return [];
+    }
+    
+    // Fetch latest archive
+    final latestArchiveUri = Uri.parse(archives.last);
+    final gamesResponse = await client.get(latestArchiveUri);
+    
+    if (gamesResponse.statusCode != 200) {
+      throw Exception('Failed to fetch games from archive: ${gamesResponse.statusCode}');
+    }
+    
+    final gamesData = jsonDecode(gamesResponse.body) as Map<String, dynamic>;
+    final games = List<Map<String, dynamic>>.from(gamesData['games'] as Iterable? ?? []);
+    
+    final List<ExternalGameHistoryItem> items = [];
+    for (final gameData in games.reversed) {
+      final pgn = gameData['pgn'] as String?;
+      if (pgn == null) continue;
+      
+      final pgnGames = PgnGame.parseMultiGamePgn(pgn);
+      if (pgnGames.isEmpty) continue;
+      
+      final game = pgnGames.first;
+      final headers = game.headers;
+      
+      final whiteName = headers['White'] ?? '?';
+      final blackName = headers['Black'] ?? '?';
+      final result = headers['Result'] ?? '*';
+      
+      final whiteRating = int.tryParse(headers['WhiteElo'] ?? '');
+      final blackRating = int.tryParse(headers['BlackElo'] ?? '');
+      
+      // Chess.com uses a different date format sometimes, but PGN headers should be standard
+      DateTime? createdAt;
+      final dateStr = headers['Date'];
+      if (dateStr != null) {
+        try {
+          final parts = dateStr.split('.');
+          if (parts.length == 3) {
+            createdAt = DateTime.utc(int.parse(parts[0]), int.parse(parts[1]), int.parse(parts[2]));
+          }
+        } catch (_) {}
+      }
+
+      final gameId = (gameData['url'] as String?)?.split('/').last ?? DateTime.now().millisecondsSinceEpoch.toString();
+
+      items.add(ExternalGameHistoryItem(
+        source: ExternalSource.chesscom,
+        username: username,
+        externalGameId: gameId,
+        pgn: pgn,
+        players: ExternalGamePlayers(
+          white: ExternalPlayer(name: whiteName, rating: whiteRating),
+          black: ExternalPlayer(name: blackName, rating: blackRating),
+        ),
+        createdAt: createdAt ?? DateTime.now(),
+        status: _parseGameStatusStatic(result),
+        variant: Variant.standard, 
+        speed: Speed.blitz, 
+        perf: Perf.blitz,
+        rated: headers['Event']?.contains('Rated') ?? true,
+        winner: _parseWinnerStatic(result),
+      ));
+      
+      if (max != null && items.length >= max) break;
+    }
+    
+    return items;
   }
 }
 
 final externalGameDetailsProvider = FutureProvider.autoDispose
-    .family<ExternalGameHistoryItem, ExternalGameDetailsParams>((ref, params) async {
+    .family<ExternalGameHistoryItem, ExternalGameDetailsParams>((ref, params) {
   final client = ref.read(defaultClientProvider);
   switch (params.source) {
     case ExternalSource.lichess:
       return _fetchLichessGameDetails(client, params.externalGameId);
     case ExternalSource.chesscom:
-      return _fetchChessComGameDetails(client, params.externalGameId);
+      return _fetchChessComGameDetails(client, params.externalGameId, params.username);
   }
 });
 
@@ -351,8 +439,12 @@ Future<ExternalGameHistoryItem> _fetchLichessGameDetails(Client client, String e
   return _convertPgnGameToExternalItemStatic(pgnGames.first, '', pgnText, 0);
 }
 
-Future<ExternalGameHistoryItem> _fetchChessComGameDetails(Client client, String externalGameId) async {
-  throw UnimplementedError('Chess.com game details fetch not implemented');
+Future<ExternalGameHistoryItem> _fetchChessComGameDetails(
+  Client client, 
+  String externalGameId,
+  String username,
+) {
+  throw UnimplementedError('Chess.com individual game fetch not implemented. Use archive fetch.');
 }
 
 extension ExternalGameHistoryItemAnalysis on ExternalGameHistoryItem {

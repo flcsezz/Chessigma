@@ -28,9 +28,8 @@ class MoreTabScreen extends ConsumerWidget {
     return PlatformScaffold(
       appBar: PlatformAppBar(
         title: Text(context.l10n.more),
-        leading: const AccountDrawerIconButton(),
+        leading: const SettingsIconButton(),
       ),
-      drawer: const AccountDrawer(),
       body: ListView(
         children: [
           ListSection(

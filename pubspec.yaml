@@ -82,6 +82,7 @@ dependencies:
   web_socket_channel: ^3.0.0
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
   build_runner: ^2.3.2
   fake_async: ^1.3.1
   flutter_test:
@@ -148,3 +149,9 @@ flutter_native_splash:
 
   color_dark: "#000000"
   image_dark: assets/images/logo-white.png
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/home_logo.png"
+  min_sdk_android: 21

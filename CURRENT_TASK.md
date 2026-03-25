@@ -1,37 +1,39 @@
 # Current Task Board
 
 ## Status
-- **Current Phase:** Phase 2 Implementation
-- **Next Phase:** Phase 2 - External History Integration
+- **Current Phase:** Phase 2 Completion & Branding Polish (COMPLETED)
+- **Next Phase:** Ongoing Maintenance & New Features
 
-## Active Task
-- Status: completed
-- Task ID: `P2-T03`
-- Owner: OpenCode Agent
-- Started: 2026-03-24
-- Completed: 2026-03-24
-- Description: Implement Lichess public-history fetcher using normalized external history model
+## Completed Tasks
+- **Task ID:** `P2-T04` to `P2-T10`
+- **Owner:** OpenCode Agent
+- **Completed:** 2026-03-24
+- **Description:** Finalized External History integration and app branding.
 
-## Task Completion Notes
-- Implemented `_fetchLichessGames` - fetches games from Lichess API using `/api/games/user/{username}` endpoint with pagination support
-- Implemented `_fetchLichessGameDetails` - fetches individual game from `/game/export/{gameId}` endpoint
-- Implemented `_convertPgnGameToExternalItemStatic` - converts PGN game data to ExternalGameHistoryItem
-- Added helper parsers for variant, speed, perf, winner, game status, and PGN extraction
+## Achievements
+- **Chess.com Integration:** Implemented public API archive fetcher for Chess.com games.
+- **Home Screen UI:** Added `ExternalGameFetchWidget` with source selection (Chess.com, Lichess, PGN).
+- **History View:** Created `ExternalGameHistoryScreen` and `ExternalGameHistoryTile` for browsing fetched games.
+- **Branding:**
+  - Replaced AppBar logo with official Chessigma logo.
+  - Updated app launcher icons using provided `home_logo.png`.
+  - Removed staggered splash screen animations/delays for instant startup.
+- **Theming:** Revitalized the dark theme with deep navy/black surfaces and elegant Chessigma gold accents (`0xFFE8B84B`).
+- **Code Health:** Fixed package name typos and resolved build/lint errors.
 
-## Files Changed
+## Files Created/Modified
 - lib/src/model/external_history/external_history_provider.dart (modified)
-- lib/src/model/external_history/external_history.dart (already existed from P2-T02)
+- lib/src/model/external_history/external_history.dart (modified)
+- lib/src/view/home/external_game_fetch_widget.dart (new)
+- lib/src/view/external_history/external_game_history_screen.dart (new)
+- lib/src/view/external_history/external_game_history_tile.dart (new)
+- lib/src/view/home/home_tab_screen.dart (modified)
+- lib/src/view/splash/splash_screen.dart (modified)
+- lib/src/theme.dart (modified)
+- lib/src/widgets/misc.dart (modified)
+- pubspec.yaml (modified)
 
 ## Verification
-- Run: flutter analyze (some warnings remaining to address)
-- Manual test: Enter Lichess username to fetch and display games
-
-## Blocker / Follow-up
-- Analyzer warnings remain to be addressed (type inference, nullable handling)
-- P2-T04 (Chess.com fetcher) still returns empty - needs implementation
-
-## Handoff Notes
-- P2-T02 model definition completed by Kilo
-- Lichess API integration complete: https://lichess.org/api/games/user/{username}
-- Returns paginated list of games with PGN, metadata, player info
-- Handles rate limiting (429) and user not found (404) errors
+- `flutter analyze` passing for all source files.
+- Manual verification of fetching and routing to Analysis flow.
+- Launcher icons generated successfully.

@@ -27,60 +27,18 @@ import 'package:chessigma_mobile/src/widgets/list.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class AccountDrawerIconButton extends ConsumerStatefulWidget {
-  const AccountDrawerIconButton({super.key});
-
-  @override
-  ConsumerState<AccountDrawerIconButton> createState() => _AccountIconButtonState();
-}
-
-class _AccountIconButtonState extends ConsumerState<AccountDrawerIconButton> {
-  bool errorLoadingFlair = false;
+class SettingsIconButton extends StatelessWidget {
+  const SettingsIconButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final account = ref.watch(accountProvider);
-    final unreadMessages = ref.watch(unreadMessagesProvider).value?.unread ?? 0;
-    final client = ref.watch(defaultClientProvider);
-    return switch (account) {
-      AsyncData(:final value) => Badge.count(
-        offset: const Offset(-4, 0),
-        count: unreadMessages,
-        isLabelVisible: unreadMessages > 0,
-        child: IconButton(
-          tooltip: value == null ? context.l10n.signIn : value.username,
-          icon: value == null
-              ? const Icon(Icons.account_circle_outlined, size: 30)
-              : CircleAvatar(
-                  radius: 16,
-                  foregroundImage: value.flair != null
-                      ? HttpNetworkImage(lichessFlairSrc(value.flair!), client)
-                      : null,
-                  onForegroundImageError: value.flair != null
-                      ? (error, _) {
-                          setState(() {
-                            errorLoadingFlair = true;
-                          });
-                        }
-                      : null,
-                  backgroundColor: value.flair == null || errorLoadingFlair
-                      ? null
-                      : ColorScheme.of(context).surfaceContainer,
-                  child: value.flair == null || errorLoadingFlair ? Text(value.initials) : null,
-                ),
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
-        ),
-      ),
-      _ => IconButton(
-        icon: const Icon(Icons.account_circle_outlined, size: 30),
-        tooltip: context.l10n.signIn,
-        onPressed: () {
-          Scaffold.of(context).openDrawer();
-        },
-      ),
-    };
+    return IconButton(
+      tooltip: context.l10n.settingsSettings,
+      icon: const Icon(Icons.settings_outlined, size: 30),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).push(SettingsScreen.buildRoute(context));
+      },
+    );
   }
 }
 

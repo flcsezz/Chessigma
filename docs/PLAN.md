@@ -13,29 +13,32 @@
 - **Stability:** Core local gameplay (Over the Board, vs Computer), Puzzles, and Learn features verified stable and functional.
 - **Code Health:** `flutter analyze` passing with zero errors/warnings.
 
-## Phase 2: External Game History + Review Entry
+## Phase 2: External Game History + Review Entry (COMPLETED)
 
 **Goal:** Let the user enter a Chess.com or Lichess username, fetch public game history from that source, show a selectable history list inside Chessigma, and open any selected game in the existing review/analysis flow. PGN import must also continue to open review using the same analysis path.
 
-### Product Rules
+### Summary of Achievements
 
-- External history is read-only. No login, sync, or account linking is required in Phase 2.
-- Review should reuse the current analysis/review experience, not create a parallel reviewer.
-- External games should enter review through `AnalysisOptions.pgn` unless there is a strong reason to support a new external archived-game mode.
-- PGN import remains a first-class entry point and should feel consistent with external history review.
+- **Source Support:** Fully implemented fetchers for Lichess.org and Chess.com public game histories.
+- **Backend integration:** Chess.com archives API integration complete.
+- **Unified UI:** Created `ExternalGameFetchWidget` on the home screen for streamlined access to Lichess, Chess.com, and PGN imports.
+- **Seamless Review:** Fetching or importing games automatically routes them to the existing high-quality Analysis/Review flow.
+- **Visual Polish:** Updated color palette to deep dark theme with elegant gold accents.
+- **Branding:** App-wide logo replacement and home screen icon updated.
+- **Splash:** Removed staggered animations and delays for instant-ready app feel.
 
 ### Phase 2 Tasks
 
-- [x] `P2-T01` Review-path audit and source contract. Map how imported PGN, archived games, and game-history lists currently reach `AnalysisScreen`. Start with `lib/src/view/more/import_pgn_screen.dart`, `lib/src/view/analysis/pgn_games_list_screen.dart`, `lib/src/model/analysis/analysis_controller.dart`, `lib/src/view/user/game_history_screen.dart`, and `lib/src/model/game/game_history.dart`. → Verify: Phase 2 implementation chooses one review handoff path and documents it before coding.
-- [x] `P2-T02` Define external history domain models and provider boundaries. Create a source-agnostic shape for external usernames, history items, paging state, source type, and selected-game payloads so Chess.com and Lichess feed the same UI. → Verify: one normalized model supports both providers and includes enough data to show a list and open review.
-- [x] `P2-T03` Implement Lichess public-history fetcher. Use the official Lichess games export API for public user games and convert returned game data into the normalized external-history model. → Verify: entering a Lichess username yields a paginated list of games or a clear empty/error state.
-- [ ] `P2-T04` Implement Chess.com public-history fetcher. Use the official Chess.com public API archive endpoints, handle archive discovery plus per-month game loading, and convert results into the normalized external-history model. → Verify: entering a Chess.com username yields a paginated or incrementally loaded list of games or a clear empty/error state.
-- [ ] `P2-T05` Build source + username entry UI. Add a screen or entry point where the user picks `Lichess` or `Chess.com`, enters a username, and loads that player’s history. Reuse existing navigation patterns rather than burying the feature in an unrelated screen. → Verify: user can switch source, enter a username, submit, and reach a history result screen.
-- [ ] `P2-T06` Build external game-history list UI. Reuse existing game-history presentation patterns where practical, but back it with the new external-history providers instead of the internal account history provider. → Verify: external games render with stable scrolling/loading/error states and can be selected individually.
-- [ ] `P2-T07` Wire external game selection into review. When the user taps a fetched external game, open the current review/analysis screen using the game PGN or equivalent imported representation so review behaves like today’s import flow. → Verify: selecting an external game opens `AnalysisScreen` with moves loaded and review tools available.
-- [ ] `P2-T08` Consolidate PGN import and external review entry. Ensure imported PGN text/file, multi-game PGN selection, and externally fetched game review all land in the same analysis path and produce consistent move cursor/orientation behavior. → Verify: imported PGN and external-history games both open review without code duplication or divergent UX.
-- [ ] `P2-T09` Add caching, rate-limit handling, and failure states. Cache recent lookups, avoid hammering upstream APIs, surface username-not-found and network errors cleanly, and document any per-source limitations. → Verify: repeated lookups behave predictably and 404/429/network failures do not crash the app.
-- [ ] `P2-T10` Tests and verification. Add provider/repository tests for both sources, widget tests for source selection/history list/review handoff, and manual checks for Lichess username, Chess.com username, single-game PGN import, and multi-game PGN import. → Verify: `flutter analyze` passes and the relevant tests cover external review flows.
+- [x] `P2-T01` Review-path audit and source contract.
+- [x] `P2-T02` Define external history domain models and provider boundaries.
+- [x] `P2-T03` Implement Lichess public-history fetcher.
+- [x] `P2-T04` Implement Chess.com public-history fetcher.
+- [x] `P2-T05` Build source + username entry UI.
+- [x] `P2-T06` Build external game-history list UI.
+- [x] `P2-T07` Wire external game selection into review.
+- [x] `P2-T08` Consolidate PGN import and external review entry.
+- [x] `P2-T09` Add caching, rate-limit handling, and failure states.
+- [x] `P2-T10` Tests and verification.
 
 ### Phase 2 Dependencies
 

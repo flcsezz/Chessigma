@@ -13,6 +13,7 @@ import 'package:chessigma_mobile/src/styles/styles.dart';
 import 'package:chessigma_mobile/src/utils/duration.dart';
 import 'package:chessigma_mobile/src/utils/l10n_context.dart';
 import 'package:chessigma_mobile/src/utils/rate_limit.dart';
+import 'package:chessigma_mobile/src/model/analysis/move_evaluation.dart';
 import 'package:chessigma_mobile/src/widgets/adaptive_bottom_sheet.dart';
 import 'package:chessigma_mobile/src/widgets/list.dart';
 
@@ -29,16 +30,7 @@ const kViewHorizontalPadding = 10.0;
 const kCommentVerticalPadding = 8.0;
 
 Color? _nagColor(BuildContext context, int nag) {
-  final colorScheme = ColorScheme.of(context);
-  return switch (nag) {
-    1 => Colors.lightGreen.harmonizeWith(colorScheme.primary),
-    2 => context.chessigmaColors.brag,
-    3 => Colors.teal.harmonizeWith(colorScheme.primary),
-    4 => context.chessigmaColors.error,
-    5 => context.chessigmaColors.purple,
-    6 => context.chessigmaColors.cyan,
-    int() => null,
-  };
+  return MoveEvaluation.fromNag(nag)?.color;
 }
 
 String moveAnnotationChar(Iterable<int> nags) {
@@ -113,7 +105,7 @@ Annotation? makeAnnotation(Iterable<int>? nags) {
 
 // fast replay debounce delay, same as piece animation duration, to avoid piece
 // animation jank at the end of the replay
-const kFastReplayDebounceDelay = Duration(milliseconds: 150);
+const kFastReplayDebounceDelay = Duration(milliseconds: 300);
 
 /// Callbacks for interaction with [DebouncedPgnTreeView]
 abstract class PgnTreeNotifier {
@@ -1287,6 +1279,7 @@ class InlineMove extends ConsumerWidget {
             ? moveAnnotationChar(branch.nags!)
             : '');
 
+    final evaluation = MoveEvaluation.fromAnalysis(branch);
     final nag = params.shouldShowAnnotations ? branch.nags?.firstOrNull : null;
     final ply = branch.position.ply;
 
@@ -1331,21 +1324,44 @@ class InlineMove extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text.rich(
-              TextSpan(
-                children: [
-                  if (indexText != null) indexText,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text.rich(
                   TextSpan(
-                    text: moveWithNag,
-                    style: moveTextStyle.copyWith(
-                      color: isPremove
-                          // TODO Possibly choose a more suitable color
-                          ? ChessigmaColors.brag
-                          : _textColor(context, isCurrentMove ? 1 : 0.9, nag: nag),
+                    children: [
+                      if (indexText != null) indexText,
+                      TextSpan(
+                        text: moveWithNag,
+                        style: moveTextStyle.copyWith(
+                          color: isPremove
+                              // TODO Possibly choose a more suitable color
+                              ? ChessigmaColors.brag
+                              : _textColor(context, isCurrentMove ? 1 : 0.9, nag: nag),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (evaluation != null && params.shouldShowAnnotations) ...[
+                  const SizedBox(width: 4),
+                  Container(
+                    padding: const EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: evaluation.color,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      evaluation.symbol,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 8,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
-              ),
+              ],
             ),
             if (eval != null)
               Text(

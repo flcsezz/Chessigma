@@ -118,13 +118,11 @@ class _MaterialTabBodyState extends ConsumerState<_MaterialTabBody> {
       },
       child: PlatformScaffold(
         appBar: PlatformAppBar(
-          leading: const AccountDrawerIconButton(),
+          leading: const SettingsIconButton(),
           title: Text(context.l10n.puzzles),
           centerTitle: true,
           actions: const [_DashboardButton(), _HistoryButton()],
         ),
-
-        drawer: const AccountDrawer(),
         body: isTablet
             ? Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

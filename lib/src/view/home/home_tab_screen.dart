@@ -32,6 +32,7 @@ import 'package:chessigma_mobile/src/view/account/profile_screen.dart';
 import 'package:chessigma_mobile/src/view/correspondence/offline_correspondence_game_screen.dart';
 import 'package:chessigma_mobile/src/view/game/offline_correspondence_games_screen.dart';
 import 'package:chessigma_mobile/src/view/home/games_carousel.dart';
+import 'package:chessigma_mobile/src/view/home/external_game_fetch_widget.dart';
 import 'package:chessigma_mobile/src/view/message/conversation_screen.dart';
 import 'package:chessigma_mobile/src/view/play/play_bottom_sheet.dart';
 import 'package:chessigma_mobile/src/view/play/play_menu.dart';
@@ -135,6 +136,11 @@ class _HomeScreenState extends ConsumerState<HomeTabScreen> {
               shouldShow: true,
               child: _GreetingWidget(),
             ),
+            _EditableWidget(
+              widget: HomeEditableWidget.externalFetch,
+              shouldShow: true,
+              child: const ExternalGameFetchWidget(),
+            ),
             if (!widget.editModeEnabled) ...[
               Padding(
                 padding: Styles.bodySectionPadding,
@@ -192,6 +198,12 @@ class _HomeScreenState extends ConsumerState<HomeTabScreen> {
                     children: [
                       const SizedBox(height: 8.0),
                       const _TabletCreateAGameSection(),
+                      _EditableWidget(
+                        widget: HomeEditableWidget.externalFetch,
+                        shouldShow: true,
+                        child: const ExternalGameFetchWidget(),
+                        ),
+
                       _OfflineCorrespondencePreview(offlineCorresGames, maxGamesToShow: 5),
                     ],
                   ),
@@ -237,6 +249,12 @@ class _HomeScreenState extends ConsumerState<HomeTabScreen> {
               child: _OfflineCorrespondenceCarousel(offlineCorresGames, maxGamesToShow: 20),
             ),
             _EditableWidget(
+              widget: HomeEditableWidget.externalFetch,
+              shouldShow: true,
+              child: const ExternalGameFetchWidget(),
+              ),
+
+            _EditableWidget(
               widget: HomeEditableWidget.recentGames,
               shouldShow: true,
               child: RecentGamesWidget(recentGames: recentGames, nbOfGames: nbOfGames, user: null),
@@ -274,9 +292,8 @@ class _HomeScreenState extends ConsumerState<HomeTabScreen> {
                   : PlatformAppBar(
                       title: const AppBarChessigmaTitle(),
                       centerTitle: true,
-                      leading: const AccountDrawerIconButton(),
-                    ),
-              drawer: const AccountDrawer(),
+              leading: const SettingsIconButton(),
+            ),
               body: widget.editModeEnabled
                   ? content
                   : HapticRefreshIndicator(

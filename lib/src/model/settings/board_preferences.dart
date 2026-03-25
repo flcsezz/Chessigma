@@ -250,7 +250,7 @@ sealed class BoardPrefs with _$BoardPrefs implements Serializable {
   }
 
   Duration get pieceAnimationDuration =>
-      pieceAnimation ? const Duration(milliseconds: 150) : Duration.zero;
+      pieceAnimation ? const Duration(milliseconds: 300) : Duration.zero;
 }
 
 IMap<Square, ISet<Square>> _makeLegalMoves(

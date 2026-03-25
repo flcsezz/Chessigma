@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:chessigma_mobile/src/styles/chessigma_icons.dart';
 import 'package:chessigma_mobile/src/utils/l10n_context.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,7 +14,10 @@ class AppBarChessigmaTitle extends StatelessWidget {
         children: [
           WidgetSpan(
             alignment: PlaceholderAlignment.middle,
-            child: Image.asset('assets/images/chessigma-logo.png', height: 24),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset('assets/images/home_logo.png', height: 24),
+            ),
           ),
           const TextSpan(text: ' Chessigma'),
         ],

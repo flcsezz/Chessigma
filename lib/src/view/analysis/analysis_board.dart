@@ -15,6 +15,8 @@ import 'package:chessigma_mobile/src/styles/chessigma_colors.dart';
 import 'package:chessigma_mobile/src/view/analysis/game_analysis_board.dart';
 import 'package:chessigma_mobile/src/view/analysis/retro_screen.dart';
 import 'package:chessigma_mobile/src/view/study/study_screen.dart';
+import 'package:chessigma_mobile/src/model/analysis/move_evaluation.dart';
+import 'package:chessigma_mobile/src/view/analysis/move_feedback_widget.dart';
 import 'package:chessigma_mobile/src/widgets/pgn.dart';
 
 /// An abstract widget that provides the common interface for analysis boards:
@@ -129,43 +131,55 @@ abstract class AnalysisBoardState<
 
     final annotation = showAnnotations ? makeAnnotation(currentNode.nags) : null;
     final sanMove = currentNode.sanMove;
+    final evaluation = showAnnotations ? MoveEvaluation.fromAnalysis(currentNode) : null;
 
-    return Chessboard(
-      size: widget.boardSize,
-      orientation: analysisState.pov,
-      fen: fen,
-      lastMove: analysisState.lastMove,
-      explosionSquares: analysisState.explosionSquares,
-      game: (interactive && currentPosition != null)
-          ? boardPrefs.toGameData(
-              variant: analysisState.variant,
-              position: currentPosition,
-              playerSide: analysisState.currentPosition!.isGameOver
-                  ? PlayerSide.none
-                  : analysisState.currentPosition!.turn == Side.white
-                  ? PlayerSide.white
-                  : PlayerSide.black,
-              promotionMove: analysisState.promotionMove,
-              onMove: (move, {viaDragAndDrop}) => onUserMove(move),
-              onPromotionSelection: onPromotionSelection,
-            )
-          : null,
-      shapes: userShapes.union(_bestMoveShapes(boardPrefs.pieceSet.assets)).union(extraShapes),
-      annotations: sanMove != null && annotation != null
-          ? sanMove.isCastles && altCastles.containsKey(sanMove.move.uci)
-                ? IMap({Move.parse(altCastles[sanMove.move.uci]!)!.to: annotation})
-                : IMap({sanMove.move.to: annotation})
-          : null,
-      settings: boardPrefs.toBoardSettings().copyWith(
-        borderRadius: widget.boardRadius,
-        boxShadow: widget.boardRadius != null ? boardShadows : const <BoxShadow>[],
-        drawShape: DrawShapeOptions(
-          enable: boardPrefs.enableShapeDrawings,
-          onCompleteShape: _onCompleteShape,
-          onClearShapes: _onClearShapes,
-          newShapeColor: boardPrefs.shapeColor.color,
+    return Stack(
+      children: [
+        Chessboard(
+          size: widget.boardSize,
+          orientation: analysisState.pov,
+          fen: fen,
+          lastMove: analysisState.lastMove,
+          explosionSquares: analysisState.explosionSquares,
+          game: (interactive && currentPosition != null)
+              ? boardPrefs.toGameData(
+                  variant: analysisState.variant,
+                  position: currentPosition,
+                  playerSide: analysisState.currentPosition!.isGameOver
+                      ? PlayerSide.none
+                      : analysisState.currentPosition!.turn == Side.white
+                      ? PlayerSide.white
+                      : PlayerSide.black,
+                  promotionMove: analysisState.promotionMove,
+                  onMove: (move, {viaDragAndDrop}) => onUserMove(move),
+                  onPromotionSelection: onPromotionSelection,
+                )
+              : null,
+          shapes: userShapes.union(_bestMoveShapes(boardPrefs.pieceSet.assets)).union(extraShapes),
+          annotations: sanMove != null && annotation != null
+              ? sanMove.isCastles && altCastles.containsKey(sanMove.move.uci)
+                    ? IMap({Move.parse(altCastles[sanMove.move.uci]!)!.to: annotation})
+                    : IMap({sanMove.move.to: annotation})
+              : null,
+          settings: boardPrefs.toBoardSettings().copyWith(
+            borderRadius: widget.boardRadius,
+            boxShadow: widget.boardRadius != null ? boardShadows : const <BoxShadow>[],
+            drawShape: DrawShapeOptions(
+              enable: boardPrefs.enableShapeDrawings,
+              onCompleteShape: _onCompleteShape,
+              onClearShapes: _onClearShapes,
+              newShapeColor: boardPrefs.shapeColor.color,
+            ),
+          ),
         ),
-      ),
+        if (evaluation != null && analysisState.lastMove != null)
+          MoveFeedbackWidget(
+            evaluation: evaluation,
+            square: analysisState.lastMove!.to,
+            boardSize: widget.boardSize,
+            orientation: analysisState.pov,
+          ),
+      ],
     );
   }
 

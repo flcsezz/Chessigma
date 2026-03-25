@@ -1,11 +1,10 @@
-import 'package:dartchess/dartchess.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:chessigma_mobile/src/model/common/chess.dart';
 import 'package:chessigma_mobile/src/model/common/id.dart';
 import 'package:chessigma_mobile/src/model/common/perf.dart';
 import 'package:chessigma_mobile/src/model/common/speed.dart';
 import 'package:chessigma_mobile/src/model/common/time_increment.dart';
 import 'package:chessigma_mobile/src/model/game/game_status.dart';
+import 'package:dartchess/dartchess.dart';
 
 enum ExternalSource {
   lichess,
@@ -200,20 +199,22 @@ class ExternalUserHistoryParams {
 class ExternalGameDetailsParams {
   final ExternalSource source;
   final String externalGameId;
+  final String username;
 
   const ExternalGameDetailsParams({
     required this.source,
     required this.externalGameId,
+    required this.username,
   });
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ExternalGameDetailsParams &&
+      other is ExternalUserHistoryParams &&
           runtimeType == other.runtimeType &&
           source == other.source &&
-          externalGameId == other.externalGameId;
+          username == other.username;
 
   @override
-  int get hashCode => source.hashCode ^ externalGameId.hashCode;
+  int get hashCode => source.hashCode ^ externalGameId.hashCode ^ username.hashCode;
 }
