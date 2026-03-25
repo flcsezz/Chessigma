@@ -1,6 +1,3 @@
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chessigma_mobile/src/model/auth/auth_controller.dart';
 import 'package:chessigma_mobile/src/model/study/study.dart';
 import 'package:chessigma_mobile/src/model/study/study_filter.dart';
@@ -20,6 +17,9 @@ import 'package:chessigma_mobile/src/widgets/platform.dart';
 import 'package:chessigma_mobile/src/widgets/platform_context_menu_button.dart';
 import 'package:chessigma_mobile/src/widgets/platform_search_bar.dart';
 import 'package:chessigma_mobile/src/widgets/user.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// A screen that displays a paginated list of studies
 class StudyListScreen extends ConsumerStatefulWidget {
