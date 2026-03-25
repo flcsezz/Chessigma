@@ -90,13 +90,13 @@ ThemeData _makeDefaultTheme(
   final hasSystemColors = systemScheme != null && generalPrefs.systemColors == true;
 
   const chessigmaGold = Color(0xFFE8B84B);
-  
+
   final neutralScheme = ColorScheme.fromSeed(
     seedColor: chessigmaGold,
     brightness: brightness,
     dynamicSchemeVariant: DynamicSchemeVariant.neutral,
   );
-  
+
   final boardScheme = ColorScheme.fromSeed(
     seedColor: chessigmaGold,
     brightness: brightness,

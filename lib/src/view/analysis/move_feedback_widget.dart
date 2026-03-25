@@ -80,11 +80,11 @@ class _MoveFeedbackWidgetState extends State<MoveFeedbackWidget>
   Widget build(BuildContext context) {
     final squareSize = widget.boardSize / 8;
     final squareIndex = widget.square;
-    
+
     // Calculate file and rank (0-7)
     final int file = squareIndex % 8;
     final int rank = squareIndex ~/ 8;
-    
+
     // Adjust for orientation
     final double left = widget.orientation == Side.white
         ? file * squareSize

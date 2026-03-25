@@ -46,7 +46,7 @@ class _ExternalGameFetchWidgetState extends ConsumerState<ExternalGameFetchWidge
               Expanded(
                 child: _SourceCard(
                   title: 'Chess.com',
-                  icon: Icons.person, 
+                  icon: Icons.person,
                   isSelected: !_isPgnSelected && _selectedSource == ExternalSource.chesscom,
                   onTap: () => setState(() {
                     _isPgnSelected = false;
