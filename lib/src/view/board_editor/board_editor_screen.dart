@@ -382,7 +382,7 @@ class _BottomBar extends ConsumerWidget {
           icon: Icons.biotech,
         ),
         BottomBarButton(
-          label: 'Filters',
+          label: context.l10n.ratingFilter,
           onTap: () => showModalBottomSheet<void>(
             context: context,
             builder: (BuildContext context) => BoardEditorFilters(params: params),
@@ -464,7 +464,7 @@ class _FenDialogState extends State<_FenDialog> {
           suffixIcon: IconButton(
             icon: const Icon(Icons.paste),
             onPressed: _pasteFromClipboard,
-            tooltip: 'Paste from clipboard',
+            tooltip: 'Paste',
           ),
         ),
       ),
